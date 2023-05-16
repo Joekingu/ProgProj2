@@ -109,7 +109,6 @@ public class mob extends Entity{
 				collision_entity(m_gp.getPlayer())!=0 || collision_mob(m_gp.getListEnnemis(),x,y)
 				) {
 			m_gp.getPlayer().estblesse(collision_entity(m_gp.getPlayer()));
-			m_collision.collision();
 			return true;
 		}
 		return false;

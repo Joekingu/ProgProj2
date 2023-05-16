@@ -6,14 +6,14 @@ import java.awt.Color;
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
-import entity.Ammo;
+import entity.Bullet;
 import entity.Player;
+import entity.Soucoupe;
 import entity.mob;
 import entity.zombie;
 import spawner.spawner;
 import entity.Camera;
 import entity.Entity;
-import entity.Gun;
 import tile.TileManager;
 import Collectible.Collectable;
 import Collectible.Potiondevitesse;
@@ -53,13 +53,13 @@ public class GamePanel extends JPanel implements Runnable {
 	Thread m_gameThread;
 	Player m_player;
 	TileManager m_tileM;
-	Ammo m_ammo;
-	Gun m_gun;
+	Bullet m_bullet;
 	Camera m_camera;
 	ArrayList<Collectable> acollecter;
 	ArrayList<spawner<mob>> listSpawner;
 	ArrayList<mob> listEnnemis;
 	double time;
+	Soucoupe vaisseau;
 
 	/**
 	 * Constructeur
@@ -68,17 +68,15 @@ public class GamePanel extends JPanel implements Runnable {
 		m_FPS = 60;
 		m_gamestate = 0;
 		m_keyH = new KeyHandler();
-		m_keyH_arme = new KeyHandler();
 		m_player = new Player(this, m_keyH, m_ammo,m_keyH_arme);
-		m_ammo = new Ammo(this, m_player, 10, 10, TILE_SIZE / 4, 0);
-		m_gun = new Gun(this, m_keyH, m_player, 4);
-		m_ammo = new Ammo(this, m_player, 10, 10, TILE_SIZE / 4, 0);
+		m_keyH_arme = new KeyHandler();
 		m_tileM = new TileManager(this);
 		m_camera = new Camera(m_player);
 		listEnnemis = new ArrayList<>();
 		acollecter = new ArrayList<>();
 		listSpawner = new ArrayList<>();
 		time = System.nanoTime();
+		vaisseau = new Soucoupe(this);
 		spawner<mob> t = new spawner<>(this, new zombie(this, 50, 400, 400));
 		listSpawner.add(t);
 		spawner<mob> t1 = new spawner<>(this, new zombie(this, 50, 800, 800));
@@ -106,9 +104,9 @@ public class GamePanel extends JPanel implements Runnable {
 	public Player getPlayer() {
 		return m_player;
 	}
-	
+
 	public void getGOImage() {
-		//gestion des expections 
+		// gestion des expections
 		try {
 			m_GOImage = ImageIO.read(getClass().getResource("/tiles/game_over.jpeg"));
 		} catch (IOException e) {
@@ -193,15 +191,13 @@ public class GamePanel extends JPanel implements Runnable {
 			}
 		}
 		m_camera.update(this);
-		m_gun.update();
-		m_ammo.update();
 		for (Collectable item : acollecter) {
 			if (item.getStatus() == true) {
 				item.update(m_player);
 			}
 		}
 		if (System.nanoTime() - time > 5e9) {
-			time=System.nanoTime();
+			time = System.nanoTime();
 			for (spawner<mob> i : listSpawner) {
 				i.update();
 			}
@@ -223,39 +219,42 @@ public class GamePanel extends JPanel implements Runnable {
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		Graphics2D g2 = (Graphics2D) g;
-		if (m_gamestate==0) {
-		g2.translate(-m_camera.getx(), -m_camera.gety());
-		m_tileM.draw(g2, m_camera);
-		}
-		for ( mob i : listEnnemis) {
+		if (m_gamestate == 0) {
+			g2.translate(-m_camera.getx(), -m_camera.gety());
+			m_tileM.draw(g2, m_camera);
+
+		for (mob i : listEnnemis) {
 			i.draw(g2);
 		}
-		m_ammo.draw(g2);
+//		m_bullet.draw(g2);
 		m_player.draw(g2);
-//		m_gun.draw(g2);
-		m_ammo.draw(g2);
-		for(Collectable item:acollecter) {
-			if(item.getStatus()== true) {
+//		m_bullet.draw(g2);
+		for (Collectable item : acollecter) {
+			if (item.getStatus() == true) {
 				item.draw(g2);
 			}
-			m_ammo.draw(g2);
+//			m_bullet.draw(g2);
 			m_player.draw(g2);
-			m_gun.draw(g2);
-			m_ammo.draw(g2);
+//			m_bullet.draw(g2);
 		}
 		for (Collectable item : acollecter) {
 			if (item.getStatus() == true) {
 				item.draw(g2);
 			}
+
+		}
+		vaisseau.draw(g2);
 		}
 		if (m_gamestate == 1) {
 			g2.setColor(Color.BLACK);
 			g2.fillRect(MAX_SCREE_ROW, MAX_SCREEN_COL, SCREEN_WIDTH, SCREEN_HEIGHT);
 			BufferedImage l_image = m_GOImage;
-			// affiche le personnage avec l'image "image", avec les coordonn�es x et y, et de taille tileSize (16x16) sans �chelle, et 48x48 avec �chelle)
-			g2.drawImage(l_image, this.getWidth()/2-l_image.getWidth()/2, 0-this.getHeight()/8, SCREEN_WIDTH, SCREEN_HEIGHT, null);
+			// affiche le personnage avec l'image "image", avec les coordonn�es x et y, et
+			// de taille tileSize (16x16) sans �chelle, et 48x48 avec �chelle)
+			g2.drawImage(l_image, this.getWidth() / 2 - l_image.getWidth() / 2, 0 - this.getHeight() / 8, SCREEN_WIDTH,
+					SCREEN_HEIGHT, null);
 			g2.setColor(Color.RED);
-			g2.drawString("PRESS '' R '' TO RETRY ",this.getWidth()/2-65, 500);
+			g2.drawString("PRESS '' R '' TO RETRY ", this.getWidth() / 2 - 65, 500);
 		}
 		g2.dispose();
 
