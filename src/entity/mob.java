@@ -22,6 +22,7 @@ public class mob extends Entity{
 	GamePanel m_gp;
 	Tile m_collision;
 	int m_health;  // vie du pnj
+	int m_deg;
 	
 	/**
 	 * Constructeur de Player
@@ -37,15 +38,6 @@ public class mob extends Entity{
 		this.m_collision = new Tile();
 		m_x = x;
 		m_y = y;
-	}
-	
-	/**
-	 * Initialisation des donn�es membres avec des valeurs par d�faut
-	 */
-	protected void setDefaultValues() {
-		m_x = 500;
-		m_y = 500;
-		m_speed = 1;
 	}
 	
 	/**
@@ -110,6 +102,7 @@ public class mob extends Entity{
 				in(m_gp.gettileM().map[(px-d2)/d][(py+d2)/d],m_collision.bloc) || 
 				collision_entity(m_gp.getPlayer()) || collision_mob(m_gp.getListEnnemis(),x,y)
 				) {
+//			m_gp.getPlayer().estblesse(collision_entity(m_gp.getPlayer()));
 			m_collision.collision();
 			return true;
 		}
