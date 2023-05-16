@@ -62,17 +62,17 @@ public class GamePanel extends JPanel implements Runnable {
 		m_gamestate = 0;
 		m_keyH = new KeyHandler();
 		m_player = new Player(this, m_keyH, m_ammo);
-		m_ammo = new Ammo(this, m_player, 10, 10, TILE_SIZE/4, 0);
-		m_gun = new Gun(this,m_keyH, m_player, 4);
-		m_ammo = new Ammo(this, m_player,10, 10, TILE_SIZE / 4,0);
+		m_ammo = new Ammo(this, m_player, 10, 10, TILE_SIZE / 4, 0);
+		m_gun = new Gun(this, m_keyH, m_player, 4);
+		m_ammo = new Ammo(this, m_player, 10, 10, TILE_SIZE / 4, 0);
 		m_tileM = new TileManager(this);
 		m_camera = new Camera(m_player);
 		listEnnemis = new ArrayList<>();
 		acollecter = new ArrayList<>();
 		listSpawner = new ArrayList<>();
-		spawner<zombie> t = new spawner<>(this,new zombie(this,50,400,400));
+		spawner<zombie> t = new spawner<>(this, new zombie(this, 50, 400, 400));
 		t.update();
-		spawner<zombie> t1 = new spawner<>(this,new zombie(this,50,800,800));
+		spawner<zombie> t1 = new spawner<>(this, new zombie(this, 50, 800, 800));
 		t1.update();
 
 		this.setPreferredSize(new Dimension(SCREEN_WIDTH, SCREEN_HEIGHT));
@@ -91,15 +91,15 @@ public class GamePanel extends JPanel implements Runnable {
 	public void makeCollectibles() {
 		acollecter.add(new Potiondevitesse(this, 1, 1000, 800));
 	}
-	
+
 	public Player getPlayer() {
 		return m_player;
 	}
-	
+
 	public void addListEnnemis(mob ennemi) {
 		listEnnemis.add(ennemi);
 	}
-	
+
 	public ArrayList<mob> getListEnnemis() {
 		return listEnnemis;
 	}
@@ -147,13 +147,14 @@ public class GamePanel extends JPanel implements Runnable {
 					e.printStackTrace();
 				}
 			}
-//			if (m_gamestate == 1) {
-//				for (int j = 0; j < m_keyH.taille(); j++) {
-//					if (m_keyH.getval(j) == 82) {
-//						m_gamestate=0;
-//					}
-//				}
-//			}
+			if (m_gamestate == 1) {
+				for (int j = 0; j < m_keyH.taille(); j++) {
+					if (m_keyH.getval(j) == 82) {
+						m_gamestate = 0;
+					}
+				}
+				this.repaint();
+			}
 		}
 	}
 
@@ -162,7 +163,7 @@ public class GamePanel extends JPanel implements Runnable {
 	 */
 	public void update() {
 		m_player.update();
-		for ( mob i : listEnnemis) {
+		for (mob i : listEnnemis) {
 			i.update(m_player);
 		}
 		m_camera.update(this);
@@ -190,19 +191,20 @@ public class GamePanel extends JPanel implements Runnable {
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		Graphics2D g2 = (Graphics2D) g;
-		if (m_gamestate==0) {
-		g2.translate(-m_camera.getx(), -m_camera.gety());
-		m_tileM.draw(g2, m_camera);
-		for ( mob i : listEnnemis) {
-			i.draw(g2);
-		}
-		m_ammo.draw(g2);
-		m_player.draw(g2);
-		m_gun.draw(g2);
-		m_ammo.draw(g2);
-		for(Collectable item:acollecter) {
-			if(item.getStatus()== true) {
-				item.draw(g2);
+		if (m_gamestate == 0) {
+			g2.translate(-m_camera.getx(), -m_camera.gety());
+			m_tileM.draw(g2, m_camera);
+			for (mob i : listEnnemis) {
+				i.draw(g2);
+			}
+			m_ammo.draw(g2);
+			m_player.draw(g2);
+			m_gun.draw(g2);
+			m_ammo.draw(g2);
+			for (Collectable item : acollecter) {
+				if (item.getStatus() == true) {
+					item.draw(g2);
+				}
 			}
 		}
 		if (m_gamestate == 1) {
@@ -212,7 +214,7 @@ public class GamePanel extends JPanel implements Runnable {
 			g2.drawString("C'EST MORT POTO", 200, 200);
 		}
 		g2.dispose();
-		}
+
 	}
 
 	public TileManager gettileM() {
