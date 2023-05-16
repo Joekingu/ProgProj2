@@ -143,7 +143,7 @@ public class Player extends Entity {
 	}
 
 	public void update() {
-		System.out.println(m_speed);
+		ArrayList<Integer> pressed = m_keyH.getinstance();
 		if (m_health<=0) {
 			m_alive=false;
 		}

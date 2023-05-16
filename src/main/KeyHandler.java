@@ -41,7 +41,7 @@ public class KeyHandler implements KeyListener{
 	public int taille() {
 		return pressed.size();
 	}
-	public ArrayList<Integer> boutons(){
+	public ArrayList<Integer> getinstance(){
 		return pressed;
 	}
 }
