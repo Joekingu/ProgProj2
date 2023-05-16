@@ -43,7 +43,7 @@ public class GamePanel extends JPanel implements Runnable{
 	pnj m_pnj;
 	Ammo m_ammo;
 	Camera m_camera;
-	ArrayList<Collectables> acollecter;
+	ArrayList<Collectable> acollecter;
 	ArrayList<Entity> listEntity;
 		
 	/**

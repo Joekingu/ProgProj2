@@ -21,7 +21,12 @@ public class KeyHandler implements KeyListener{
 	
 	@Override
 	public void keyTyped(KeyEvent e) {
-		
+		System.out.println("[");
+		for(int i=0;i<pressed.size();i++) {
+			System.out.println(pressed.get(i));
+		}
+		System.out.println("]");
+		System.out.println(pressed.size());
 	}
 
 	@Override
@@ -31,12 +36,6 @@ public class KeyHandler implements KeyListener{
 		if(!pressed.contains(code)) {
 			pressed.add(code);
 		}
-		System.out.println("[");
-		for(int i=0;i<pressed.size();i++) {
-			System.out.println(pressed.get(i));
-		}
-		System.out.println("]");
-		System.out.println(pressed.size());
 	}
 
 	@Override
