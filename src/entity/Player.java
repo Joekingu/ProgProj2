@@ -142,17 +142,6 @@ public class Player extends Entity {
 		return 0;
 	}
 	
-//	public void song() {
-//	    try {
-//	        AudioInputStream audioIn = AudioSystem.getAudioInputStream(getClass().getResource("/songs/1688.aiff"));
-//	        Clip clip = AudioSystem.getClip();
-//	        clip.open(audioIn);
-//	        clip.start();
-//	    } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
-//	        e.printStackTrace();
-//	    }
-//	}
-	
 	public void update() {
 		ArrayList<Integer> pressed = m_keyH.getinstance();
 		if (m_health<=0) {
