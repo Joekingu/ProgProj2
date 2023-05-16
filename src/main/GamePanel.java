@@ -133,11 +133,15 @@ public class GamePanel extends JPanel implements Runnable {
 					e.printStackTrace();
 				}
 			}
-			if (m_gamestate==1) {
-				this.setBackground(Color.black);
-			}
+//			if (m_gamestate==1) {
+//				drawGO();
+//			}
 		}
 	}
+
+//	private void drawGO(Graphics2D a_g2) {
+//		a_g2.drawRect(MAX_SCREE_ROW, MAX_SCREEN_COL, SCREEN_WIDTH, SCREEN_HEIGHT);
+//	}
 
 	/**
 	 * Mise � jour des donn�es des entit�s
@@ -169,6 +173,7 @@ public class GamePanel extends JPanel implements Runnable {
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		Graphics2D g2 = (Graphics2D) g;
+		if (m_gamestate==0) {
 		g2.translate(-m_camera.getx(), -m_camera.gety());
 		m_tileM.draw(g2, m_camera);
 		m_pnj.draw(g2);
@@ -178,6 +183,11 @@ public class GamePanel extends JPanel implements Runnable {
 			if(item.getStatus()== true) {
 				item.draw(g2);
 			}
+		}
+		}
+		if(m_gamestate==1) {
+			g2.setColor(Color.BLACK);
+			g2.fillRect(MAX_SCREE_ROW, MAX_SCREEN_COL, SCREEN_WIDTH, SCREEN_HEIGHT);
 		}
 		g2.dispose();
 	}
