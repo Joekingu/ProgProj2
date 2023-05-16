@@ -179,7 +179,6 @@ public class GamePanel extends JPanel implements Runnable {
 			i.update(m_player);
 		}
 		m_camera.update(this);
-		m_bullet.update();
 		for (Collectable item : acollecter) {
 			if (item.getStatus() == true) {
 				item.update(m_player);
@@ -215,17 +214,16 @@ public class GamePanel extends JPanel implements Runnable {
 		for ( mob i : listEnnemis) {
 			i.draw(g2);
 		}
-		m_bullet.draw(g2);
+//		m_bullet.draw(g2);
 		m_player.draw(g2);
-//		m_gun.draw(g2);
-		m_bullet.draw(g2);
+//		m_bullet.draw(g2);
 		for(Collectable item:acollecter) {
 			if(item.getStatus()== true) {
 				item.draw(g2);
 			}
-			m_bullet.draw(g2);
+//			m_bullet.draw(g2);
 			m_player.draw(g2);
-			m_bullet.draw(g2);
+//			m_bullet.draw(g2);
 		}
 		for (Collectable item : acollecter) {
 			if (item.getStatus() == true) {
