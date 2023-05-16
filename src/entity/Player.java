@@ -82,7 +82,7 @@ public class Player extends Entity{
 	}
 
 	
-	private boolean collision_entity(ArrayList<Entity> list,int x,int y) {
+	private boolean collision_entity(ArrayList<mob> list,int x,int y) {
 		for(Entity i:list) {
 			int d = m_gp.TILE_SIZE;
 			int ix = i.getx();

@@ -50,7 +50,7 @@ public class GamePanel extends JPanel implements Runnable {
 	Camera m_camera;
 	ArrayList<Collectable> acollecter;
 	ArrayList<spawner<mob>> listSpawner;
-	ArrayList<Entity> listEnnemis;
+	ArrayList<mob> listEnnemis;
 
 	/**
 	 * Constructeur
@@ -96,7 +96,7 @@ public class GamePanel extends JPanel implements Runnable {
 		listEnnemis.add(ennemi);
 	}
 	
-	public ArrayList<Entity> getListEnnemis() {
+	public ArrayList<mob> getListEnnemis() {
 		return listEnnemis;
 	}
 
@@ -187,7 +187,7 @@ public class GamePanel extends JPanel implements Runnable {
 		if (m_gamestate==0) {
 		g2.translate(-m_camera.getx(), -m_camera.gety());
 		m_tileM.draw(g2, m_camera);
-		for ( Entity i : listEnnemis) {
+		for ( mob i : listEnnemis) {
 			i.draw(g2);
 		}
 		m_ammo.draw(g2);
