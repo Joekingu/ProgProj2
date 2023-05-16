@@ -40,8 +40,8 @@ public class pnj extends Entity{
 	 * Initialisation des donn�es membres avec des valeurs par d�faut
 	 */
 	protected void setDefaultValues() {
-		m_x = 300;
-		m_y = 300;
+		m_x = 600;
+		m_y = 600;
 		m_speed = 1;
 	}
 	
@@ -70,19 +70,21 @@ public class pnj extends Entity{
 		return false;
 	}
 	
-//	private boolean collision_entity(Entity player) {
-//		int d = m_gp.TILE_SIZE;
-//		int d2 = d/2;
-//		int ix = player.getx();
-//		int iy = player.gety();
-//		if ( (m_x+d2>ix-d2 && m_y+d2>iy-d2)|| 
-//				(m_x-d2<ix+d2 && m_y+d2>iy-d2) || 
-//				(m_x-d2<ix+d2 && m_y-d2>iy+d2) || 
-//				(m_x+d2>ix-d2 && m_y-d2<iy+d2) ){
-//			return true;
-//		}
-//		return false;
-//	}
+	private double dist(int x1,int x2,int y1,int y2) {
+		return Math.sqrt(Math.pow((x1-x2),2) + Math.pow((y1-y2),2));
+	}
+	
+	private boolean collision_entity(Entity player) {
+		int d = m_gp.TILE_SIZE;
+		int ix = player.getx();
+		int iy = player.gety();
+		double dist_min = d*3/4;
+		System.out.println(dist(ix,m_x,iy,m_y));
+		if ( dist(ix,m_x,iy,m_y)<dist_min ){
+			return true;
+		}
+		return false;
+	}
 	
 	private boolean test(int x,int y) {
 		int d = m_gp.TILE_SIZE;
@@ -92,9 +94,8 @@ public class pnj extends Entity{
 		if ( in(m_gp.gettileM().map[(px+d2)/d][(py+d2)/d],m_collision.bloc) || 
 				in(m_gp.gettileM().map[(px-d2)/d][(py-d2)/d],m_collision.bloc) ||
 				in(m_gp.gettileM().map[(px+d2)/d][(py-d2)/d],m_collision.bloc) ||
-				in(m_gp.gettileM().map[(px-d2)/d][(py+d2)/d],m_collision.bloc) 
-//				||
-//				collision_entity(m_gp.getPlayer())
+				in(m_gp.gettileM().map[(px-d2)/d][(py+d2)/d],m_collision.bloc) || 
+				collision_entity(m_gp.getPlayer())
 				) {
 			m_collision.collision();
 			return true;
