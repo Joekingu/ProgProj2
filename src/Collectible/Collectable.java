@@ -12,15 +12,15 @@ import main.GamePanel;
 
 public abstract class  Collectable {
 	boolean pris; 
-	int taille;
 	GamePanel m_gp;
 	int m_x;
 	int m_y;
+	public BufferedImage m_idleImage;
 	
-	boolean getStatus() {
+	public boolean getStatus() {
 		return pris;
 	}
-	void setStatus(boolean etat) {
+	public void setStatus(boolean etat) {
 		pris=etat;
 	}
 	protected double dist(int x1,int x2,int y1,int y2) {
@@ -37,7 +37,6 @@ public abstract class  Collectable {
 		return false;
 	}
 	abstract void effet(Player p);
-	abstract void update(Player p);
-	abstract void draw(Graphics2D a_g2);
-	public BufferedImage m_idleImage;
+	public abstract void update(Player p);
+	public abstract void draw(Graphics2D a_g2);
 }

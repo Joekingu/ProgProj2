@@ -11,6 +11,7 @@ import entity.Camera;
 import entity.Entity;
 import tile.TileManager;
 import Collectible.Collectable;
+import Collectible.Potiondevitesse;
 
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -37,7 +38,6 @@ public class GamePanel extends JPanel implements Runnable {
 	// Cr�ation des diff�rentes instances (Player, KeyHandler, TileManager,
 	// GameThread ...)
 	KeyHandler m_keyH;
-	KeyHandler m_keyH2;
 	Thread m_gameThread;
 	Player m_player;
 	TileManager m_tileM;
@@ -53,20 +53,21 @@ public class GamePanel extends JPanel implements Runnable {
 	public GamePanel() {
 		m_FPS = 60;
 		m_keyH = new KeyHandler();
-		m_keyH2 = new KeyHandler();
 		m_player = new Player(this, m_keyH, m_ammo);
-		m_ammo = new Ammo(this, m_keyH2, m_player, 10, 10, TILE_SIZE / 4);
+		m_ammo = new Ammo(this, m_keyH, m_player, 10, 10, TILE_SIZE / 4);
 		m_tileM = new TileManager(this);
 		m_pnj = new pnj(this, 50);
 		m_camera = new Camera(m_player);
 		listEntity = new ArrayList<>();
 		listEntity.add(m_pnj);
-
+		acollecter = new ArrayList<>();
+		
 		this.setPreferredSize(new Dimension(SCREEN_WIDTH, SCREEN_HEIGHT));
 		this.setBackground(Color.black);
 		this.setDoubleBuffered(true);
 		this.addKeyListener(m_keyH);
 		this.setFocusable(true);
+		this.makeCollectibles();
 	}
 
 	/**
@@ -74,7 +75,9 @@ public class GamePanel extends JPanel implements Runnable {
 	 * 
 	 * @return
 	 */
-
+	public void makeCollectibles() {
+		acollecter.add(new Potiondevitesse(this,1,1000,800));
+	}
 	public Entity getPlayer() {
 		return m_player;
 	}
@@ -131,6 +134,11 @@ public class GamePanel extends JPanel implements Runnable {
 		m_pnj.update(m_player);
 		m_camera.update(this);
 		m_ammo.update();
+		for(Collectable item:acollecter) {
+			if(item.getStatus()== true) {
+				item.update(m_player);
+			}
+		}
 	}
 
 	/**
@@ -144,6 +152,11 @@ public class GamePanel extends JPanel implements Runnable {
 		m_pnj.draw(g2);
 		m_ammo.draw(g2);
 		m_player.draw(g2);
+		for(Collectable item:acollecter) {
+			if(item.getStatus()== true) {
+				item.draw(g2);
+			}
+		}
 		g2.dispose();
 	}
 
