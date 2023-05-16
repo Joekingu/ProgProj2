@@ -7,6 +7,7 @@ import javax.swing.JPanel;
 import entity.Ammo;
 import entity.Player;
 import entity.pnj;
+import entity.Camera;
 import tile.TileManager;
 
 import java.awt.Graphics;
@@ -19,11 +20,11 @@ import java.awt.Graphics2D;
 public class GamePanel extends JPanel implements Runnable{
 	
 	//Param�tres de l'�cran
-	final int ORIGINAL_TILE_SIZE = 16; 							// une tuile de taille 16x16
-	final int SCALE = 3; 										// �chelle utilis�e pour agrandir l'affichage
+	final int ORIGINAL_TILE_SIZE = 1; 							// une tuile de taille 16x16
+	public final int SCALE = 60; 										// �chelle utilis�e pour agrandir l'affichage
 	public final int TILE_SIZE = ORIGINAL_TILE_SIZE * SCALE; 	// 48x48
-	public final int MAX_SCREEN_COL = 17;
-	public final int MAX_SCREE_ROW = 12; 					 	// ces valeurs donnent une r�solution 4:3
+	public final int MAX_SCREEN_COL = 10;
+	public final int MAX_SCREE_ROW = 10; 					 	// ces valeurs donnent une r�solution 4:3
 	public final int SCREEN_WIDTH = TILE_SIZE * MAX_SCREEN_COL; // 768 pixels
 	public final int SCREEN_HEIGHT = TILE_SIZE * MAX_SCREE_ROW;	// 576 pixels
 
@@ -37,6 +38,7 @@ public class GamePanel extends JPanel implements Runnable{
 	TileManager m_tileM;
 	pnj m_pnj;
 	Ammo m_ammo;
+	Camera m_camera;
 		
 	/**
 	 * Constructeur
@@ -48,6 +50,7 @@ public class GamePanel extends JPanel implements Runnable{
 		m_ammo = new Ammo(this, m_keyH, m_player, 10, 10, TILE_SIZE/4);
 		m_tileM = new TileManager(this);
 		m_pnj = new pnj(this,m_keyH);
+		m_camera = new Camera(m_player);
 		
 		this.setPreferredSize(new Dimension(SCREEN_WIDTH, SCREEN_HEIGHT));
 		this.setBackground(Color.black);
@@ -103,6 +106,7 @@ public class GamePanel extends JPanel implements Runnable{
 	public void update() {
 		m_player.update();
 		m_pnj.update(m_player.getx(),m_player.gety());
+		m_camera.update(this);
 		m_ammo.update();
 	}
 	
@@ -110,13 +114,18 @@ public class GamePanel extends JPanel implements Runnable{
 	 * Affichage des �l�ments
 	 */
 	public void paintComponent(Graphics g) {
+//		g.translate(m_camera.getx(), m_camera.gety());
 		super.paintComponent(g);
 		Graphics2D g2 = (Graphics2D) g;
-		m_tileM.draw(g2);
+		g2.translate(-m_camera.getx(), -m_camera.gety());
+		m_tileM.draw(g2, m_camera);
 		m_player.draw(g2);
 		m_pnj.draw(g2);
 		m_ammo.draw(g2);
 		g2.dispose();
 	}
 	
+	public TileManager gettileM() {
+		return m_tileM;
+	}
 }
