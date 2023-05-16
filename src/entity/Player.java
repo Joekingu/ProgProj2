@@ -1,4 +1,4 @@
-package entity;
+	package entity;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
@@ -21,7 +21,6 @@ public class Player extends Entity{
 
 	GamePanel m_gp;
 	KeyHandler m_keyH;
-	Ammo m_ammo;
 	Tile m_collision;
 	
 	int m_health;
@@ -30,11 +29,10 @@ public class Player extends Entity{
 	 * @param a_gp GamePanel, pannel principal du jeu
 	 * @param a_keyH KeyHandler, gestionnaire des touches 
 	 */
-	public Player(GamePanel a_gp, KeyHandler a_keyH, Ammo a_ammo) {
+	public Player(GamePanel a_gp, KeyHandler a_keyH) {
 		this.m_gp = a_gp;
 		this.m_keyH = a_keyH;
 		this.m_health=5;
-		this.m_ammo = a_ammo;
 		this.setDefaultValues();
 		this.getPlayerImage();
 		this.m_collision = new Tile();
@@ -55,7 +53,7 @@ public class Player extends Entity{
 	public void getPlayerImage() {
 		//gestion des expections 
 		try {
-			m_idleImage = ImageIO.read(getClass().getResource("/Tiles/BRICK.png"));
+			m_idleImage = ImageIO.read(getClass().getResource("/Player/superhero.png"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
