@@ -84,7 +84,7 @@ public class mob extends Entity{
 		return false;
 	}
 	
-	private boolean collision_mob(ArrayList<Entity> list,int x,int y) {
+	private boolean collision_mob(ArrayList<mob> list,int x,int y) {
 		for(Entity i:list) {
 				if(this != i) {
 				int d = m_gp.TILE_SIZE;
