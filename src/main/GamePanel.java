@@ -8,6 +8,7 @@ import javax.swing.JPanel;
 
 import entity.Bullet;
 import entity.Player;
+import entity.Songs;
 import entity.Soucoupe;
 import entity.mob;
 import entity.zombie;
@@ -125,6 +126,8 @@ public class GamePanel extends JPanel implements Runnable {
 	public void startGameThread() {
 		m_gameThread = new Thread(this);
 		m_gameThread.start();
+		Songs s = new Songs("/songs/fond.aiff");
+		s.play();
 	}
 
 	public void run() {
@@ -182,12 +185,14 @@ public class GamePanel extends JPanel implements Runnable {
 	public void update() {
 		m_player.update();
 		m_player.getarme().update();
-		for (mob i : listEnnemis) {
+		for (mob i : getListEnnemis()) {
 			if(i.getisalive()) {
 				i.update(m_player);
 			}
 			else {
-//				listEnnemis.remove(i);
+				i.setm_x(0);
+				i.setm_y(0);
+//				getListEnnemis().remove(i);
 			}
 		}
 		m_camera.update(this);
@@ -224,7 +229,9 @@ public class GamePanel extends JPanel implements Runnable {
 			m_tileM.draw(g2, m_camera);
 
 		for (mob i : listEnnemis) {
-			i.draw(g2);
+			if(i.getisalive()) {
+				i.draw(g2);
+			}
 		}
 //		m_bullet.draw(g2);
 		m_player.draw(g2);
