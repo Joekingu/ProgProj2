@@ -1,6 +1,7 @@
 package tile;
 
 import java.awt.Graphics2D;
+import entity.Camera;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -19,19 +20,25 @@ import main.GamePanel;
 public class TileManager {
 	GamePanel m_gp;			//panel du jeu principal
 	Tile[] m_tile;			//tableau de toutes les tiles possibles dans le jeu
-	int m_maxTiles = 10;	//nombre maximum de tiles chargeable dans le jeu
+	int m_maxTiles = 20;	//nombre maximum de tiles chargeable dans le jeu
 	int m_mapTileNum[][];	//r�partition des tiles dans la carte du jeu
+	public int map [][];
+	int max_col = 20;
+	int max_row = 20;
 	
 	/**
 	 * Constructeur
 	 * @param gp
+	 * @return 
 	 */
+	
 	public TileManager(GamePanel gp) {
 		this.m_gp =  gp;
 		m_tile = new Tile[m_maxTiles];
-		m_mapTileNum = new int[gp.MAX_SCREEN_COL][gp.MAX_SCREE_ROW];
+		map = new int[max_col][max_row];
+		m_mapTileNum = new int[max_col][max_row];
 		this.getTileImage();
-		this.loadMap("/maps/map2.txt");
+		this.loadMap("/maps/map.txt");
 	}
 	
 	/**
@@ -79,15 +86,17 @@ public class TileManager {
 			int row = 0;
 			
 			// Parcourir le fichier txt pour r�cup�rer les valeurs
-			while (col < m_gp.MAX_SCREEN_COL && row < m_gp.MAX_SCREE_ROW) {
+			// Ne pas oublier de changer la taille de la map à load
+			while (col < max_col && row < max_row) {
 				String line = br.readLine();
-				while (col < m_gp.MAX_SCREEN_COL) {
+				while (col < max_col) {
 					String numbers[] = line.split(" ");
 					int num = Integer.parseInt(numbers[col]);
+					map[col][row] = num;
 					m_mapTileNum [col][row] = num;
 					col++;
 				}
-				if (col == m_gp.MAX_SCREEN_COL) {
+				if (col == max_col) {
 					col = 0;
 					row ++;
 				}
@@ -103,19 +112,19 @@ public class TileManager {
 	 * Affichage de la carte avec les diff�rentes tuiles
 	 * @param g2
 	 */
-	public void draw(Graphics2D g2) {
+	public void draw(Graphics2D g2, Camera cam) {
 		int col = 0;
 		int row = 0;
 		int x = 0;
 		int y = 0;
 		
-		while (col < m_gp.MAX_SCREEN_COL && row < m_gp.MAX_SCREE_ROW) {
+		while (col < max_col && row < max_row) {
 			int tileNum = m_mapTileNum[col][row];
 			
 			g2.drawImage(m_tile[tileNum].m_image, x, y, m_gp.TILE_SIZE, m_gp.TILE_SIZE, null);
 			col ++;
 			x += m_gp.TILE_SIZE;
-			if (col == m_gp.MAX_SCREEN_COL) {
+			if (col == max_col) {
 				col = 0;
 				row ++;
 				x = 0;

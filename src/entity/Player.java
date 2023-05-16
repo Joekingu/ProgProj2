@@ -10,6 +10,8 @@ import javax.imageio.ImageIO;
 
 import main.GamePanel;
 import main.KeyHandler;
+import tile.Tile;
+import tile.TileManager;
 
 /**
  * D�fintition du comportement d'un joueur
@@ -19,6 +21,8 @@ public class Player extends Entity{
 
 	GamePanel m_gp;
 	KeyHandler m_keyH;
+	Tile m_collision;
+	
 	int m_health;
 	/**
 	 * Constructeur de Player
@@ -31,14 +35,15 @@ public class Player extends Entity{
 		this.m_health=5;
 		this.setDefaultValues();
 		this.getPlayerImage();
+		this.m_collision = new Tile();
 	}
 	
 	/**
 	 * Initialisation des donn�es membres avec des valeurs par d�faut
 	 */
 	protected void setDefaultValues() {
-		m_x = 100;
-		m_y = 100;
+		m_x = m_gp.SCREEN_WIDTH/2;
+		m_y = m_gp.SCREEN_HEIGHT/2;
 		m_speed = 4;
 	}
 	
@@ -57,18 +62,50 @@ public class Player extends Entity{
 	/**
 	 * Mise � jour des donn�es du joueur
 	 */
+//	private boolean in (int x , int[]tab) {
+//		for (int i=0;i<tab.length;i++) {
+//			if (x==tab[i]) {
+//				return true;
+//			}
+//		}
+//		return false;
+//	}
+	
+	private boolean test(int x,int y) {
+		int d = m_gp.TILE_SIZE;
+		int d2 = d/2;
+		int px = m_x+x+d2;
+		int py = m_y+y+d2;
+		if (m_gp.gettileM().map[(px+d2)/d][(py+d2)/d] == 1 || 
+				m_gp.gettileM().map[(px-d2)/d][(py-d2)/d] == 1 ||
+				m_gp.gettileM().map[(px+d2)/d][(py-d2)/d] == 1 ||
+				m_gp.gettileM().map[(px-d2)/d][(py+d2)/d] == 1 ) {
+			m_collision.collision();
+			return true;
+		}
+		return false;
+	}
+	
 	public void update() {
-		if (m_keyH.getval() == 38) {
-			m_y-= 10;
+		if (m_keyH.getval() == 90) {
+			if (!test(0,-10)) {
+				m_y-= 10;
+			}
 		}
-		if (m_keyH.getval() == 40) {
-			m_y+= 10;
+		if (m_keyH.getval() == 83) {
+			if (!test(0,10)) {
+				m_y+= 10;
+			}
 		}
-		if (m_keyH.getval() == 39) {
-			m_x+= 10;
+		if (m_keyH.getval() == 68) {
+			if (!test(10,0)) {
+				m_x+= 10;
+			}
 		}
-		if (m_keyH.getval() == 37) {
-			m_x-= 10;
+		if (m_keyH.getval() == 81) {
+			if (!test(-10,0)) {
+				m_x-= 10;
+			}
 		}
 		m_keyH.setval(0);
 	}
