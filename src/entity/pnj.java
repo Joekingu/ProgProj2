@@ -38,7 +38,7 @@ public class pnj extends Entity{
 	protected void setDefaultValues() {
 		m_x = 300;
 		m_y = 300;
-		m_speed = 4;
+		m_speed = 1;
 	}
 	
 	/**
@@ -58,16 +58,16 @@ public class pnj extends Entity{
 	 */
 	public void update(int x,int y) {
 		if (x>m_x) {
-			m_x +=1;
+			m_x +=10;
 		}
 		else {
-			m_x -=1;
+			m_x -=10;
 		}
 		if (y>m_y) {
-			m_y +=1;
+			m_y +=10;
 		}
 		else {
-			m_y -=1;
+			m_y -=10;
 		}
 
 	}

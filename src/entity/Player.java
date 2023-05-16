@@ -47,7 +47,7 @@ public class Player extends Entity{
 	protected void setDefaultValues() {
 		m_x = m_gp.SCREEN_WIDTH/2;
 		m_y = m_gp.SCREEN_HEIGHT/2;
-		m_speed = 4;
+		m_speed = 2;
 	}
 	
 	/**
