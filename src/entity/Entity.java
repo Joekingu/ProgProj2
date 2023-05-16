@@ -23,6 +23,14 @@ public abstract class Entity {
 	public int gety() {
 		return m_y;
 	}
+	
+	public void setx(int kb) {
+		m_x += kb;
+	}
+	
+	public void sety(int kb) {
+		m_y += kb;
+	}
 	public void setSpeed(int vitesse) {
 		m_speed+=vitesse;
 	}

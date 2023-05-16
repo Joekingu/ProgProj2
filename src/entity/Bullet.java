@@ -9,7 +9,7 @@ import javax.imageio.ImageIO;
 import main.GamePanel;
 import main.KeyHandler;
 
-public class Ammo extends Entity {
+public class Bullet extends Entity {
 	
 	//Attributs
 	int m_damage;
@@ -24,7 +24,7 @@ public class Ammo extends Entity {
 	 * @param a_gp GamePanel, pannel principal du jeu
 	 * @param a_keyH KeyHandler, gestionnaire des touches 
 	 */
-	public Ammo(GamePanel a_gp, Player player, int damage, int speed, int size, int direction) {
+	public Bullet(GamePanel a_gp, Player player, int damage, int speed, int size, int direction) {
 		m_gp = a_gp;
 		m_player = player;
 		m_damage = damage;
