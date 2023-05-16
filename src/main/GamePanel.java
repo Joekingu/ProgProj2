@@ -195,6 +195,7 @@ public class GamePanel extends JPanel implements Runnable {
 		if (m_gamestate==0) {
 		g2.translate(-m_camera.getx(), -m_camera.gety());
 		m_tileM.draw(g2, m_camera);
+		}
 		for ( mob i : listEnnemis) {
 			i.draw(g2);
 		}
@@ -210,10 +211,10 @@ public class GamePanel extends JPanel implements Runnable {
 			m_player.draw(g2);
 			m_gun.draw(g2);
 			m_ammo.draw(g2);
-			for (Collectable item : acollecter) {
-				if (item.getStatus() == true) {
-					item.draw(g2);
-				}
+		}
+		for (Collectable item : acollecter) {
+			if (item.getStatus() == true) {
+				item.draw(g2);
 			}
 		}
 		if (m_gamestate == 1) {
