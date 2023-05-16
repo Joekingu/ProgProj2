@@ -58,16 +58,16 @@ public class pnj extends Entity{
 	 */
 	public void update(int x,int y) {
 		if (x>m_x) {
-			m_x +=10;
+			m_x +=1*m_speed;
 		}
 		else {
-			m_x -=10;
+			m_x -=1*m_speed;
 		}
 		if (y>m_y) {
-			m_y +=10;
+			m_y +=1*m_speed;
 		}
 		else {
-			m_y -=10;
+			m_y -=1*m_speed;
 		}
 
 	}
