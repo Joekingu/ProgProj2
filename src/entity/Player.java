@@ -80,26 +80,20 @@ public class Player extends Entity{
 		}
 		return false;
 	}
+
 	
-//	private float dist(int x1,int x2,int y1,int y2) {
-//		return (x1-x2)^2 + (y1-y2)^2;
-//	}
-//	
-//	private boolean collision_entity(ArrayList<Entity> list) {
-//		for(Entity i:list) {
-//			int d = m_gp.TILE_SIZE;
-//			int d2 = d/2;
-//			int ix = i.getx();
-//			int iy = i.gety();
-//			if ( ((m_x+d2>ix-d2) && (m_y+d2>iy-d2))||
-//					((m_x-d2<ix+d2) && (m_y+d2>iy-d2)) || 
-//					((m_x-d2<ix+d2) && (m_y-d2>iy+d2)) || 
-//					((m_x+d2>ix-d2) && (m_y-d2<iy+d2)) ){
-//				return true;
-//			}
-//		}
-//		return false;
-//	}
+	private boolean collision_entity(ArrayList<mob> list,int x,int y) {
+		for(Entity i:list) {
+			int d = m_gp.TILE_SIZE;
+			int ix = i.getx();
+			int iy = i.gety();
+			double dist_min = d*3/4;
+			if ( dist(ix,m_x+x,iy,m_y+y)<dist_min ){
+				return true;
+			}
+		}
+		return false;
+	}
 	
 	private boolean test(int x,int y) {
 		int d = m_gp.TILE_SIZE;
@@ -110,44 +104,61 @@ public class Player extends Entity{
 				in(m_gp.gettileM().map[(px-d2)/d][(py-d2)/d],m_collision.bloc) ||
 				in(m_gp.gettileM().map[(px+d2)/d][(py-d2)/d],m_collision.bloc) ||
 				in(m_gp.gettileM().map[(px-d2)/d][(py+d2)/d],m_collision.bloc) 
-//				|| collision_entity(m_gp.getListEntity())
+				|| collision_entity(m_gp.getListEnnemis(),x,y)
 				) {
 			m_collision.collision();
 			return true;
 		}
 		return false;
 	}
+//	private boolean testdeg(int x,int y) {
+//		int d = m_gp.TILE_SIZE;
+//		int d2 = d/2;
+//		int px = m_x+x+d2;
+//		int py = m_y+y+d2;
+//		if(m_gp.gettileM().map[(px+d2)/d][(py+d2)/d]==m_collision.lave) {
+//			return true;
+//			
+//		}
+//		return false;
+//	}
 	
 	public void update() {
+		if (m_health<=0) {
+			m_alive=false;
+		}
+//		if(testdeg(q))
 		for(int j = 0; j<m_keyH.taille();j++) {
 			if (m_keyH.getval(j) == 90) {
-				if (!test(0,-10)) {
+				if (!test(0,-2)) {
 					m_y-= 2*m_speed;
 				}
 			}
 			if (m_keyH.getval(j) == 83) {
-				if (!test(0,10)) {
+				if (!test(0,4)) {
 					m_y+= 2*m_speed;
 				}
 			}
 			if (m_keyH.getval(j) == 68) {
-				if (!test(10,0)) {
+				if (!test(4,0)) {
 					m_x+= 2*m_speed;
 				}
 			}
 			if (m_keyH.getval(j) == 81) {
-				if (!test(-10,0)) {
+				if (!test(-2,0)) {
 					m_x-= 2*m_speed;
 				}
 			}
 		}
-		
 	}
 	
 	public int gethealth(){
 		return m_health;
 	}
 	
+	public void gameOver(){
+		this.setDefaultValues();
+	}
 	
 	/**
 	 * Affichage du l'image du joueur dans la fen�tre du jeu
@@ -171,4 +182,10 @@ public class Player extends Entity{
 	public int gety() {
 		return m_y;
 	}
+	public int estblesse(int degat) {
+		m_health-=degat;
+		return m_health;	
+	}
+	
+	
 }

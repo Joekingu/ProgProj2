@@ -17,7 +17,7 @@ import tile.Tile;
  * D�fintition du comportement d'un joueur
  *
  */
-public class pnj extends Entity{
+public class mob extends Entity{
 
 	GamePanel m_gp;
 	Tile m_collision;
@@ -28,20 +28,23 @@ public class pnj extends Entity{
 	 * @param a_gp GamePanel, pannel principal du jeu
 	 * @param a_keyH KeyHandler, gestionnaire des touches 
 	 */
-	public pnj(GamePanel a_gp, int health) {
+	
+	public mob(GamePanel a_gp, int health,int x,int y) {
 		this.m_gp = a_gp;
 		this.m_health=health;
 		this.setDefaultValues();
 		this.getPlayerImage();
 		this.m_collision = new Tile();
+		m_x = x;
+		m_y = y;
 	}
 	
 	/**
 	 * Initialisation des donn�es membres avec des valeurs par d�faut
 	 */
 	protected void setDefaultValues() {
-		m_x = 300;
-		m_y = 300;
+		m_x = 500;
+		m_y = 500;
 		m_speed = 1;
 	}
 	
@@ -70,19 +73,31 @@ public class pnj extends Entity{
 		return false;
 	}
 	
-//	private boolean collision_entity(Entity player) {
-//		int d = m_gp.TILE_SIZE;
-//		int d2 = d/2;
-//		int ix = player.getx();
-//		int iy = player.gety();
-//		if ( (m_x+d2>ix-d2 && m_y+d2>iy-d2)|| 
-//				(m_x-d2<ix+d2 && m_y+d2>iy-d2) || 
-//				(m_x-d2<ix+d2 && m_y-d2>iy+d2) || 
-//				(m_x+d2>ix-d2 && m_y-d2<iy+d2) ){
-//			return true;
-//		}
-//		return false;
-//	}
+	private boolean collision_entity(Entity player) {
+		int d = m_gp.TILE_SIZE;
+		int ix = player.getx();
+		int iy = player.gety();
+		double dist_min = d*3/4;
+		if ( dist(ix,m_x,iy,m_y)<dist_min ){
+			return true;
+		}
+		return false;
+	}
+	
+	private boolean collision_mob(ArrayList<mob> list,int x,int y) {
+		for(Entity i:list) {
+				if(this != i) {
+				int d = m_gp.TILE_SIZE;
+				int ix = i.getx();
+				int iy = i.gety();
+				double dist_min = d/2;
+				if ( dist(ix,m_x+x,iy,m_y+y)<dist_min ){
+					return true;
+				}
+			}
+		}
+		return false;
+	}
 	
 	private boolean test(int x,int y) {
 		int d = m_gp.TILE_SIZE;
@@ -92,9 +107,8 @@ public class pnj extends Entity{
 		if ( in(m_gp.gettileM().map[(px+d2)/d][(py+d2)/d],m_collision.bloc) || 
 				in(m_gp.gettileM().map[(px-d2)/d][(py-d2)/d],m_collision.bloc) ||
 				in(m_gp.gettileM().map[(px+d2)/d][(py-d2)/d],m_collision.bloc) ||
-				in(m_gp.gettileM().map[(px-d2)/d][(py+d2)/d],m_collision.bloc) 
-//				||
-//				collision_entity(m_gp.getPlayer())
+				in(m_gp.gettileM().map[(px-d2)/d][(py+d2)/d],m_collision.bloc) || 
+				collision_entity(m_gp.getPlayer()) || collision_mob(m_gp.getListEnnemis(),x,y)
 				) {
 			m_collision.collision();
 			return true;
@@ -102,7 +116,9 @@ public class pnj extends Entity{
 		return false;
 	}
 	
-	public void update(int x,int y) {
+	public void update(Player player) {
+		int x = player.getx();
+		int y = player.gety();
 		if (x>m_x) {
 			if (!test(1,0)) {
 				m_x +=1*m_speed;

@@ -24,7 +24,7 @@ public class TileManager {
 	int m_mapTileNum[][];	//r�partition des tiles dans la carte du jeu
 	public int map [][];
 	int max_col = 20;
-	int max_row = 20;
+	int max_row = 38;
 	
 	/**
 	 * Constructeur
