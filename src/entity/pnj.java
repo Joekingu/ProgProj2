@@ -19,15 +19,16 @@ public class pnj extends Entity{
 
 	GamePanel m_gp;
 	KeyHandler m_keyH;
+	int m_health;  // vie du pnj
 	
 	/**
 	 * Constructeur de Player
 	 * @param a_gp GamePanel, pannel principal du jeu
 	 * @param a_keyH KeyHandler, gestionnaire des touches 
 	 */
-	public pnj(GamePanel a_gp, KeyHandler a_keyH) {
+	public pnj(GamePanel a_gp, int health) {
 		this.m_gp = a_gp;
-		this.m_keyH = a_keyH;
+		this.m_health=health;
 		this.setDefaultValues();
 		this.getPlayerImage();
 	}

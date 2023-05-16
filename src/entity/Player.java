@@ -24,6 +24,7 @@ public class Player extends Entity{
 	Ammo m_ammo;
 	Tile m_collision;
 	
+	int m_health;
 	/**
 	 * Constructeur de Player
 	 * @param a_gp GamePanel, pannel principal du jeu
@@ -32,6 +33,7 @@ public class Player extends Entity{
 	public Player(GamePanel a_gp, KeyHandler a_keyH, Ammo a_ammo) {
 		this.m_gp = a_gp;
 		this.m_keyH = a_keyH;
+		this.m_health=5;
 		this.m_ammo = a_ammo;
 		this.setDefaultValues();
 		this.getPlayerImage();
@@ -108,6 +110,10 @@ public class Player extends Entity{
 			}
 		}
 		m_keyH.setval(0);
+	}
+	
+	public int gethealth(){
+		return m_health;
 	}
 	
 	/**
