@@ -24,6 +24,14 @@ public abstract class Entity {
 		return m_y;
 	}
 	
+	public void setm_x(int x) {
+		m_x = x;
+	}
+	
+	public void setm_y(int y) {
+		m_y = y;
+	}
+	
 	public void setx(int kb) {
 		m_x += kb;
 	}
