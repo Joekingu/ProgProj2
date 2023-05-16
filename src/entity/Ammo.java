@@ -12,8 +12,8 @@ import main.KeyHandler;
 public class Ammo extends Entity {
 	
 	//Attributs
-	double m_damage;
-	double m_speed;
+	int m_damage;
+	int m_speed;
 	int m_size;
 	GamePanel m_gp;
 	Player m_player;
@@ -24,7 +24,7 @@ public class Ammo extends Entity {
 	 * @param a_gp GamePanel, pannel principal du jeu
 	 * @param a_keyH KeyHandler, gestionnaire des touches 
 	 */
-	public Ammo(GamePanel a_gp, Player player, double damage, double speed, int size, int direction) {
+	public Ammo(GamePanel a_gp, Player player, int damage, int speed, int size, int direction) {
 		m_gp = a_gp;
 		m_player = player;
 		m_damage = damage;
