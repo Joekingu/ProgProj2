@@ -9,8 +9,8 @@ public class mele extends arme{
 	int m_porter;
 	int m_kb;
 	
-	public mele(int deg,int porter,KeyHandler a_keyH, GamePanel a_gp,int kb) {
-		super(deg, a_keyH,a_gp);
+	public mele(int deg,int porter,KeyHandler a_keyH, GamePanel a_gp,int kb,double frq_att) {
+		super(deg, a_keyH,a_gp,frq_att);
 		m_porter = porter;
 		m_kb = kb;
 	}

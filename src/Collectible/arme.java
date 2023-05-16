@@ -10,16 +10,18 @@ public abstract class arme{
 	KeyHandler m_keyH;
 	GamePanel m_gp;
 	double time;
+	double frq_att;
 	
 	protected double dist(int x1,int x2,int y1,int y2) {
 		return Math.sqrt(Math.pow((x1-x2),2) + Math.pow((y1-y2),2));
 	}
 	
-	public arme(int deg,KeyHandler a_keyH,GamePanel a_gp) {
+	public arme(int deg,KeyHandler a_keyH,GamePanel a_gp,double frq_att) {
 		m_deg = deg;
 		m_keyH = a_keyH;
 		m_gp = a_gp;
 		time = System.nanoTime();
+		this.frq_att = frq_att;
 	}
 	
 	public abstract void attaque(int dirx,int diry);
@@ -62,7 +64,7 @@ public abstract class arme{
 				} 
 			}
 		}
-		if(att && System.nanoTime() - time > 1e9) {
+		if(att && System.nanoTime() - time > frq_att) {
 			time=System.nanoTime();
 			attaque(dirx,diry);
 		}
