@@ -53,6 +53,7 @@ public class GamePanel extends JPanel implements Runnable {
 	ArrayList<Collectable> acollecter;
 	ArrayList<spawner<mob>> listSpawner;
 	ArrayList<mob> listEnnemis;
+	double time;
 
 	/**
 	 * Constructeur
@@ -70,10 +71,11 @@ public class GamePanel extends JPanel implements Runnable {
 		listEnnemis = new ArrayList<>();
 		acollecter = new ArrayList<>();
 		listSpawner = new ArrayList<>();
-		spawner<zombie> t = new spawner<>(this, new zombie(this, 50, 400, 400));
-		t.update();
-		spawner<zombie> t1 = new spawner<>(this, new zombie(this, 50, 800, 800));
-		t1.update();
+		time = System.nanoTime();
+		spawner<mob> t = new spawner<>(this, new zombie(this, 50, 400, 400));
+		listSpawner.add(t);
+		spawner<mob> t1 = new spawner<>(this, new zombie(this, 50, 800, 800));
+		listSpawner.add(t1);
 
 		this.setPreferredSize(new Dimension(SCREEN_WIDTH, SCREEN_HEIGHT));
 		this.setBackground(Color.black);
@@ -174,6 +176,14 @@ public class GamePanel extends JPanel implements Runnable {
 				item.update(m_player);
 			}
 		}
+		System.out.println(System.nanoTime());
+		System.out.println(time);
+		if (System.nanoTime() - time > 5e9) {
+			time=System.nanoTime();
+			for (spawner<mob> i : listSpawner) {
+				i.update();
+			}
+		}
 	}
 
 	public void gameOver() {
@@ -189,7 +199,6 @@ public class GamePanel extends JPanel implements Runnable {
 	 * Affichage des �l�ments
 	 */
 	public void paintComponent(Graphics g) {
-		System.out.println(m_gamestate);
 		super.paintComponent(g);
 		Graphics2D g2 = (Graphics2D) g;
 		if (m_gamestate==0) {
@@ -218,7 +227,7 @@ public class GamePanel extends JPanel implements Runnable {
 			}
 		}
 		if (m_gamestate == 1) {
-			g2.setColor(Color.RED);
+			g2.setColor(Color.BLACK);
 			g2.fillRect(MAX_SCREE_ROW, MAX_SCREEN_COL, SCREEN_WIDTH, SCREEN_HEIGHT);
 			g2.setColor(Color.RED);
 			g2.drawString("C'EST MORT POTO", 200, 200);
