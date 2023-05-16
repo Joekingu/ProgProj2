@@ -17,45 +17,30 @@ public class Bullet extends Entity {
 	int m_size;
 	GamePanel m_gp;
 	Player m_player;
-	int m_direction;
+	int m_dirx;
+	int m_diry;
 
 	/**
 	 * Constructeur de Ammo
 	 * @param a_gp GamePanel, pannel principal du jeu
 	 * @param a_keyH KeyHandler, gestionnaire des touches 
 	 */
-	public Bullet(GamePanel a_gp, Player player, int damage, int speed, int size, int direction) {
+	public Bullet(GamePanel a_gp, Player player, int damage, int speed, int size, int dirx, int diry) {
 		m_gp = a_gp;
 		m_player = player;
 		m_damage = damage;
 		m_speed = speed;
 		m_size = size;
-		m_direction = direction;
-		this.setDefaultValues();
+		m_dirx = dirx;
+		m_diry = diry;
 	}
 	
 	/**
 	 * Initialisation des donn�es membres avec des valeurs par d�faut
 	 */
-	protected void setDefaultValues() {
-		m_x = 100;
-		m_y = 100;
-		m_speed = 4;
-	}
 	
 	public void update() {
-		if(m_direction == 0 ) { //Droite
-			m_x += 4;
-		}
-		if(m_direction == 1 ) { //Gauche
-			m_x -= 4;
-		}
-		if(m_direction == 2 ) { //Haut
-			m_y -= 4;
-		}
-		if(m_direction == 3 ) { //Bas
-			m_y += 4;
-		}
+		
 	}
 	
 	/**
