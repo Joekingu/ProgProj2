@@ -58,8 +58,8 @@ public class GamePanel extends JPanel implements Runnable {
 		m_tileM = new TileManager(this);
 		m_pnj = new pnj(this, 50);
 		m_camera = new Camera(m_player);
-		listEntity = new ArrayList<>();
-		listEntity.add(m_pnj);
+		listEnnemis = new ArrayList<>();
+		listEnnemis.add(m_pnj);
 		acollecter = new ArrayList<>();
 		
 		this.setPreferredSize(new Dimension(SCREEN_WIDTH, SCREEN_HEIGHT));
