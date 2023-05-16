@@ -1,5 +1,6 @@
-	package entity;
+package entity;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
@@ -24,6 +25,7 @@ public class Player extends Entity{
 	KeyHandler m_keyH;
 	Tile m_collision;
 	Ammo m_ammo;
+
 	
 	int m_health;
 	/**
@@ -34,7 +36,6 @@ public class Player extends Entity{
 	public Player(GamePanel a_gp, KeyHandler a_keyH, Ammo ammo) {
 		this.m_gp = a_gp;
 		this.m_keyH = a_keyH;
-		this.m_health=5;
 		this.setDefaultValues();
 		this.getPlayerImage();
 		m_ammo=ammo;
@@ -47,7 +48,8 @@ public class Player extends Entity{
 	protected void setDefaultValues() {
 		m_x = m_gp.SCREEN_WIDTH/2;
 		m_y = m_gp.SCREEN_HEIGHT/2;
-		m_speed = 4;
+		m_speed = 2;
+		m_health=50;
 	}
 	
 	/**
@@ -61,6 +63,7 @@ public class Player extends Entity{
 			e.printStackTrace();
 		}
 	}
+	
 	
 	/**
 	 * Mise � jour des donn�es du joueur
@@ -112,32 +115,35 @@ public class Player extends Entity{
 	}
 	
 	public void update() {
-		if (m_keyH.getval() == 90) {
-			if (!test(0,-10)) {
-				m_y-= 10;
+		for(int j = 0; j<m_keyH.taille();j++) {
+			if (m_keyH.getval(j) == 90) {
+				if (!test(0,-10)) {
+					m_y-= 2*m_speed;
+				}
+			}
+			if (m_keyH.getval(j) == 83) {
+				if (!test(0,10)) {
+					m_y+= 2*m_speed;
+				}
+			}
+			if (m_keyH.getval(j) == 68) {
+				if (!test(10,0)) {
+					m_x+= 2*m_speed;
+				}
+			}
+			if (m_keyH.getval(j) == 81) {
+				if (!test(-10,0)) {
+					m_x-= 2*m_speed;
+				}
 			}
 		}
-		if (m_keyH.getval() == 83) {
-			if (!test(0,10)) {
-				m_y+= 10;
-			}
-		}
-		if (m_keyH.getval() == 68) {
-			if (!test(10,0)) {
-				m_x+= 10;
-			}
-		}
-		if (m_keyH.getval() == 81) {
-			if (!test(-10,0)) {
-				m_x-= 10;
-			}
-		}
-		m_keyH.setval(0);
+		
 	}
 	
 	public int gethealth(){
 		return m_health;
 	}
+	
 	
 	/**
 	 * Affichage du l'image du joueur dans la fen�tre du jeu
@@ -148,6 +154,10 @@ public class Player extends Entity{
 		BufferedImage l_image = m_idleImage;
 		// affiche le personnage avec l'image "image", avec les coordonn�es x et y, et de taille tileSize (16x16) sans �chelle, et 48x48 avec �chelle)
 		a_g2.drawImage(l_image, m_x, m_y, m_gp.TILE_SIZE, m_gp.TILE_SIZE, null);
+		a_g2.setStroke(new BasicStroke(2f));
+		a_g2.drawRoundRect(m_x+3,m_y-25,50,10,10,10);
+		a_g2.setColor(Color.RED);
+		a_g2.fillRoundRect(m_x+3,m_y-25,m_health,10,10,10);
 	}
 	
 	public int getx() {

@@ -40,9 +40,9 @@ public class pnj extends Entity{
 	 * Initialisation des donn�es membres avec des valeurs par d�faut
 	 */
 	protected void setDefaultValues() {
-		m_x = 500;
-		m_y = 500;
-		m_speed = 4;
+		m_x = 300;
+		m_y = 300;
+		m_speed = 1;
 	}
 	
 	/**
@@ -105,22 +105,22 @@ public class pnj extends Entity{
 	public void update(int x,int y) {
 		if (x>m_x) {
 			if (!test(1,0)) {
-				m_x +=1;
+				m_x +=1*m_speed;
 			}
 		}
 		else {
 			if (!test(-1,0)) {
-				m_x -=1;
+				m_x -=1*m_speed;
 			}
 		}
 		if (y>m_y) {
 			if (!test(0,1)) {
-				m_y +=1;
+				m_y +=1*m_speed;
 			}
 		}
 		else {
 			if (!test(0,-1)) {
-				m_y -=1;
+				m_y -=1*m_speed;
 			}
 		}
 

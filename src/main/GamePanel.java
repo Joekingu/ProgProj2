@@ -10,6 +10,7 @@ import entity.pnj;
 import entity.Camera;
 import entity.Entity;
 import tile.TileManager;
+import Collectible.Collectable;
 
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -35,12 +36,14 @@ public class GamePanel extends JPanel implements Runnable{
 	
 	// Cr�ation des diff�rentes instances (Player, KeyHandler, TileManager, GameThread ...)
 	KeyHandler m_keyH;
+	KeyHandler m_keyH2;
 	Thread m_gameThread;
 	Player m_player;
 	TileManager m_tileM;
 	pnj m_pnj;
 	Ammo m_ammo;
 	Camera m_camera;
+	ArrayList<Collectables> acollecter;
 	ArrayList<Entity> listEntity;
 		
 	/**
@@ -49,8 +52,9 @@ public class GamePanel extends JPanel implements Runnable{
 	public GamePanel() {
 		m_FPS = 60;				
 		m_keyH = new KeyHandler();
+		m_keyH2 = new KeyHandler();
 		m_player = new Player(this, m_keyH, m_ammo);
-		m_ammo = new Ammo(this, m_keyH, m_player, 10, 10, TILE_SIZE/4);
+		m_ammo = new Ammo(this, m_keyH2, m_player, 10, 10, TILE_SIZE/4);
 		m_tileM = new TileManager(this);
 		m_pnj = new pnj(this,50);
 		m_camera = new Camera(m_player);
