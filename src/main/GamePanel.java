@@ -6,9 +6,12 @@ import javax.swing.JPanel;
 
 import entity.Ammo;
 import entity.Player;
-import entity.pnj;
+import entity.mob;
+import entity.zombie;
+import spawner.spawner;
 import entity.Camera;
 import entity.Entity;
+import entity.Gun;
 import tile.TileManager;
 import Collectible.Collectable;
 import Collectible.Potiondevitesse;
@@ -44,11 +47,12 @@ public class GamePanel extends JPanel implements Runnable {
 	Thread m_gameThread;
 	Player m_player;
 	TileManager m_tileM;
-	pnj m_pnj;
 	Ammo m_ammo;
+	Gun m_gun;
 	Camera m_camera;
 	ArrayList<Collectable> acollecter;
-	ArrayList<Entity> listEnnemis;
+	ArrayList<spawner<mob>> listSpawner;
+	ArrayList<mob> listEnnemis;
 
 	/**
 	 * Constructeur
@@ -58,13 +62,18 @@ public class GamePanel extends JPanel implements Runnable {
 		m_gamestate = 0;
 		m_keyH = new KeyHandler();
 		m_player = new Player(this, m_keyH, m_ammo);
+		m_ammo = new Ammo(this, m_player, 10, 10, TILE_SIZE/4, 0);
+		m_gun = new Gun(this,m_keyH, m_player, 4);
 		m_ammo = new Ammo(this, m_keyH, m_player, 10, 10, TILE_SIZE / 4);
 		m_tileM = new TileManager(this);
-		m_pnj = new pnj(this, 50);
 		m_camera = new Camera(m_player);
 		listEnnemis = new ArrayList<>();
-		listEnnemis.add(m_pnj);
 		acollecter = new ArrayList<>();
+		listSpawner = new ArrayList<>();
+		spawner<zombie> t = new spawner<>(this,new zombie(this,50,400,400));
+		t.update();
+		spawner<zombie> t1 = new spawner<>(this,new zombie(this,50,800,800));
+		t1.update();
 
 		this.setPreferredSize(new Dimension(SCREEN_WIDTH, SCREEN_HEIGHT));
 		this.setBackground(Color.black);
@@ -86,8 +95,12 @@ public class GamePanel extends JPanel implements Runnable {
 	public Entity getPlayer() {
 		return m_player;
 	}
-
-	public ArrayList<Entity> getListEnnemis() {
+	
+	public void addListEnnemis(mob ennemi) {
+		listEnnemis.add(ennemi);
+	}
+	
+	public ArrayList<mob> getListEnnemis() {
 		return listEnnemis;
 	}
 
@@ -149,8 +162,11 @@ public class GamePanel extends JPanel implements Runnable {
 	 */
 	public void update() {
 		m_player.update();
-		m_pnj.update(m_player);
+		for ( Entity i : listEnnemis) {
+			i.update(m_player);
+		}
 		m_camera.update(this);
+		m_gun.update();
 		m_ammo.update();
 		for (Collectable item : acollecter) {
 			if (item.getStatus() == true) {
@@ -174,16 +190,20 @@ public class GamePanel extends JPanel implements Runnable {
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		Graphics2D g2 = (Graphics2D) g;
-		if (m_gamestate == 0) {
-			g2.translate(-m_camera.getx(), -m_camera.gety());
-			m_tileM.draw(g2, m_camera);
-			m_pnj.draw(g2);
-			m_ammo.draw(g2);
-			m_player.draw(g2);
-			for (Collectable item : acollecter) {
-				if (item.getStatus() == true) {
-					item.draw(g2);
-				}
+		if (m_gamestate==0) {
+		g2.translate(-m_camera.getx(), -m_camera.gety());
+		m_tileM.draw(g2, m_camera);
+		m_pnj.draw(g2);
+		for ( mob i : listEnnemis) {
+			i.draw(g2);
+		}
+		m_ammo.draw(g2);
+		m_player.draw(g2);
+		m_gun.draw(g2);
+		m_ammo.draw(g2);
+		for(Collectable item:acollecter) {
+			if(item.getStatus()== true) {
+				item.draw(g2);
 			}
 		}
 		if (m_gamestate == 1) {

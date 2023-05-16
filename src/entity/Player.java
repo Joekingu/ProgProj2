@@ -82,7 +82,7 @@ public class Player extends Entity{
 	}
 
 	
-	private boolean collision_entity(ArrayList<Entity> list,int x,int y) {
+	private boolean collision_entity(ArrayList<mob> list,int x,int y) {
 		for(Entity i:list) {
 			int d = m_gp.TILE_SIZE;
 			int ix = i.getx();
@@ -108,13 +108,27 @@ public class Player extends Entity{
 				) {
 			m_collision.collision();
 			return true;
-		}else if(m_gp.gettileM().map[(px+d2)/d][(py+d2)/d]==m_collision.lave) {
-			this.estblesse(1);
 		}
 		return false;
 	}
+	private int testdeg() {
+		int d = m_gp.TILE_SIZE;
+		int d2 = d/2;
+		int px = m_x+d2;
+		int py = m_y+d2;
+		if(m_gp.gettileM().map[(px+d2)/d][(py+d2)/d]==m_collision.lave) {
+				return 2;
+		}
+		return 0;
+	}
 	
 	public void update() {
+		if (m_health<=0) {
+			m_alive=false;
+		}
+		if(testdeg()!=0) {
+			this.estblesse(testdeg());
+		}
 		for(int j = 0; j<m_keyH.taille();j++) {
 			if (m_keyH.getval(j) == 90) {
 				if (!test(0,-2)) {
@@ -135,9 +149,6 @@ public class Player extends Entity{
 				if (!test(-2,0)) {
 					m_x-= 2*m_speed;
 				}
-			}
-			if (m_health<=0) {
-				m_alive=false;
 			}
 		}
 	}
