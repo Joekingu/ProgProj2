@@ -67,6 +67,9 @@ public class TileManager {
 			m_tile[6] = new Tile();
 			m_tile[6].m_image = ImageIO.read(getClass().getResource("/tiles/BRICK.png"));
 			
+			m_tile[7] = new Tile();
+			m_tile[7].m_image = ImageIO.read(getClass().getResource("/tiles/lit.png"));
+			
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
