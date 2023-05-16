@@ -8,6 +8,7 @@ import javax.swing.JPanel;
 
 import entity.Bullet;
 import entity.Player;
+import entity.Soucoupe;
 import entity.mob;
 import entity.zombie;
 import spawner.spawner;
@@ -57,6 +58,7 @@ public class GamePanel extends JPanel implements Runnable {
 	ArrayList<spawner<mob>> listSpawner;
 	ArrayList<mob> listEnnemis;
 	double time;
+	Soucoupe vaisseau;
 
 	/**
 	 * Constructeur
@@ -72,6 +74,7 @@ public class GamePanel extends JPanel implements Runnable {
 		acollecter = new ArrayList<>();
 		listSpawner = new ArrayList<>();
 		time = System.nanoTime();
+		vaisseau = new Soucoupe(this);
 		spawner<mob> t = new spawner<>(this, new zombie(this, 50, 400, 400));
 		listSpawner.add(t);
 		spawner<mob> t1 = new spawner<>(this, new zombie(this, 50, 800, 800));
@@ -98,9 +101,9 @@ public class GamePanel extends JPanel implements Runnable {
 	public Player getPlayer() {
 		return m_player;
 	}
-	
+
 	public void getGOImage() {
-		//gestion des expections 
+		// gestion des expections
 		try {
 			m_GOImage = ImageIO.read(getClass().getResource("/tiles/game_over.jpeg"));
 		} catch (IOException e) {
@@ -185,7 +188,7 @@ public class GamePanel extends JPanel implements Runnable {
 			}
 		}
 		if (System.nanoTime() - time > 5e9) {
-			time=System.nanoTime();
+			time = System.nanoTime();
 			for (spawner<mob> i : listSpawner) {
 				i.update();
 			}
@@ -207,18 +210,18 @@ public class GamePanel extends JPanel implements Runnable {
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		Graphics2D g2 = (Graphics2D) g;
-		if (m_gamestate==0) {
-		g2.translate(-m_camera.getx(), -m_camera.gety());
-		m_tileM.draw(g2, m_camera);
-		}
-		for ( mob i : listEnnemis) {
+		if (m_gamestate == 0) {
+			g2.translate(-m_camera.getx(), -m_camera.gety());
+			m_tileM.draw(g2, m_camera);
+
+		for (mob i : listEnnemis) {
 			i.draw(g2);
 		}
 //		m_bullet.draw(g2);
 		m_player.draw(g2);
 //		m_bullet.draw(g2);
-		for(Collectable item:acollecter) {
-			if(item.getStatus()== true) {
+		for (Collectable item : acollecter) {
+			if (item.getStatus() == true) {
 				item.draw(g2);
 			}
 //			m_bullet.draw(g2);
@@ -229,15 +232,20 @@ public class GamePanel extends JPanel implements Runnable {
 			if (item.getStatus() == true) {
 				item.draw(g2);
 			}
+
+		}
+		vaisseau.draw(g2);
 		}
 		if (m_gamestate == 1) {
 			g2.setColor(Color.BLACK);
 			g2.fillRect(MAX_SCREE_ROW, MAX_SCREEN_COL, SCREEN_WIDTH, SCREEN_HEIGHT);
 			BufferedImage l_image = m_GOImage;
-			// affiche le personnage avec l'image "image", avec les coordonn�es x et y, et de taille tileSize (16x16) sans �chelle, et 48x48 avec �chelle)
-			g2.drawImage(l_image, this.getWidth()/2-l_image.getWidth()/2, 0-this.getHeight()/8, SCREEN_WIDTH, SCREEN_HEIGHT, null);
+			// affiche le personnage avec l'image "image", avec les coordonn�es x et y, et
+			// de taille tileSize (16x16) sans �chelle, et 48x48 avec �chelle)
+			g2.drawImage(l_image, this.getWidth() / 2 - l_image.getWidth() / 2, 0 - this.getHeight() / 8, SCREEN_WIDTH,
+					SCREEN_HEIGHT, null);
 			g2.setColor(Color.RED);
-			g2.drawString("PRESS '' R '' TO RETRY ",this.getWidth()/2-65, 500);
+			g2.drawString("PRESS '' R '' TO RETRY ", this.getWidth() / 2 - 65, 500);
 		}
 		g2.dispose();
 
