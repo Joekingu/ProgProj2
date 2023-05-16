@@ -9,9 +9,11 @@ import entity.Player;
 import entity.pnj;
 import entity.Camera;
 import tile.TileManager;
+import Collectible.Collectable;
 
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.util.ArrayList;
 
 /**
  * Panel principal du jeu contenant la map principale
@@ -40,6 +42,7 @@ public class GamePanel extends JPanel implements Runnable{
 	pnj m_pnj;
 	Ammo m_ammo;
 	Camera m_camera;
+	ArrayList<Collectables> acollecter;
 		
 	/**
 	 * Constructeur
