@@ -24,7 +24,7 @@ public class Player extends Entity{
 	KeyHandler m_keyH;
 	Tile m_collision;
 	Ammo m_ammo;
-
+	boolean m_alive;
 	
 	int m_health;
 	/**
@@ -49,6 +49,7 @@ public class Player extends Entity{
 		m_y = m_gp.SCREEN_HEIGHT/2;
 		m_speed = 2;
 		m_health=50;
+		m_alive=true;
 	}
 	
 	/**
@@ -63,6 +64,9 @@ public class Player extends Entity{
 		}
 	}
 	
+	public boolean isAlive() {
+		return m_alive;
+	}
 	
 	/**
 	 * Mise � jour des donn�es du joueur
