@@ -138,7 +138,6 @@ public class Player extends Entity{
 				m_alive=false;
 			}
 		}
-		
 	}
 	
 	public int gethealth(){

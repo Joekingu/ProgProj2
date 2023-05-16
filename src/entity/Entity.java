@@ -23,6 +23,6 @@ public abstract class Entity {
 		return m_y;
 	}
 	public void setSpeed(int vitesse) {
-		m_speed=vitesse;
+		m_speed+=vitesse;
 	}
 }

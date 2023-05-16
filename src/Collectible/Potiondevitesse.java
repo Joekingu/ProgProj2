@@ -11,11 +11,13 @@ import main.GamePanel;
 
 public class Potiondevitesse extends Collectable {
 	int ajoutdevitesse;
-	public Potiondevitesse(int addspeed, int x, int y){
+	public Potiondevitesse(GamePanel gp, int addspeed, int x, int y){
 		ajoutdevitesse=addspeed;
-		taille=m_gp.TILE_SIZE/3;
 		m_x=x;
 		m_y=y;
+		m_gp=gp;
+		pris=true;
+		this.getPotiondevitesseImage();
 	}
 	@Override
 	void effet(Player p) {
@@ -23,12 +25,18 @@ public class Potiondevitesse extends Collectable {
 	}
 
 	@Override
-	void update(Player p) {
+	public void update(Player p) {
 		if(collision_entity(p)) {
 			this.effet(p);
 			this.setStatus(false);
 		}
 	}
+	
+	public void draw(Graphics2D a_g2) {
+		BufferedImage l_image = m_idleImage;
+		a_g2.drawImage(l_image, m_x, m_y, m_gp.TILE_SIZE, m_gp.TILE_SIZE, null);
+	}
+	
 	public void getPotiondevitesseImage() {
 		//gestion des expections 
 		try {
@@ -36,12 +44,6 @@ public class Potiondevitesse extends Collectable {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-	}
-	@Override
-	void draw(Graphics2D a_g2) {
-		BufferedImage l_image = m_idleImage;
-		a_g2.drawImage(l_image, m_x, m_y, m_gp.TILE_SIZE, m_gp.TILE_SIZE, null);
-		
 	}
 	
 }
