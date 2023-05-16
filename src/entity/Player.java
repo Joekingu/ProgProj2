@@ -23,6 +23,7 @@ public class Player extends Entity{
 	KeyHandler m_keyH;
 	Tile m_collision;
 	Ammo m_ammo;
+
 	
 	int m_health;
 	/**
@@ -89,27 +90,29 @@ public class Player extends Entity{
 	}
 	
 	public void update() {
-		if (m_keyH.getval() == 90) {
-			if (!test(0,-10)) {
-				m_y-= 10;
+		for(int j = 0; j<m_keyH.taille();j++) {
+			if (m_keyH.getval(j) == 90) {
+				if (!test(0,-10)) {
+					m_y-= 10;
+				}
+			}
+			if (m_keyH.getval(j) == 83) {
+				if (!test(0,10)) {
+					m_y+= 10;
+				}
+			}
+			if (m_keyH.getval(j) == 68) {
+				if (!test(10,0)) {
+					m_x+= 10;
+				}
+			}
+			if (m_keyH.getval(j) == 81) {
+				if (!test(-10,0)) {
+					m_x-= 10;
+				}
 			}
 		}
-		if (m_keyH.getval() == 83) {
-			if (!test(0,10)) {
-				m_y+= 10;
-			}
-		}
-		if (m_keyH.getval() == 68) {
-			if (!test(10,0)) {
-				m_x+= 10;
-			}
-		}
-		if (m_keyH.getval() == 81) {
-			if (!test(-10,0)) {
-				m_x-= 10;
-			}
-		}
-		m_keyH.setval(0);
+		
 	}
 	
 	public int gethealth(){
