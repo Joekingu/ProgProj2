@@ -1,5 +1,6 @@
 	package entity;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
@@ -33,7 +34,7 @@ public class Player extends Entity{
 	public Player(GamePanel a_gp, KeyHandler a_keyH, Ammo ammo) {
 		this.m_gp = a_gp;
 		this.m_keyH = a_keyH;
-		this.m_health=5;
+		this.m_health=30;
 		this.setDefaultValues();
 		this.getPlayerImage();
 		m_ammo=ammo;
@@ -60,6 +61,7 @@ public class Player extends Entity{
 			e.printStackTrace();
 		}
 	}
+	
 	
 	/**
 	 * Mise � jour des donn�es du joueur
@@ -116,6 +118,7 @@ public class Player extends Entity{
 		return m_health;
 	}
 	
+	
 	/**
 	 * Affichage du l'image du joueur dans la fen�tre du jeu
 	 * @param a_g2 Graphics2D 
@@ -125,6 +128,10 @@ public class Player extends Entity{
 		BufferedImage l_image = m_idleImage;
 		// affiche le personnage avec l'image "image", avec les coordonn�es x et y, et de taille tileSize (16x16) sans �chelle, et 48x48 avec �chelle)
 		a_g2.drawImage(l_image, m_x, m_y, m_gp.TILE_SIZE, m_gp.TILE_SIZE, null);
+		a_g2.setStroke(new BasicStroke(2f));
+		a_g2.drawRoundRect(m_x+3,m_y-25,50,10,10,10);
+		a_g2.setColor(Color.RED);
+		a_g2.fillRoundRect(m_x+3,m_y-25,m_health,10,10,10);
 	}
 	
 	public int getx() {
