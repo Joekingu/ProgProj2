@@ -19,6 +19,8 @@ public class Bullet extends Entity {
 	Player m_player;
 	int m_dirx;
 	int m_diry;
+	int m_bx;
+	int m_by;
 
 	/**
 	 * Constructeur de Ammo
@@ -33,6 +35,8 @@ public class Bullet extends Entity {
 		m_size = size;
 		m_dirx = dirx;
 		m_diry = diry;
+		m_bx = m_player.m_x + m_dirx;
+		m_by = m_player.m_y + m_diry;
 	}
 	
 	/**
@@ -40,7 +44,8 @@ public class Bullet extends Entity {
 	 */
 	
 	public void update() {
-		
+		m_bx+=m_speed*m_dirx;
+		m_by+=m_speed*m_diry;
 	}
 	
 	/**
@@ -49,7 +54,7 @@ public class Bullet extends Entity {
 	public void getImage() {
 		//gestion des expections 
 		try {
-			m_idleImage = ImageIO.read(getClass().getResource("/tiles/SNOW.png"));
+			m_idleImage = ImageIO.read(getClass().getResource("/items/bullet1.png"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
