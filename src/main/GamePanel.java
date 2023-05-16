@@ -13,7 +13,6 @@ import entity.zombie;
 import spawner.spawner;
 import entity.Camera;
 import entity.Entity;
-import entity.Gun;
 import tile.TileManager;
 import Collectible.Collectable;
 import Collectible.Potiondevitesse;
@@ -67,8 +66,6 @@ public class GamePanel extends JPanel implements Runnable {
 		m_gamestate = 0;
 		m_keyH = new KeyHandler();
 		m_player = new Player(this, m_keyH);
-		m_bullet = new Bullet(this, m_player, 10, 10, TILE_SIZE / 4, 0);
-		m_bullet = new Bullet(this, m_player, 10, 10, TILE_SIZE / 4, 0);
 		m_tileM = new TileManager(this);
 		m_camera = new Camera(m_player);
 		listEnnemis = new ArrayList<>();
@@ -226,7 +223,7 @@ public class GamePanel extends JPanel implements Runnable {
 			if(item.getStatus()== true) {
 				item.draw(g2);
 			}
-			m_ammo.draw(g2);
+			m_bullet.draw(g2);
 			m_player.draw(g2);
 			m_bullet.draw(g2);
 		}
