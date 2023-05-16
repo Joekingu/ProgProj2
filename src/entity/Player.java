@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -131,7 +132,7 @@ public class Player extends Entity {
 		}
 		return 0;
 	}
-
+	
 	public void update() {
 		ArrayList<Integer> pressed = m_keyH.getinstance();
 		if (m_health<=0) {
