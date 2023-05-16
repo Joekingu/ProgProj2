@@ -4,20 +4,30 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 /**
- * Gestionnaire d'évènements (touche clavier)
+ * Gestionnaire d'ï¿½vï¿½nements (touche clavier)
  *
  */
 public class KeyHandler implements KeyListener{
-
+	int m_val=0;
+	
+	public int getval() {
+		return m_val;
+	}
+	
+	public void setval(int val) {
+		m_val = val;
+	}
+	
 	@Override
 	public void keyTyped(KeyEvent e) {
-		
+
 	}
 
 	@Override
 	public void keyPressed(KeyEvent e) {
-		// récupère le code du boutton appuyé
+		// rï¿½cupï¿½re le code du boutton appuyï¿½
 		int code = e.getKeyCode();
+		m_val=code;
 		System.out.println(code);
 	}
 
