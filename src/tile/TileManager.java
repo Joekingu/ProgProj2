@@ -20,7 +20,7 @@ public class TileManager {
 	GamePanel m_gp;			//panel du jeu principal
 	Tile[] m_tile;			//tableau de toutes les tiles possibles dans le jeu
 	int m_maxTiles = 10;	//nombre maximum de tiles chargeable dans le jeu
-	int m_mapTileNum[][];	//répartition des tiles dans la carte du jeu
+	int m_mapTileNum[][];	//rï¿½partition des tiles dans la carte du jeu
 	
 	/**
 	 * Constructeur
@@ -57,6 +57,9 @@ public class TileManager {
 			m_tile[5] = new Tile();
 			m_tile[5].m_image = ImageIO.read(getClass().getResource("/tiles/SNOW.png"));
 			
+			m_tile[6] = new Tile();
+			m_tile[6].m_image = ImageIO.read(getClass().getResource("/tiles/BRICK.png"));
+			
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -75,7 +78,7 @@ public class TileManager {
 			int col = 0;
 			int row = 0;
 			
-			// Parcourir le fichier txt pour récupérer les valeurs
+			// Parcourir le fichier txt pour rï¿½cupï¿½rer les valeurs
 			while (col < m_gp.MAX_SCREEN_COL && row < m_gp.MAX_SCREE_ROW) {
 				String line = br.readLine();
 				while (col < m_gp.MAX_SCREEN_COL) {
@@ -97,7 +100,7 @@ public class TileManager {
 	}
 	
 	/**
-	 * Affichage de la carte avec les différentes tuiles
+	 * Affichage de la carte avec les diffï¿½rentes tuiles
 	 * @param g2
 	 */
 	public void draw(Graphics2D g2) {

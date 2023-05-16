@@ -15,7 +15,7 @@ import main.KeyHandler;
  * D�fintition du comportement d'un joueur
  *
  */
-public class Player extends Entity{
+public class pnj extends Entity{
 
 	GamePanel m_gp;
 	KeyHandler m_keyH;
@@ -25,7 +25,7 @@ public class Player extends Entity{
 	 * @param a_gp GamePanel, pannel principal du jeu
 	 * @param a_keyH KeyHandler, gestionnaire des touches 
 	 */
-	public Player(GamePanel a_gp, KeyHandler a_keyH) {
+	public pnj(GamePanel a_gp, KeyHandler a_keyH) {
 		this.m_gp = a_gp;
 		this.m_keyH = a_keyH;
 		this.setDefaultValues();
@@ -36,8 +36,8 @@ public class Player extends Entity{
 	 * Initialisation des donn�es membres avec des valeurs par d�faut
 	 */
 	protected void setDefaultValues() {
-		m_x = 100;
-		m_y = 100;
+		m_x = 300;
+		m_y = 300;
 		m_speed = 4;
 	}
 	
@@ -56,20 +56,20 @@ public class Player extends Entity{
 	/**
 	 * Mise � jour des donn�es du joueur
 	 */
-	public void update() {
-		if (m_keyH.getval() == 38) {
-			m_y-= 10;
+	public void update(int x,int y) {
+		if (x>m_x) {
+			m_x +=1;
 		}
-		if (m_keyH.getval() == 40) {
-			m_y+= 10;
+		else {
+			m_x -=1;
 		}
-		if (m_keyH.getval() == 39) {
-			m_x+= 10;
+		if (y>m_y) {
+			m_y +=1;
 		}
-		if (m_keyH.getval() == 37) {
-			m_x-= 10;
+		else {
+			m_y -=1;
 		}
-		m_keyH.setval(0);
+
 	}
 	
 	/**
@@ -83,11 +83,4 @@ public class Player extends Entity{
 		a_g2.drawImage(l_image, m_x, m_y, m_gp.TILE_SIZE, m_gp.TILE_SIZE, null);
 	}
 	
-	public int getx() {
-		return m_x;
-	}
-	
-	public int gety() {
-		return m_y;
-	}
 }
