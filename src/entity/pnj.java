@@ -70,16 +70,11 @@ public class pnj extends Entity{
 		return false;
 	}
 	
-	private double dist(int x1,int x2,int y1,int y2) {
-		return Math.sqrt(Math.pow((x1-x2),2) + Math.pow((y1-y2),2));
-	}
-	
 	private boolean collision_entity(Entity player) {
 		int d = m_gp.TILE_SIZE;
 		int ix = player.getx();
 		int iy = player.gety();
 		double dist_min = d*3/4;
-		System.out.println(dist(ix,m_x,iy,m_y));
 		if ( dist(ix,m_x,iy,m_y)<dist_min ){
 			return true;
 		}
@@ -103,7 +98,9 @@ public class pnj extends Entity{
 		return false;
 	}
 	
-	public void update(int x,int y) {
+	public void update(Player player) {
+		int x = player.getx();
+		int y = player.gety();
 		if (x>m_x) {
 			if (!test(1,0)) {
 				m_x +=1*m_speed;

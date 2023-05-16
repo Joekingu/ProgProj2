@@ -80,10 +80,7 @@ public class Player extends Entity{
 		}
 		return false;
 	}
-	
-	private double dist(int x1,int x2,int y1,int y2) {
-		return Math.sqrt(Math.pow((x1-x2),2) + Math.pow((y1-y2),2));
-	}
+
 	
 	private boolean collision_entity(ArrayList<Entity> list,int x,int y) {
 		for(Entity i:list) {
@@ -118,22 +115,22 @@ public class Player extends Entity{
 	public void update() {
 		for(int j = 0; j<m_keyH.taille();j++) {
 			if (m_keyH.getval(j) == 90) {
-				if (!test(0,-10)) {
+				if (!test(0,-2)) {
 					m_y-= 2*m_speed;
 				}
 			}
 			if (m_keyH.getval(j) == 83) {
-				if (!test(0,10)) {
+				if (!test(0,4)) {
 					m_y+= 2*m_speed;
 				}
 			}
 			if (m_keyH.getval(j) == 68) {
-				if (!test(10,0)) {
+				if (!test(4,0)) {
 					m_x+= 2*m_speed;
 				}
 			}
 			if (m_keyH.getval(j) == 81) {
-				if (!test(-10,0)) {
+				if (!test(-2,0)) {
 					m_x-= 2*m_speed;
 				}
 			}

@@ -94,7 +94,6 @@ public class GamePanel extends JPanel implements Runnable {
 		double nextDrawTime = System.nanoTime() + drawInterval;
 
 		while (m_gameThread != null) { // Tant que le thread du jeu est actif
-
 			// Permet de mettre � jour les diff�rentes variables du jeu
 			if (m_player.isAlive()) {
 				this.update();
@@ -133,7 +132,7 @@ public class GamePanel extends JPanel implements Runnable {
 	 */
 	public void update() {
 		m_player.update();
-		m_pnj.update(m_player.getx(), m_player.gety());
+		m_pnj.update(m_player);
 		m_camera.update(this);
 		m_ammo.update();
 	}
