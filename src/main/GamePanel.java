@@ -147,13 +147,13 @@ public class GamePanel extends JPanel implements Runnable {
 					e.printStackTrace();
 				}
 			}
-//			if (m_gamestate == 1) {
-//				for (int j = 0; j < m_keyH.taille(); j++) {
-//					if (m_keyH.getval(j) == 82) {
-//						m_gamestate=0;
-//					}
-//				}
-//			}
+			if (m_gamestate == 1) {
+				for (int j = 0; j < m_keyH.taille(); j++) {
+					if (m_keyH.getval(j) == 82) {
+						m_gamestate=0;
+					}
+				}
+			}
 		}
 	}
 
@@ -188,6 +188,7 @@ public class GamePanel extends JPanel implements Runnable {
 	 * Affichage des �l�ments
 	 */
 	public void paintComponent(Graphics g) {
+		System.out.println(m_gamestate);
 		super.paintComponent(g);
 		Graphics2D g2 = (Graphics2D) g;
 		if (m_gamestate==0) {
@@ -206,7 +207,7 @@ public class GamePanel extends JPanel implements Runnable {
 			}
 		}
 		if (m_gamestate == 1) {
-			g2.setColor(Color.BLACK);
+			g2.setColor(Color.RED);
 			g2.fillRect(MAX_SCREE_ROW, MAX_SCREEN_COL, SCREEN_WIDTH, SCREEN_HEIGHT);
 			g2.setColor(Color.RED);
 			g2.drawString("C'EST MORT POTO", 200, 200);
