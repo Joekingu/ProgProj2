@@ -8,10 +8,13 @@ import entity.Ammo;
 import entity.Player;
 import entity.pnj;
 import entity.Camera;
+import entity.Entity;
 import tile.TileManager;
+import Collectible.Collectable;
 
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.util.ArrayList;
 
 /**
  * Panel principal du jeu contenant la map principale
@@ -40,6 +43,8 @@ public class GamePanel extends JPanel implements Runnable{
 	pnj m_pnj;
 	Ammo m_ammo;
 	Camera m_camera;
+	ArrayList<Collectables> acollecter;
+	ArrayList<Entity> listEntity;
 		
 	/**
 	 * Constructeur
@@ -53,6 +58,8 @@ public class GamePanel extends JPanel implements Runnable{
 		m_tileM = new TileManager(this);
 		m_pnj = new pnj(this,50);
 		m_camera = new Camera(m_player);
+		listEntity = new ArrayList<>();
+		listEntity.add(m_pnj);
 		
 		this.setPreferredSize(new Dimension(SCREEN_WIDTH, SCREEN_HEIGHT));
 		this.setBackground(Color.black);
@@ -63,7 +70,17 @@ public class GamePanel extends JPanel implements Runnable{
 	
 	/**
 	 * Lancement du thread principal
+	 * @return 
 	 */
+	
+	public Entity getPlayer() {
+		return m_player;
+	}
+	
+	public ArrayList<Entity> getListEntity() {
+		return listEntity;
+	}
+	
 	public void startGameThread() {
 		m_gameThread = new Thread(this);
 		m_gameThread.start();

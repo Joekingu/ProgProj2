@@ -5,11 +5,13 @@ import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
 
 import main.GamePanel;
 import main.KeyHandler;
+import tile.Tile;
 
 /**
  * D�fintition du comportement d'un joueur
@@ -18,6 +20,7 @@ import main.KeyHandler;
 public class pnj extends Entity{
 
 	GamePanel m_gp;
+	Tile m_collision;
 	int m_health;  // vie du pnj
 	
 	/**
@@ -30,6 +33,7 @@ public class pnj extends Entity{
 		this.m_health=health;
 		this.setDefaultValues();
 		this.getPlayerImage();
+		this.m_collision = new Tile();
 	}
 	
 	/**
@@ -56,18 +60,68 @@ public class pnj extends Entity{
 	/**
 	 * Mise � jour des donn�es du joueur
 	 */
+	
+	private boolean in (int x , int[]tab) {
+		for (int i=0;i<tab.length;i++) {
+			if (x==tab[i]) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+//	private boolean collision_entity(Entity player) {
+//		int d = m_gp.TILE_SIZE;
+//		int d2 = d/2;
+//		int ix = player.getx();
+//		int iy = player.gety();
+//		if ( (m_x+d2>ix-d2 && m_y+d2>iy-d2)|| 
+//				(m_x-d2<ix+d2 && m_y+d2>iy-d2) || 
+//				(m_x-d2<ix+d2 && m_y-d2>iy+d2) || 
+//				(m_x+d2>ix-d2 && m_y-d2<iy+d2) ){
+//			return true;
+//		}
+//		return false;
+//	}
+	
+	private boolean test(int x,int y) {
+		int d = m_gp.TILE_SIZE;
+		int d2 = d/2;
+		int px = m_x+x+d2;
+		int py = m_y+y+d2;
+		if ( in(m_gp.gettileM().map[(px+d2)/d][(py+d2)/d],m_collision.bloc) || 
+				in(m_gp.gettileM().map[(px-d2)/d][(py-d2)/d],m_collision.bloc) ||
+				in(m_gp.gettileM().map[(px+d2)/d][(py-d2)/d],m_collision.bloc) ||
+				in(m_gp.gettileM().map[(px-d2)/d][(py+d2)/d],m_collision.bloc) 
+//				||
+//				collision_entity(m_gp.getPlayer())
+				) {
+			m_collision.collision();
+			return true;
+		}
+		return false;
+	}
+	
 	public void update(int x,int y) {
 		if (x>m_x) {
-			m_x +=1*m_speed;
+			if (!test(1,0)) {
+				m_x +=1*m_speed;
+			}
 		}
 		else {
-			m_x -=1*m_speed;
+			if (!test(-1,0)) {
+				m_x -=1*m_speed;
+			}
 		}
 		if (y>m_y) {
-			m_y +=1*m_speed;
+			if (!test(0,1)) {
+				m_y +=1*m_speed;
+			}
 		}
 		else {
-			m_y -=1*m_speed;
+			if (!test(0,-1)) {
+				m_y -=1*m_speed;
+			}
 		}
 
 	}
