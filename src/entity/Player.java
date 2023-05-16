@@ -49,7 +49,7 @@ public class Player extends Entity{
 		m_x = m_gp.SCREEN_WIDTH/2;
 		m_y = m_gp.SCREEN_HEIGHT/2;
 		m_speed = 2;
-		m_health=0;
+		m_health=50;
 		m_alive=true;
 	}
 	
@@ -108,6 +108,8 @@ public class Player extends Entity{
 				) {
 			m_collision.collision();
 			return true;
+		}else if(m_gp.gettileM().map[(px+d2)/d][(py+d2)/d]==m_collision.lave) {
+			this.estblesse(1);
 		}
 		return false;
 	}
@@ -170,4 +172,10 @@ public class Player extends Entity{
 	public int gety() {
 		return m_y;
 	}
+	public int estblesse(int degat) {
+		m_health-=degat;
+		return m_health;	
+	}
+	
+	
 }
