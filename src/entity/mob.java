@@ -17,7 +17,7 @@ import tile.Tile;
  * D�fintition du comportement d'un joueur
  *
  */
-public class pnj extends Entity{
+public class mob extends Entity{
 
 	GamePanel m_gp;
 	Tile m_collision;
@@ -28,20 +28,23 @@ public class pnj extends Entity{
 	 * @param a_gp GamePanel, pannel principal du jeu
 	 * @param a_keyH KeyHandler, gestionnaire des touches 
 	 */
-	public pnj(GamePanel a_gp, int health) {
+	
+	public mob(GamePanel a_gp, int health,int x,int y) {
 		this.m_gp = a_gp;
 		this.m_health=health;
 		this.setDefaultValues();
 		this.getPlayerImage();
 		this.m_collision = new Tile();
+		m_x = x;
+		m_y = y;
 	}
 	
 	/**
 	 * Initialisation des donn�es membres avec des valeurs par d�faut
 	 */
 	protected void setDefaultValues() {
-		m_x = 600;
-		m_y = 600;
+		m_x = 500;
+		m_y = 500;
 		m_speed = 1;
 	}
 	
@@ -81,6 +84,21 @@ public class pnj extends Entity{
 		return false;
 	}
 	
+	private boolean collision_mob(ArrayList<Entity> list,int x,int y) {
+		for(Entity i:list) {
+				if(this != i) {
+				int d = m_gp.TILE_SIZE;
+				int ix = i.getx();
+				int iy = i.gety();
+				double dist_min = d/2;
+				if ( dist(ix,m_x+x,iy,m_y+y)<dist_min ){
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+	
 	private boolean test(int x,int y) {
 		int d = m_gp.TILE_SIZE;
 		int d2 = d/2;
@@ -90,7 +108,7 @@ public class pnj extends Entity{
 				in(m_gp.gettileM().map[(px-d2)/d][(py-d2)/d],m_collision.bloc) ||
 				in(m_gp.gettileM().map[(px+d2)/d][(py-d2)/d],m_collision.bloc) ||
 				in(m_gp.gettileM().map[(px-d2)/d][(py+d2)/d],m_collision.bloc) || 
-				collision_entity(m_gp.getPlayer())
+				collision_entity(m_gp.getPlayer()) || collision_mob(m_gp.getListEntity(),x,y)
 				) {
 			m_collision.collision();
 			return true;

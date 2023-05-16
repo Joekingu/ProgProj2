@@ -1,5 +1,6 @@
 package entity;
 
+import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 
 /**
@@ -15,6 +16,8 @@ public abstract class Entity {
 		return Math.sqrt(Math.pow((x1-x2),2) + Math.pow((y1-y2),2));
 	}
 	
+	public abstract void draw(Graphics2D a_g2);
+	
 	public int getx() {
 		return m_x;
 	}
@@ -25,4 +28,6 @@ public abstract class Entity {
 	public void setSpeed(int vitesse) {
 		m_speed=vitesse;
 	}
+
+	public abstract void update(Player m_player);
 }

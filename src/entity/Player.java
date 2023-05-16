@@ -111,6 +111,7 @@ public class Player extends Entity{
 		}
 		return false;
 	}
+	public void update(Player p) {}
 	
 	public void update() {
 		for(int j = 0; j<m_keyH.taille();j++) {
