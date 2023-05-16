@@ -11,6 +11,8 @@ public class Tile {
 	public boolean m_collision;		//d�but de gestion de collision entre �l�ments
 	public int[] bloc= {1,6};
 	public int lave = 3;
+	public int sand = 4;
+	public int snow = 5;
 	
 	public Tile(){
 		m_collision = false;
