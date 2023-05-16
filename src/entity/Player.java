@@ -133,23 +133,23 @@ public class Player extends Entity {
 		}
 		if (pressed.contains(Integer.valueOf(90)) && pressed.contains(Integer.valueOf(81))) {
 			if (!test(-2, 0)) {
-				m_x -= 1 * m_speed;
+				m_x -= 2 * m_speed;
 				m_y -= 1 * m_speed;
 			}
 		} else if (pressed.contains(Integer.valueOf(90)) && pressed.contains(Integer.valueOf(68))) {
 			if (!test(4, 0)) {
-				m_x += 1 * m_speed;
+				m_x += 2 * m_speed;
 				m_y -= 1 * m_speed;
 			}
 		} else if (pressed.contains(Integer.valueOf(68)) && pressed.contains(Integer.valueOf(83))) {
 			if (!test(0, 4)) {
-				m_y += 1 * m_speed;
+				m_y += 2 * m_speed;
 				m_x += 1 * m_speed;
 			}
 
 		} else if (pressed.contains(Integer.valueOf(81)) && pressed.contains(Integer.valueOf(83))) {
 			if (!test(-2, 0)) {
-				m_x -= 1 * m_speed;
+				m_x -= 2 * m_speed;
 				m_y += 1 * m_speed;
 			}
 		} else {
