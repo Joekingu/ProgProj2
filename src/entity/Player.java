@@ -39,7 +39,7 @@ public class Player extends Entity {
 	 * @param a_gp   GamePanel, pannel principal du jeu
 	 * @param a_keyH KeyHandler, gestionnaire des touches
 	 */
-	public Player(GamePanel a_gp, KeyHandler a_keyH, Ammo ammo,KeyHandler a_keyH_arme) {
+	public Player(GamePanel a_gp, KeyHandler a_keyH,KeyHandler a_keyH_arme) {
 		this.m_gp = a_gp;
 		this.m_keyH = a_keyH;
 		this.m_keyH_arme = a_keyH_arme;
