@@ -111,23 +111,24 @@ public class Player extends Entity{
 		}
 		return false;
 	}
-//	private boolean testdeg(int x,int y) {
-//		int d = m_gp.TILE_SIZE;
-//		int d2 = d/2;
-//		int px = m_x+x+d2;
-//		int py = m_y+y+d2;
-//		if(m_gp.gettileM().map[(px+d2)/d][(py+d2)/d]==m_collision.lave) {
-//			return true;
-//			
-//		}
-//		return false;
-//	}
+	private int testdeg() {
+		int d = m_gp.TILE_SIZE;
+		int d2 = d/2;
+		int px = m_x+d2;
+		int py = m_y+d2;
+		if(m_gp.gettileM().map[(px+d2)/d][(py+d2)/d]==m_collision.lave) {
+				return 2;
+		}
+		return 0;
+	}
 	
 	public void update() {
 		if (m_health<=0) {
 			m_alive=false;
 		}
-//		if(testdeg(q))
+		if(testdeg()!=0) {
+			this.estblesse(testdeg());
+		}
 		for(int j = 0; j<m_keyH.taille();j++) {
 			if (m_keyH.getval(j) == 90) {
 				if (!test(0,-2)) {
