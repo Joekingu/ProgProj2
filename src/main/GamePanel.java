@@ -49,7 +49,7 @@ public class GamePanel extends JPanel implements Runnable{
 		m_player = new Player(this, m_keyH, m_ammo);
 		m_ammo = new Ammo(this, m_keyH, m_player, 10, 10, TILE_SIZE/4);
 		m_tileM = new TileManager(this);
-		m_pnj = new pnj(this,m_keyH);
+		m_pnj = new pnj(this,50);
 		m_camera = new Camera(m_player);
 		
 		this.setPreferredSize(new Dimension(SCREEN_WIDTH, SCREEN_HEIGHT));

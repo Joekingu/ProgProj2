@@ -18,7 +18,6 @@ import main.KeyHandler;
 public class pnj extends Entity{
 
 	GamePanel m_gp;
-	KeyHandler m_keyH;
 	int m_health;  // vie du pnj
 	
 	/**
