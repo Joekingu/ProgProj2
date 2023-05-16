@@ -118,13 +118,11 @@ public class mob extends Entity{
 		int y = player.gety();
 		if (x>m_x) {
 			if (!test(1,0)) {
-				System.out.println(24);
 				m_x +=1*m_speed;
 			}
 		}
 		else {
 			if (!test(-1,0)) {
-				System.out.println(25);
 				m_x -=1*m_speed;
 			}
 		}
