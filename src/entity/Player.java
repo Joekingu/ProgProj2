@@ -35,7 +35,6 @@ public class Player extends Entity{
 	public Player(GamePanel a_gp, KeyHandler a_keyH, Ammo ammo) {
 		this.m_gp = a_gp;
 		this.m_keyH = a_keyH;
-		this.m_health=30;
 		this.setDefaultValues();
 		this.getPlayerImage();
 		m_ammo=ammo;
@@ -49,6 +48,7 @@ public class Player extends Entity{
 		m_x = m_gp.SCREEN_WIDTH/2;
 		m_y = m_gp.SCREEN_HEIGHT/2;
 		m_speed = 2;
+		m_health=50;
 	}
 	
 	/**
