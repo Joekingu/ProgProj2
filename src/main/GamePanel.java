@@ -4,6 +4,7 @@ import java.awt.Dimension;
 import java.awt.Color;
 import javax.swing.JPanel;
 
+import entity.Ammo;
 import entity.Player;
 import entity.pnj;
 import tile.TileManager;
@@ -35,6 +36,7 @@ public class GamePanel extends JPanel implements Runnable{
 	Player m_player;
 	TileManager m_tileM;
 	pnj m_pnj;
+	Ammo m_ammo;
 		
 	/**
 	 * Constructeur
@@ -42,7 +44,8 @@ public class GamePanel extends JPanel implements Runnable{
 	public GamePanel() {
 		m_FPS = 60;				
 		m_keyH = new KeyHandler();
-		m_player = new Player(this, m_keyH);
+		m_player = new Player(this, m_keyH, m_ammo);
+		m_ammo = new Ammo(this, m_keyH, m_player, 10, 10, TILE_SIZE/4);
 		m_tileM = new TileManager(this);
 		m_pnj = new pnj(this,m_keyH);
 		
@@ -100,6 +103,7 @@ public class GamePanel extends JPanel implements Runnable{
 	public void update() {
 		m_player.update();
 		m_pnj.update(m_player.getx(),m_player.gety());
+		m_ammo.update();
 	}
 	
 	/**
@@ -111,6 +115,7 @@ public class GamePanel extends JPanel implements Runnable{
 		m_tileM.draw(g2);
 		m_player.draw(g2);
 		m_pnj.draw(g2);
+		m_ammo.draw(g2);
 		g2.dispose();
 	}
 	

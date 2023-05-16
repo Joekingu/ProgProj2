@@ -19,15 +19,17 @@ public class Player extends Entity{
 
 	GamePanel m_gp;
 	KeyHandler m_keyH;
+	Ammo m_ammo;
 	
 	/**
 	 * Constructeur de Player
 	 * @param a_gp GamePanel, pannel principal du jeu
 	 * @param a_keyH KeyHandler, gestionnaire des touches 
 	 */
-	public Player(GamePanel a_gp, KeyHandler a_keyH) {
+	public Player(GamePanel a_gp, KeyHandler a_keyH, Ammo a_ammo) {
 		this.m_gp = a_gp;
 		this.m_keyH = a_keyH;
+		this.m_ammo = a_ammo;
 		this.setDefaultValues();
 		this.getPlayerImage();
 	}
@@ -47,7 +49,7 @@ public class Player extends Entity{
 	public void getPlayerImage() {
 		//gestion des expections 
 		try {
-			m_idleImage = ImageIO.read(getClass().getResource("/Player/superhero.png"));
+			m_idleImage = ImageIO.read(getClass().getResource("/Tiles/BRICK.png"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -57,16 +59,16 @@ public class Player extends Entity{
 	 * Mise � jour des donn�es du joueur
 	 */
 	public void update() {
-		if (m_keyH.getval() == 38) {
+		if (m_keyH.getval() == 90) {
 			m_y-= 10;
 		}
-		if (m_keyH.getval() == 40) {
+		if (m_keyH.getval() == 83) {
 			m_y+= 10;
 		}
-		if (m_keyH.getval() == 39) {
+		if (m_keyH.getval() == 68) {
 			m_x+= 10;
 		}
-		if (m_keyH.getval() == 37) {
+		if (m_keyH.getval() == 81) {
 			m_x-= 10;
 		}
 		m_keyH.setval(0);
