@@ -17,22 +17,21 @@ public class Ammo extends Entity {
 	int m_size;
 	GamePanel m_gp;
 	Player m_player;
-	KeyHandler m_keyH;
+	int m_direction;
 
 	/**
 	 * Constructeur de Ammo
 	 * @param a_gp GamePanel, pannel principal du jeu
 	 * @param a_keyH KeyHandler, gestionnaire des touches 
 	 */
-	public Ammo(GamePanel a_gp,  KeyHandler a_keyH, Player player, double damage, double speed, int size) {
+	public Ammo(GamePanel a_gp, Player player, double damage, double speed, int size, int direction) {
 		m_gp = a_gp;
-		m_keyH = a_keyH;
 		m_player = player;
 		m_damage = damage;
 		m_speed = speed;
 		m_size = size;
+		m_direction = direction;
 		this.setDefaultValues();
-		this.getImage();
 	}
 	
 	/**
@@ -45,8 +44,18 @@ public class Ammo extends Entity {
 	}
 	
 	public void update() {
-		m_x = m_player.m_x+m_gp.TILE_SIZE/2-m_size/2;
-		m_y = m_player.m_y+m_gp.TILE_SIZE/2-m_size/2;
+		if(m_direction == 0 ) { //Droite
+			m_x += 4;
+		}
+		if(m_direction == 1 ) { //Gauche
+			m_x -= 4;
+		}
+		if(m_direction == 2 ) { //Haut
+			m_y -= 4;
+		}
+		if(m_direction == 3 ) { //Bas
+			m_y += 4;
+		}
 	}
 	
 	/**
@@ -71,5 +80,7 @@ public class Ammo extends Entity {
 		// affiche le personnage avec l'image "image", avec les coordonn�es x et y, et de taille tileSize (16x16) sans �chelle, et 48x48 avec �chelle)
 		a_g2.drawImage(l_image, m_x, m_y, m_size, m_size, null);
 	}
+	
+
 
 }

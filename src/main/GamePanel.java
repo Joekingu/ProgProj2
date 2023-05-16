@@ -9,6 +9,7 @@ import entity.Player;
 import entity.pnj;
 import entity.Camera;
 import entity.Entity;
+import entity.Gun;
 import tile.TileManager;
 import Collectible.Collectable;
 
@@ -42,6 +43,7 @@ public class GamePanel extends JPanel implements Runnable{
 	TileManager m_tileM;
 	pnj m_pnj;
 	Ammo m_ammo;
+	Gun m_gun;
 	Camera m_camera;
 	ArrayList<Collectable> acollecter;
 	ArrayList<Entity> listEntity;
@@ -54,7 +56,8 @@ public class GamePanel extends JPanel implements Runnable{
 		m_keyH = new KeyHandler();
 		m_keyH2 = new KeyHandler();
 		m_player = new Player(this, m_keyH, m_ammo);
-		m_ammo = new Ammo(this, m_keyH2, m_player, 10, 10, TILE_SIZE/4);
+		m_ammo = new Ammo(this, m_player, 10, 10, TILE_SIZE/4, 0);
+		m_gun = new Gun(this,m_keyH, m_player, 4);
 		m_tileM = new TileManager(this);
 		m_pnj = new pnj(this,50);
 		m_camera = new Camera(m_player);
@@ -126,7 +129,7 @@ public class GamePanel extends JPanel implements Runnable{
 		m_player.update();
 		m_pnj.update(m_player.getx(),m_player.gety());
 		m_camera.update(this);
-		m_ammo.update();
+		m_gun.update();
 	}
 	
 	/**
@@ -137,8 +140,9 @@ public class GamePanel extends JPanel implements Runnable{
 		Graphics2D g2 = (Graphics2D) g;
 		g2.translate(-m_camera.getx(), -m_camera.gety());
 		m_tileM.draw(g2, m_camera);
-		m_player.draw(g2);
 		m_pnj.draw(g2);
+		m_player.draw(g2);
+		m_gun.draw(g2);
 		m_ammo.draw(g2);
 		g2.dispose();
 	}
