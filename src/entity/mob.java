@@ -115,7 +115,6 @@ public class mob extends Entity{
 	}
 	
 	public void update(Player player) {
-		System.out.println(m_health);
 		if(gethealth()<=0) {
 			isalive=false;
 		}

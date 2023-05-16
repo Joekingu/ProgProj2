@@ -18,6 +18,12 @@ import main.KeyHandler;
 import tile.Tile;
 import tile.TileManager;
 
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
+
 /**
  * D�fintition du comportement d'un joueur
  *
@@ -122,19 +128,30 @@ public class Player extends Entity {
 		int px = m_x+d2;
 		int py = m_y+d2;
 		if(m_gp.gettileM().map[(px+d2)/d][(py+d2)/d]==m_collision.snow) {
-			System.out.println("snaow");
 			m_spmat=3;
 		}else if(m_gp.gettileM().map[(px+d2)/d][(py+d2)/d]==m_collision.sand) {
-			System.out.println("sand");
 			m_spmat=-1;
 		}else {
 			m_spmat=0;
 		}
 		if(m_gp.gettileM().map[(px+d2)/d][(py+d2)/d]==m_collision.lave) {
+			Songs s = new Songs("/songs/lava.wav");
+			s.play();
 			return 2;
 		}
 		return 0;
 	}
+	
+//	public void song() {
+//	    try {
+//	        AudioInputStream audioIn = AudioSystem.getAudioInputStream(getClass().getResource("/songs/1688.aiff"));
+//	        Clip clip = AudioSystem.getClip();
+//	        clip.open(audioIn);
+//	        clip.start();
+//	    } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
+//	        e.printStackTrace();
+//	    }
+//	}
 	
 	public void update() {
 		ArrayList<Integer> pressed = m_keyH.getinstance();
