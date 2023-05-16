@@ -98,7 +98,9 @@ public class pnj extends Entity{
 		return false;
 	}
 	
-	public void update(int x,int y) {
+	public void update(Player player) {
+		int x = player.getx();
+		int y = player.gety();
 		if (x>m_x) {
 			if (!test(1,0)) {
 				m_x +=1*m_speed;
