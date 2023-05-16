@@ -8,7 +8,8 @@ import java.awt.image.BufferedImage;
  */
 public class Tile {
 	public BufferedImage m_image;		//image
-	public boolean m_collision;			//d�but de gestion de collision entre �l�ments
+	public boolean m_collision;		//d�but de gestion de collision entre �l�ments
+	public int[] bloc= {1,6};
 	
 	public Tile(){
 		m_collision = false;

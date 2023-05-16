@@ -5,6 +5,7 @@ import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
 
@@ -64,9 +65,29 @@ public class Player extends Entity{
 	/**
 	 * Mise � jour des donn�es du joueur
 	 */
-//	private boolean in (int x , int[]tab) {
-//		for (int i=0;i<tab.length;i++) {
-//			if (x==tab[i]) {
+	private boolean in (int x , int[]tab) {
+		for (int i=0;i<tab.length;i++) {
+			if (x==tab[i]) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+//	private float dist(int x1,int x2,int y1,int y2) {
+//		return (x1-x2)^2 + (y1-y2)^2;
+//	}
+//	
+//	private boolean collision_entity(ArrayList<Entity> list) {
+//		for(Entity i:list) {
+//			int d = m_gp.TILE_SIZE;
+//			int d2 = d/2;
+//			int ix = i.getx();
+//			int iy = i.gety();
+//			if ( ((m_x+d2>ix-d2) && (m_y+d2>iy-d2))||
+//					((m_x-d2<ix+d2) && (m_y+d2>iy-d2)) || 
+//					((m_x-d2<ix+d2) && (m_y-d2>iy+d2)) || 
+//					((m_x+d2>ix-d2) && (m_y-d2<iy+d2)) ){
 //				return true;
 //			}
 //		}
@@ -78,10 +99,12 @@ public class Player extends Entity{
 		int d2 = d/2;
 		int px = m_x+x+d2;
 		int py = m_y+y+d2;
-		if (m_gp.gettileM().map[(px+d2)/d][(py+d2)/d] == 1 || 
-				m_gp.gettileM().map[(px-d2)/d][(py-d2)/d] == 1 ||
-				m_gp.gettileM().map[(px+d2)/d][(py-d2)/d] == 1 ||
-				m_gp.gettileM().map[(px-d2)/d][(py+d2)/d] == 1 ) {
+		if ( in(m_gp.gettileM().map[(px+d2)/d][(py+d2)/d],m_collision.bloc) || 
+				in(m_gp.gettileM().map[(px-d2)/d][(py-d2)/d],m_collision.bloc) ||
+				in(m_gp.gettileM().map[(px+d2)/d][(py-d2)/d],m_collision.bloc) ||
+				in(m_gp.gettileM().map[(px-d2)/d][(py+d2)/d],m_collision.bloc) 
+//				|| collision_entity(m_gp.getListEntity())
+				) {
 			m_collision.collision();
 			return true;
 		}
