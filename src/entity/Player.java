@@ -108,14 +108,26 @@ public class Player extends Entity{
 				) {
 			m_collision.collision();
 			return true;
-		}else if(m_gp.gettileM().map[(px+d2)/d][(py+d2)/d]==m_collision.lave) {
-			this.estblesse(1);
 		}
 		return false;
 	}
-	public void update(Player p) {}
+//	private boolean testdeg(int x,int y) {
+//		int d = m_gp.TILE_SIZE;
+//		int d2 = d/2;
+//		int px = m_x+x+d2;
+//		int py = m_y+y+d2;
+//		if(m_gp.gettileM().map[(px+d2)/d][(py+d2)/d]==m_collision.lave) {
+//			return true;
+//			
+//		}
+//		return false;
+//	}
 	
 	public void update() {
+		if (m_health<=0) {
+			m_alive=false;
+		}
+//		if(testdeg(q))
 		for(int j = 0; j<m_keyH.taille();j++) {
 			if (m_keyH.getval(j) == 90) {
 				if (!test(0,-2)) {
@@ -136,9 +148,6 @@ public class Player extends Entity{
 				if (!test(-2,0)) {
 					m_x-= 2*m_speed;
 				}
-			}
-			if (m_health<=0) {
-				m_alive=false;
 			}
 		}
 	}
