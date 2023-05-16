@@ -9,6 +9,8 @@ import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
 
+import Collectible.Poingmob;
+import Collectible.arme;
 import main.GamePanel;
 import tile.Tile;
 
@@ -21,8 +23,8 @@ public class mob extends Entity{
 	GamePanel m_gp;
 	Tile m_collision;
 	int m_health;  // vie du pnj
-	int m_deg;
 	boolean isalive;
+	Poingmob weapon;
 	
 	/**
 	 * Constructeur de Player
@@ -44,7 +46,7 @@ public class mob extends Entity{
 		m_x = 500;
 		m_y = 500;
 		m_speed = 1;
-		m_deg=2;
+		weapon= new Poingmob(2,m_gp,1);
 	}
 	/**
 	 * R�cup�ration de l'image du personnage
@@ -77,7 +79,7 @@ public class mob extends Entity{
 		int iy = player.gety();
 		double dist_min = d*3/4;
 		if ( dist(ix,m_x,iy,m_y)<dist_min ){
-			return m_deg;
+			return weapon.getAttaque();
 		}
 		return 0;
 	}
@@ -105,10 +107,11 @@ public class mob extends Entity{
 		if ( in(m_gp.gettileM().map[(px+d2)/d][(py+d2)/d],m_collision.bloc) || 
 				in(m_gp.gettileM().map[(px-d2)/d][(py-d2)/d],m_collision.bloc) ||
 				in(m_gp.gettileM().map[(px+d2)/d][(py-d2)/d],m_collision.bloc) ||
-				in(m_gp.gettileM().map[(px-d2)/d][(py+d2)/d],m_collision.bloc) || 
-				collision_entity(m_gp.getPlayer())!=0 || collision_mob(m_gp.getListEnnemis(),x,y)
-				) {
-			m_gp.getPlayer().estblesse(collision_entity(m_gp.getPlayer()));
+				in(m_gp.gettileM().map[(px-d2)/d][(py+d2)/d],m_collision.bloc) || collision_mob(m_gp.getListEnnemis(),x,y) || collision_entity(m_gp.getPlayer())!=0) {
+			if(collision_entity(m_gp.getPlayer())!=0 && (System.nanoTime() - weapon.gettime()) > weapon.getfrq_att()) {
+				weapon.settime(System.nanoTime());
+				m_gp.getPlayer().estblesse(collision_entity(m_gp.getPlayer()));
+			}
 			return true;
 		}
 		return false;

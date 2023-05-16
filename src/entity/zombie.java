@@ -1,5 +1,6 @@
 package entity;
 
+import Collectible.Poingmob;
 import main.GamePanel;
 
 public class zombie extends mob{
@@ -13,7 +14,7 @@ public class zombie extends mob{
 		m_x = 500;
 		m_y = 500;
 		m_speed = 1;
-		m_deg=2;
+		weapon = new Poingmob(2,m_gp,1);
 	}
 	
 }

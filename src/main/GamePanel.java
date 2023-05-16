@@ -8,6 +8,7 @@ import javax.swing.JPanel;
 
 import entity.Bullet;
 import entity.Player;
+import entity.Songs;
 import entity.Soucoupe;
 import entity.mob;
 import entity.zombie;
@@ -127,6 +128,8 @@ public class GamePanel extends JPanel implements Runnable {
 	public void startGameThread() {
 		m_gameThread = new Thread(this);
 		m_gameThread.start();
+		Songs s = new Songs("/songs/fond.aiff");
+		s.play();
 	}
 
 	public void run() {
