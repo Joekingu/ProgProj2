@@ -18,6 +18,7 @@ import entity.Entity;
 import tile.TileManager;
 import Collectible.Collectable;
 import Collectible.Potiondevitesse;
+import Collectible.epee;
 
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -49,7 +50,7 @@ public class GamePanel extends JPanel implements Runnable {
 	// Cr�ation des diff�rentes instances (Player, KeyHandler, TileManager,
 	// GameThread ...)
 	public BufferedImage m_GOImage;
-	KeyHandler m_keyH;
+	public KeyHandler m_keyH;
 	KeyHandler m_keyH_arme;
 	Thread m_gameThread;
 	Player m_player;
@@ -100,6 +101,7 @@ public class GamePanel extends JPanel implements Runnable {
 	 */
 	public void makeCollectibles() {
 		acollecter.add(new Potiondevitesse(this, 1, 1000, 800));
+		acollecter.add(new epee(this, 1500, 1000));
 	}
 
 	public Player getPlayer() {
