@@ -118,22 +118,22 @@ public class Player extends Entity{
 	public void update() {
 		for(int j = 0; j<m_keyH.taille();j++) {
 			if (m_keyH.getval(j) == 90) {
-				if (!test(0,-10)) {
+				if (!test(0,-2)) {
 					m_y-= 2*m_speed;
 				}
 			}
 			if (m_keyH.getval(j) == 83) {
-				if (!test(0,10)) {
+				if (!test(0,4)) {
 					m_y+= 2*m_speed;
 				}
 			}
 			if (m_keyH.getval(j) == 68) {
-				if (!test(10,0)) {
+				if (!test(4,0)) {
 					m_x+= 2*m_speed;
 				}
 			}
 			if (m_keyH.getval(j) == 81) {
-				if (!test(-10,0)) {
+				if (!test(-2,0)) {
 					m_x-= 2*m_speed;
 				}
 			}

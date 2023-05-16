@@ -129,7 +129,7 @@ public class GamePanel extends JPanel implements Runnable {
 	 */
 	public void update() {
 		m_player.update();
-		m_pnj.update(m_player.getx(), m_player.gety());
+		m_pnj.update(m_player);
 		m_camera.update(this);
 		m_ammo.update();
 	}
