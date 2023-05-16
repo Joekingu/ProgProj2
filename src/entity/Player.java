@@ -26,7 +26,7 @@ public class Player extends Entity {
 	Tile m_collision;
 	Ammo m_ammo;
 	boolean m_alive;
-
+	int m_spmat = 0;
 	int m_health;
 
 	/**
@@ -111,64 +111,74 @@ public class Player extends Entity {
 		}
 		return false;
 	}
-
-	private int testdeg() {
+	
+	private int testMat() {
 		int d = m_gp.TILE_SIZE;
-		int d2 = d / 2;
-		int px = m_x + d2;
-		int py = m_y + d2;
-		if (m_gp.gettileM().map[(px + d2) / d][(py + d2) / d] == m_collision.lave) {
+		int d2 = d/2;
+		int px = m_x+d2;
+		int py = m_y+d2;
+		if(m_gp.gettileM().map[(px+d2)/d][(py+d2)/d]==m_collision.snow) {
+			System.out.println("snaow");
+			m_spmat=3;
+		}else if(m_gp.gettileM().map[(px+d2)/d][(py+d2)/d]==m_collision.sand) {
+			System.out.println("sand");
+			m_spmat=-1;
+		}else {
+			m_spmat=0;
+		}
+		if(m_gp.gettileM().map[(px+d2)/d][(py+d2)/d]==m_collision.lave) {
 			return 2;
 		}
 		return 0;
 	}
 
 	public void update() {
-		ArrayList<Integer> pressed = m_keyH.boutons();
-		if (m_health <= 0) {
-			m_alive = false;
+		ArrayList<Integer> pressed = m_keyH.getinstance();
+		if (m_health<=0) {
+			m_alive=false;
 		}
-		if (testdeg() != 0) {
-			this.estblesse(testdeg());
+		testMat();
+		if(testMat()!=0) {
+			this.estblesse(testMat());
 		}
 		if (pressed.contains(Integer.valueOf(90)) && pressed.contains(Integer.valueOf(81))) {
-			if (!test(-2, 0)) {
-				m_x -= 2 * m_speed;
-				m_y -= 1 * m_speed;
+			if (!test(0, -2) && !test(-2, 0)) {
+				m_x -= 2 * (m_speed+m_spmat);
+				m_y -= 2 * (m_speed+m_spmat);
 			}
 		} else if (pressed.contains(Integer.valueOf(90)) && pressed.contains(Integer.valueOf(68))) {
-			if (!test(4, 0)) {
-				m_x += 2 * m_speed;
-				m_y -= 1 * m_speed;
+			if (!test(4, 0) && !test(0,-2)) {
+				m_x += 2 * (m_speed+m_spmat);
+				m_y -= 2 * (m_speed+m_spmat);
 			}
 		} else if (pressed.contains(Integer.valueOf(68)) && pressed.contains(Integer.valueOf(83))) {
-			if (!test(0, 4)) {
-				m_y += 2 * m_speed;
-				m_x += 1 * m_speed;
+			if (!test(0, 4) && !test(4,0)) {
+				m_y += 2 * (m_speed+m_spmat);
+				m_x += 2 * (m_speed+m_spmat);
 			}
 
 		} else if (pressed.contains(Integer.valueOf(81)) && pressed.contains(Integer.valueOf(83))) {
-			if (!test(-2, 0)) {
-				m_x -= 2 * m_speed;
-				m_y += 1 * m_speed;
+			if (!test(-2, 0) && !test(0, 4)) {
+				m_x -= 2 * (m_speed+m_spmat);
+				m_y += 2 * (m_speed+m_spmat);
 			}
 		} else {
 			for (int j = 0; j < m_keyH.taille(); j++) {
 				if (m_keyH.getval(j) == 90) {
 					if (!test(0, -2)) {
-						m_y -= 2 * m_speed;
+						m_y -= 3 * (m_speed+m_spmat);
 					}
 				} else if (m_keyH.getval(j) == 83) {
 					if (!test(0, 4)) {
-						m_y += 2 * m_speed;
+						m_y += 3 * (m_speed+m_spmat);
 					}
 				} else if (m_keyH.getval(j) == 68) {
 					if (!test(4, 0)) {
-						m_x += 2 * m_speed;
+						m_x += 3 * (m_speed+m_spmat);
 					}
 				} else if (m_keyH.getval(j) == 81) {
 					if (!test(-2, 0)) {
-						m_x -= 2 * m_speed;
+						m_x -= 3 * (m_speed+m_spmat);
 					}
 				}
 
