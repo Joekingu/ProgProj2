@@ -25,7 +25,7 @@ public class Player extends Entity {
 	GamePanel m_gp;
 	KeyHandler m_keyH;
 	Tile m_collision;
-	Ammo m_ammo;
+	Bullet m_bullet;
 	boolean m_alive;
 	int m_spmat = 0;
 	int m_health;
@@ -36,12 +36,12 @@ public class Player extends Entity {
 	 * @param a_gp   GamePanel, pannel principal du jeu
 	 * @param a_keyH KeyHandler, gestionnaire des touches
 	 */
-	public Player(GamePanel a_gp, KeyHandler a_keyH, Ammo ammo) {
+	public Player(GamePanel a_gp, KeyHandler a_keyH, Bullet bullet) {
 		this.m_gp = a_gp;
 		this.m_keyH = a_keyH;
 		this.setDefaultValues();
 		this.getPlayerImage();
-		m_ammo = ammo;
+		m_bullet = bullet;
 		this.m_collision = new Tile();
 	}
 

@@ -6,7 +6,7 @@ import java.awt.Color;
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
-import entity.Ammo;
+import entity.Bullet;
 import entity.Player;
 import entity.mob;
 import entity.zombie;
@@ -52,8 +52,7 @@ public class GamePanel extends JPanel implements Runnable {
 	Thread m_gameThread;
 	Player m_player;
 	TileManager m_tileM;
-	Ammo m_ammo;
-	Gun m_gun;
+	Bullet m_bullet;
 	Camera m_camera;
 	ArrayList<Collectable> acollecter;
 	ArrayList<spawner<mob>> listSpawner;
@@ -67,10 +66,9 @@ public class GamePanel extends JPanel implements Runnable {
 		m_FPS = 60;
 		m_gamestate = 0;
 		m_keyH = new KeyHandler();
-		m_player = new Player(this, m_keyH, m_ammo);
-		m_ammo = new Ammo(this, m_player, 10, 10, TILE_SIZE / 4, 0);
-		m_gun = new Gun(this, m_keyH, m_player, 4);
-		m_ammo = new Ammo(this, m_player, 10, 10, TILE_SIZE / 4, 0);
+		m_player = new Player(this, m_keyH);
+		m_bullet = new Bullet(this, m_player, 10, 10, TILE_SIZE / 4, 0);
+		m_bullet = new Bullet(this, m_player, 10, 10, TILE_SIZE / 4, 0);
 		m_tileM = new TileManager(this);
 		m_camera = new Camera(m_player);
 		listEnnemis = new ArrayList<>();
@@ -184,8 +182,7 @@ public class GamePanel extends JPanel implements Runnable {
 			i.update(m_player);
 		}
 		m_camera.update(this);
-		m_gun.update();
-		m_ammo.update();
+		m_bullet.update();
 		for (Collectable item : acollecter) {
 			if (item.getStatus() == true) {
 				item.update(m_player);
@@ -221,18 +218,17 @@ public class GamePanel extends JPanel implements Runnable {
 		for ( mob i : listEnnemis) {
 			i.draw(g2);
 		}
-		m_ammo.draw(g2);
+		m_bullet.draw(g2);
 		m_player.draw(g2);
 //		m_gun.draw(g2);
-		m_ammo.draw(g2);
+		m_bullet.draw(g2);
 		for(Collectable item:acollecter) {
 			if(item.getStatus()== true) {
 				item.draw(g2);
 			}
 			m_ammo.draw(g2);
 			m_player.draw(g2);
-			m_gun.draw(g2);
-			m_ammo.draw(g2);
+			m_bullet.draw(g2);
 		}
 		for (Collectable item : acollecter) {
 			if (item.getStatus() == true) {
@@ -244,9 +240,9 @@ public class GamePanel extends JPanel implements Runnable {
 			g2.fillRect(MAX_SCREE_ROW, MAX_SCREEN_COL, SCREEN_WIDTH, SCREEN_HEIGHT);
 			BufferedImage l_image = m_GOImage;
 			// affiche le personnage avec l'image "image", avec les coordonn�es x et y, et de taille tileSize (16x16) sans �chelle, et 48x48 avec �chelle)
-			g2.drawImage(l_image, 0, -70, SCREEN_WIDTH, SCREEN_HEIGHT, null);
+			g2.drawImage(l_image, this.getWidth()/2-l_image.getWidth()/2, 0-this.getHeight()/8, SCREEN_WIDTH, SCREEN_HEIGHT, null);
 			g2.setColor(Color.RED);
-			g2.drawString("PRESS '' R '' TO RETRY ", SCREEN_WIDTH/2-70, 500);
+			g2.drawString("PRESS '' R '' TO RETRY ",this.getWidth()/2-65, 500);
 		}
 		g2.dispose();
 
