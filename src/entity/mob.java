@@ -22,6 +22,7 @@ public class mob extends Entity{
 	Tile m_collision;
 	int m_health;  // vie du pnj
 	int m_deg;
+	boolean isalive;
 	
 	/**
 	 * Constructeur de Player
@@ -35,6 +36,7 @@ public class mob extends Entity{
 		this.setDefaultValues();
 		this.getPlayerImage();
 		this.m_collision = new Tile();
+		this.isalive = true;
 		m_x = x;
 		m_y = y;
 	}
@@ -107,15 +109,15 @@ public class mob extends Entity{
 				collision_entity(m_gp.getPlayer())!=0 || collision_mob(m_gp.getListEnnemis(),x,y)
 				) {
 			m_gp.getPlayer().estblesse(collision_entity(m_gp.getPlayer()));
-			m_collision.collision();
 			return true;
 		}
 		return false;
 	}
 	
 	public void update(Player player) {
+		System.out.println(m_health);
 		if(gethealth()<=0) {
-			m_gp.getListEnnemis().remove(this);
+			isalive=false;
 		}
 		int x = player.getx();
 		int y = player.gety();
@@ -159,6 +161,10 @@ public class mob extends Entity{
 
 	public int gethealth() {
 		return m_health;
+	}
+	
+	public boolean getisalive() {
+		return this.isalive;
 	}
 	
 }
