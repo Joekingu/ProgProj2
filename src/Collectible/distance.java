@@ -17,8 +17,8 @@ public class distance extends arme{
 	BufferedImage m_idleImage;
 	ArrayList<Bullet> tirs= new ArrayList<Bullet>();
 	
-	public distance(int deg,KeyHandler a_keyH, GamePanel a_gp) {
-		super(deg,a_keyH,a_gp);
+	public distance(int deg,KeyHandler a_keyH, GamePanel a_gp,double frq_att) {
+		super(deg,a_keyH,a_gp,frq_att);
 		m_player=m_gp.getPlayer();
 	}
 
