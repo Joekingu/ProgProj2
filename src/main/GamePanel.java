@@ -64,7 +64,7 @@ public class GamePanel extends JPanel implements Runnable {
 		m_player = new Player(this, m_keyH, m_ammo);
 		m_ammo = new Ammo(this, m_player, 10, 10, TILE_SIZE/4, 0);
 		m_gun = new Gun(this,m_keyH, m_player, 4);
-		m_ammo = new Ammo(this, m_keyH, m_player, 10, 10, TILE_SIZE / 4);
+		m_ammo = new Ammo(this, m_player,10, 10, TILE_SIZE / 4,0);
 		m_tileM = new TileManager(this);
 		m_camera = new Camera(m_player);
 		listEnnemis = new ArrayList<>();
@@ -161,7 +161,7 @@ public class GamePanel extends JPanel implements Runnable {
 	 */
 	public void update() {
 		m_player.update();
-		for ( Entity i : listEnnemis) {
+		for ( mob i : listEnnemis) {
 			i.update(m_player);
 		}
 		m_camera.update(this);
@@ -192,7 +192,6 @@ public class GamePanel extends JPanel implements Runnable {
 		if (m_gamestate==0) {
 		g2.translate(-m_camera.getx(), -m_camera.gety());
 		m_tileM.draw(g2, m_camera);
-		m_pnj.draw(g2);
 		for ( mob i : listEnnemis) {
 			i.draw(g2);
 		}
