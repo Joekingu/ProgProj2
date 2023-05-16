@@ -244,9 +244,9 @@ public class GamePanel extends JPanel implements Runnable {
 			g2.fillRect(MAX_SCREE_ROW, MAX_SCREEN_COL, SCREEN_WIDTH, SCREEN_HEIGHT);
 			BufferedImage l_image = m_GOImage;
 			// affiche le personnage avec l'image "image", avec les coordonn�es x et y, et de taille tileSize (16x16) sans �chelle, et 48x48 avec �chelle)
-			g2.drawImage(l_image, 0, -70, SCREEN_WIDTH, SCREEN_HEIGHT, null);
+			g2.drawImage(l_image, this.getWidth()/2-l_image.getWidth()/2, 0-this.getHeight()/8, SCREEN_WIDTH, SCREEN_HEIGHT, null);
 			g2.setColor(Color.RED);
-			g2.drawString("PRESS '' R '' TO RETRY ", SCREEN_WIDTH/2-70, 500);
+			g2.drawString("PRESS '' R '' TO RETRY ",this.getWidth()/2-65, 500);
 		}
 		g2.dispose();
 
