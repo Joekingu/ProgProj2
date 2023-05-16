@@ -242,6 +242,10 @@ public class Player extends Entity {
 	public arme getarme() {
 		return m_arme;
 	}
+	
+	public void setarme(arme epee) {
+		m_arme = epee;
+	}
 
 	public void estblesse(int degat) {
 		m_health -= degat;

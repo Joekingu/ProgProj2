@@ -1,16 +1,63 @@
 package Collectible;
 
+import java.awt.Graphics2D;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.util.ArrayList;
+
+import javax.imageio.ImageIO;
+
+import entity.Bullet;
+import entity.Player;
 import main.GamePanel;
 import main.KeyHandler;
 
 public class distance extends arme{
-
+	Player m_player;
+	BufferedImage m_idleImage;
+	ArrayList<Bullet> tirs= new ArrayList<Bullet>();
+	
 	public distance(int deg,KeyHandler a_keyH, GamePanel a_gp,double frq_att) {
 		super(deg,a_keyH,a_gp,frq_att);
+		m_player=m_gp.getPlayer();
 	}
 
 	public void attaque(int dirx, int diry) {
-		
+		Bullet balle = new Bullet(m_gp,m_player, 5, 4,1, dirx,diry );
+		tirs.add(balle);
+	}
+	
+	public void update() {
+		for (Bullet balle : tirs){
+			balle.update();
+			if (!balle.isAlive()) {
+				tirs.remove(balle);
+			}
+		}
+	}
+	
+	
+	public void getImage() {
+		//gestion des expections 
+		try {
+			m_idleImage = ImageIO.read(getClass().getResource("/items/shotgun.png"));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	/**
+	 * Dessin de la munition
+	 * @param a_g2
+	 */
+	public void draw(Graphics2D a_g2) {
+		// r�cup�re l'image du joueur
+		BufferedImage l_image = m_idleImage;
+		// affiche le personnage avec l'image "image", avec les coordonn�es x et y, et de taille tileSize (16x16) sans �chelle, et 48x48 avec �chelle)
+		a_g2.drawImage(l_image, m_player.m_x, m_player.m_y, 4, 1, null);
+		for (Bullet balle : tirs){
+			balle.draw(a_g2);
+		}
 	}
 	
 }

@@ -47,7 +47,7 @@ public class TileManager {
 	public void getTileImage() {
 		try {
 			m_tile[0] = new Tile();
-			m_tile[0].m_image = ImageIO.read(getClass().getResource("/tiles/grassbelle.png"));
+			m_tile[0].m_image = ImageIO.read(getClass().getResource("/tiles/grassbelle2.png"));
 			
 			m_tile[1] = new Tile();
 			m_tile[1].m_image = ImageIO.read(getClass().getResource("/tiles/BRICK2.png"));
