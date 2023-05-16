@@ -49,6 +49,7 @@ public class GamePanel extends JPanel implements Runnable {
 	// GameThread ...)
 	public BufferedImage m_GOImage;
 	KeyHandler m_keyH;
+	KeyHandler m_keyH_arme;
 	Thread m_gameThread;
 	Player m_player;
 	TileManager m_tileM;
@@ -67,7 +68,8 @@ public class GamePanel extends JPanel implements Runnable {
 		m_FPS = 60;
 		m_gamestate = 0;
 		m_keyH = new KeyHandler();
-		m_player = new Player(this, m_keyH, m_ammo);
+		m_keyH_arme = new KeyHandler();
+		m_player = new Player(this, m_keyH, m_ammo,m_keyH_arme);
 		m_ammo = new Ammo(this, m_player, 10, 10, TILE_SIZE / 4, 0);
 		m_gun = new Gun(this, m_keyH, m_player, 4);
 		m_ammo = new Ammo(this, m_player, 10, 10, TILE_SIZE / 4, 0);
@@ -87,6 +89,7 @@ public class GamePanel extends JPanel implements Runnable {
 		this.setBackground(Color.black);
 		this.setDoubleBuffered(true);
 		this.addKeyListener(m_keyH);
+		this.addKeyListener(m_keyH_arme);
 		this.setFocusable(true);
 		this.makeCollectibles();
 	}
@@ -180,8 +183,14 @@ public class GamePanel extends JPanel implements Runnable {
 	 */
 	public void update() {
 		m_player.update();
+		m_player.getarme().update();
 		for (mob i : listEnnemis) {
-			i.update(m_player);
+			if(i.getisalive()) {
+				i.update(m_player);
+			}
+			else {
+//				listEnnemis.remove(i);
+			}
 		}
 		m_camera.update(this);
 		m_gun.update();

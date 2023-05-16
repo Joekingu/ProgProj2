@@ -10,6 +10,8 @@ import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
 
+import Collectible.arme;
+import Collectible.baton;
 import main.GamePanel;
 import main.KeyHandler;
 import tile.Tile;
@@ -23,8 +25,10 @@ public class Player extends Entity {
 
 	GamePanel m_gp;
 	KeyHandler m_keyH;
+	KeyHandler m_keyH_arme;
 	Tile m_collision;
 	Ammo m_ammo;
+	arme m_arme;
 	boolean m_alive;
 	int m_spmat = 0;
 	int m_health;
@@ -35,13 +39,15 @@ public class Player extends Entity {
 	 * @param a_gp   GamePanel, pannel principal du jeu
 	 * @param a_keyH KeyHandler, gestionnaire des touches
 	 */
-	public Player(GamePanel a_gp, KeyHandler a_keyH, Ammo ammo) {
+	public Player(GamePanel a_gp, KeyHandler a_keyH, Ammo ammo,KeyHandler a_keyH_arme) {
 		this.m_gp = a_gp;
 		this.m_keyH = a_keyH;
+		this.m_keyH_arme = a_keyH_arme;
 		this.setDefaultValues();
 		this.getPlayerImage();
 		m_ammo = ammo;
 		this.m_collision = new Tile();
+		m_arme = new baton(m_keyH_arme,m_gp);
 	}
 
 	/**
@@ -218,10 +224,13 @@ public class Player extends Entity {
 	public int gety() {
 		return m_y;
 	}
+	
+	public arme getarme() {
+		return m_arme;
+	}
 
-	public int estblesse(int degat) {
+	public void estblesse(int degat) {
 		m_health -= degat;
-		return m_health;
 	}
 
 }
