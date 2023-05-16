@@ -7,13 +7,11 @@ import main.KeyHandler;
 
 public class mele extends arme{
 	int m_porter;
-	int m_angl;
 	int m_kb;
 	
-	public mele(int deg,int porter,KeyHandler a_keyH, GamePanel a_gp,int angl,int kb) {
-		super(deg, a_keyH,a_gp);
+	public mele(int deg,int porter,KeyHandler a_keyH, GamePanel a_gp,int kb,double frq_att) {
+		super(deg, a_keyH,a_gp,frq_att);
 		m_porter = porter;
-		m_angl = angl;
 		m_kb = kb;
 	}
 
@@ -25,8 +23,12 @@ public class mele extends arme{
 		for(mob i : m_gp.getListEnnemis()) {
 			if(dist(x,i.getx(),y,i.gety())<dist_min) {
 				i.sethealth(m_deg);
-				i.setx(m_kb);
-				i.sety(m_kb);
+				if (dirx != 0) {
+					i.setx(dirx*m_kb);
+				}
+				if (diry != 0) {
+					i.sety(diry*m_kb);
+				}
 			}
 		}
 	}
