@@ -249,6 +249,8 @@ public class Player extends Entity {
 
 	public void estblesse(int degat) {
 		m_health -= degat;
+		Songs s = new Songs("/songs/coup.aiff");
+		s.play();
 	}
 
 }

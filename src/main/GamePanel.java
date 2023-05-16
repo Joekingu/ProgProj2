@@ -172,7 +172,7 @@ public class GamePanel extends JPanel implements Runnable {
 			}
 			if (m_gamestate == 1) {
 				for (int j = 0; j < m_keyH.taille(); j++) {
-					if (m_keyH.getval(j) == 82) {
+					if (m_keyH.getval(j) == 82) {//R
 						m_gamestate = 0;
 					}
 				}
