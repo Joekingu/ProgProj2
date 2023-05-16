@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import javax.imageio.ImageIO;
 
 import main.GamePanel;
-import main.KeyHandler;
 import tile.Tile;
 
 /**
@@ -39,7 +38,12 @@ public class mob extends Entity{
 		m_x = x;
 		m_y = y;
 	}
-	
+	protected void setDefaultValues() {
+		m_x = 500;
+		m_y = 500;
+		m_speed = 1;
+		m_deg=2;
+	}
 	/**
 	 * R�cup�ration de l'image du personnage
 	 */
@@ -65,7 +69,7 @@ public class mob extends Entity{
 		return false;
 	}
 	
-	private boolean collision_entity(Entity player) {
+	private boolean collision_entity(Player player) {
 		int d = m_gp.TILE_SIZE;
 		int ix = player.getx();
 		int iy = player.gety();
@@ -77,7 +81,7 @@ public class mob extends Entity{
 	}
 	
 	private boolean collision_mob(ArrayList<mob> list,int x,int y) {
-		for(Entity i:list) {
+		for(mob i:list) {
 				if(this != i) {
 				int d = m_gp.TILE_SIZE;
 				int ix = i.getx();
@@ -114,11 +118,13 @@ public class mob extends Entity{
 		int y = player.gety();
 		if (x>m_x) {
 			if (!test(1,0)) {
+				System.out.println(24);
 				m_x +=1*m_speed;
 			}
 		}
 		else {
 			if (!test(-1,0)) {
+				System.out.println(25);
 				m_x -=1*m_speed;
 			}
 		}

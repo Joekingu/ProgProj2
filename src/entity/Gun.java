@@ -45,7 +45,6 @@ public class Gun extends Entity{
 				m_muni.add(new Ammo(m_gp, m_p, 3, 4, 3, 3));
 			}
 		}
-		System.out.println(m_muni.size());
 	}
 	
 	/**

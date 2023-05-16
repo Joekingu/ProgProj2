@@ -92,6 +92,7 @@ public class GamePanel extends JPanel implements Runnable {
 		acollecter.add(new Potiondevitesse(this, 1, 1000, 800));
 	}
 	
+	public Player getPlayer() {
 		return m_player;
 	}
 	
