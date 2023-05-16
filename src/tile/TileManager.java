@@ -21,15 +21,18 @@ public class TileManager {
 	Tile[] m_tile;			//tableau de toutes les tiles possibles dans le jeu
 	int m_maxTiles = 10;	//nombre maximum de tiles chargeable dans le jeu
 	int m_mapTileNum[][];	//r�partition des tiles dans la carte du jeu
-	
+	public int map [][];
 	/**
 	 * Constructeur
 	 * @param gp
+	 * @return 
 	 */
+	
 	public TileManager(GamePanel gp) {
 		this.m_gp =  gp;
 		m_tile = new Tile[m_maxTiles];
 		m_mapTileNum = new int[gp.MAX_SCREEN_COL][gp.MAX_SCREE_ROW];
+		map = new int[gp.MAX_SCREEN_COL][gp.MAX_SCREE_ROW];
 		this.getTileImage();
 		this.loadMap("/maps/map2.txt");
 	}
@@ -84,6 +87,7 @@ public class TileManager {
 				while (col < m_gp.MAX_SCREEN_COL) {
 					String numbers[] = line.split(" ");
 					int num = Integer.parseInt(numbers[col]);
+					map[col][row] = num;
 					m_mapTileNum [col][row] = num;
 					col++;
 				}
