@@ -68,8 +68,8 @@ public class GamePanel extends JPanel implements Runnable {
 		m_FPS = 60;
 		m_gamestate = 0;
 		m_keyH = new KeyHandler();
-		m_player = new Player(this, m_keyH, m_ammo,m_keyH_arme);
 		m_keyH_arme = new KeyHandler();
+		m_player = new Player(this, m_keyH,m_keyH_arme);
 		m_tileM = new TileManager(this);
 		m_camera = new Camera(m_player);
 		listEnnemis = new ArrayList<>();
