@@ -1,5 +1,7 @@
 package Collectible;
 
+import java.awt.image.BufferedImage;
+
 import entity.Player;
 import main.GamePanel;
 
@@ -7,7 +9,7 @@ public class Potiondevitesse extends Collectable {
 	int ajoutdevitesse;
 	public Potiondevitesse(int addspeed){
 		ajoutdevitesse=addspeed;
-		taille=gp.TILESIZE
+		taille=m_gp.TILE_SIZE/3;
 	}
 	@Override
 	void effet(Player p) {
@@ -15,13 +17,18 @@ public class Potiondevitesse extends Collectable {
 	}
 
 	@Override
-	void update() {
-		if 
+	void update(Player p) {
+		int x = p.getx();
+		int y = p.gety();
+		if() {
+			
+		}
 	}
 
 	@Override
-	void draw(GamePanel gp) {
-		// TODO Auto-generated method stub
+	void draw() {
+		BufferedImage l_image = m_idleImage;
+		m_gp.drawImage(l_image, m_x, m_y, m_gp.TILE_SIZE, m_gp.TILE_SIZE, null)
 		
 	}
 	

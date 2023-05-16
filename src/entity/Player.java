@@ -80,10 +80,7 @@ public class Player extends Entity{
 		}
 		return false;
 	}
-	
-	private double dist(int x1,int x2,int y1,int y2) {
-		return Math.sqrt(Math.pow((x1-x2),2) + Math.pow((y1-y2),2));
-	}
+
 	
 	private boolean collision_entity(ArrayList<Entity> list,int x,int y) {
 		for(Entity i:list) {

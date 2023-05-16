@@ -9,12 +9,17 @@ public abstract class  Collectable {
 	boolean pris; 
 	int taille;
 	GamePanel m_gp;
+	int m_x;
+	int m_y;
 	
+	boolean getStatus() {
+		return pris;
+	}
 	void setStatus(boolean etat) {
 		pris=etat;
 	}
 	abstract void effet(Player p);
-	abstract void update();
-	abstract void draw(GamePanel gp);
+	abstract void update(Player p);
+	abstract void draw();
 	public BufferedImage m_idleImage;
 }
