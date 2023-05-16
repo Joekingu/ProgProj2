@@ -209,9 +209,10 @@ public class GamePanel extends JPanel implements Runnable {
 			g2.setColor(Color.BLACK);
 			g2.fillRect(MAX_SCREE_ROW, MAX_SCREEN_COL, SCREEN_WIDTH, SCREEN_HEIGHT);
 			g2.setColor(Color.RED);
-			g2.drawString("C4EST MORT POTO", 200, 200);
+			g2.drawString("C'EST MORT POTO", 200, 200);
 		}
 		g2.dispose();
+		}
 	}
 
 	public TileManager gettileM() {
