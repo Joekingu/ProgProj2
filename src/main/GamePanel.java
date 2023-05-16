@@ -45,7 +45,7 @@ public class GamePanel extends JPanel implements Runnable {
 	Ammo m_ammo;
 	Camera m_camera;
 	ArrayList<Collectable> acollecter;
-	ArrayList<Entity> listEntity;
+	ArrayList<Entity> listEnnemis;
 
 	/**
 	 * Constructeur
@@ -59,8 +59,8 @@ public class GamePanel extends JPanel implements Runnable {
 		m_tileM = new TileManager(this);
 		m_pnj = new pnj(this, 50);
 		m_camera = new Camera(m_player);
-		listEntity = new ArrayList<>();
-		listEntity.add(m_pnj);
+		listEnnemis = new ArrayList<>();
+		listEnnemis.add(m_pnj);
 
 		this.setPreferredSize(new Dimension(SCREEN_WIDTH, SCREEN_HEIGHT));
 		this.setBackground(Color.black);
@@ -79,8 +79,8 @@ public class GamePanel extends JPanel implements Runnable {
 		return m_player;
 	}
 
-	public ArrayList<Entity> getListEntity() {
-		return listEntity;
+	public ArrayList<Entity> getListEnnemis() {
+		return listEnnemis;
 	}
 
 	public void startGameThread() {
@@ -98,6 +98,10 @@ public class GamePanel extends JPanel implements Runnable {
 			// Permet de mettre � jour les diff�rentes variables du jeu
 			if (m_player.isAlive()) {
 				this.update();
+			}
+			else {
+				this.gameOver();
+				
 			}
 
 			// Dessine sur l'�cran le personnage et la map avec les nouvelles informations.
@@ -132,6 +136,15 @@ public class GamePanel extends JPanel implements Runnable {
 		m_pnj.update(m_player.getx(), m_player.gety());
 		m_camera.update(this);
 		m_ammo.update();
+	}
+	
+	public void gameOver() {
+		m_player.gameOver();
+		listEnnemis.removeAll(listEnnemis);
+		for(int i=0; acollecter.size();i+=1) {
+			
+		}
+		
 	}
 
 	/**
