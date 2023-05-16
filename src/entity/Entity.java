@@ -18,4 +18,7 @@ public abstract class Entity {
 	public int gety() {
 		return m_y;
 	}
+	public void setSpeed(int vitesse) {
+		m_speed=vitesse;
+	}
 }
