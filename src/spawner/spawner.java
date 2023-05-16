@@ -1,6 +1,7 @@
 package spawner;
 
 import entity.mob;
+import entity.zombie;
 import main.GamePanel;
 
 public class spawner<T extends mob>{
@@ -13,8 +14,10 @@ public class spawner<T extends mob>{
 	}
 	
 	public void update() {
-		T ennemi = m_mob;
-		m_gp.addListEnnemis(ennemi);
+		if (m_mob instanceof zombie) {
+			m_gp.addListEnnemis(new zombie(m_gp,50,m_mob.getx(),m_mob.gety()));
+		}
+		
 	}
 	
 }

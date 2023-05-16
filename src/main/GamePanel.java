@@ -58,6 +58,7 @@ public class GamePanel extends JPanel implements Runnable {
 	ArrayList<Collectable> acollecter;
 	ArrayList<spawner<mob>> listSpawner;
 	ArrayList<mob> listEnnemis;
+	double time;
 
 	/**
 	 * Constructeur
@@ -75,10 +76,11 @@ public class GamePanel extends JPanel implements Runnable {
 		listEnnemis = new ArrayList<>();
 		acollecter = new ArrayList<>();
 		listSpawner = new ArrayList<>();
-		spawner<zombie> t = new spawner<>(this, new zombie(this, 50, 400, 400));
-		t.update();
-		spawner<zombie> t1 = new spawner<>(this, new zombie(this, 50, 800, 800));
-		t1.update();
+		time = System.nanoTime();
+		spawner<mob> t = new spawner<>(this, new zombie(this, 50, 400, 400));
+		listSpawner.add(t);
+		spawner<mob> t1 = new spawner<>(this, new zombie(this, 50, 800, 800));
+		listSpawner.add(t1);
 		this.getGOImage();
 
 		this.setPreferredSize(new Dimension(SCREEN_WIDTH, SCREEN_HEIGHT));
@@ -189,6 +191,12 @@ public class GamePanel extends JPanel implements Runnable {
 				item.update(m_player);
 			}
 		}
+		if (System.nanoTime() - time > 5e9) {
+			time=System.nanoTime();
+			for (spawner<mob> i : listSpawner) {
+				i.update();
+			}
+		}
 	}
 
 	public void gameOver() {
@@ -206,20 +214,29 @@ public class GamePanel extends JPanel implements Runnable {
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		Graphics2D g2 = (Graphics2D) g;
-		if (m_gamestate == 0) {
-			g2.translate(-m_camera.getx(), -m_camera.gety());
-			m_tileM.draw(g2, m_camera);
-			for (mob i : listEnnemis) {
-				i.draw(g2);
+		if (m_gamestate==0) {
+		g2.translate(-m_camera.getx(), -m_camera.gety());
+		m_tileM.draw(g2, m_camera);
+		}
+		for ( mob i : listEnnemis) {
+			i.draw(g2);
+		}
+		m_ammo.draw(g2);
+		m_player.draw(g2);
+//		m_gun.draw(g2);
+		m_ammo.draw(g2);
+		for(Collectable item:acollecter) {
+			if(item.getStatus()== true) {
+				item.draw(g2);
 			}
 			m_ammo.draw(g2);
 			m_player.draw(g2);
 			m_gun.draw(g2);
 			m_ammo.draw(g2);
-			for (Collectable item : acollecter) {
-				if (item.getStatus() == true) {
-					item.draw(g2);
-				}
+		}
+		for (Collectable item : acollecter) {
+			if (item.getStatus() == true) {
+				item.draw(g2);
 			}
 		}
 		if (m_gamestate == 1) {
