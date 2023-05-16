@@ -109,7 +109,7 @@ public class Player extends Entity {
 
 	private boolean test(int x, int y) {
 		int d = m_gp.TILE_SIZE;
-		int d2 = (d+2) / 2;
+		int d2 = (d+1) / 2;
 		int px = m_x + x + d2;
 		int py = m_y + y + d2;
 		if (in(m_gp.gettileM().map[(px + d2) / d][(py + d2) / d], m_collision.bloc)

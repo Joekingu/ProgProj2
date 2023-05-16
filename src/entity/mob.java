@@ -25,6 +25,8 @@ public class mob extends Entity{
 	int m_health;  // vie du pnj
 	boolean isalive;
 	Poingmob weapon;
+	double freq_att;
+	double time;
 	
 	/**
 	 * Constructeur de Player
@@ -41,12 +43,13 @@ public class mob extends Entity{
 		this.isalive = true;
 		m_x = x;
 		m_y = y;
+		time=System.nanoTime();
 	}
 	protected void setDefaultValues() {
 		m_x = 500;
 		m_y = 500;
 		m_speed = 1;
-		weapon= new Poingmob(2,m_gp,1);
+		weapon= new Poingmob(2,m_gp,1e9);
 	}
 	/**
 	 * R�cup�ration de l'image du personnage
@@ -108,8 +111,8 @@ public class mob extends Entity{
 				in(m_gp.gettileM().map[(px-d2)/d][(py-d2)/d],m_collision.bloc) ||
 				in(m_gp.gettileM().map[(px+d2)/d][(py-d2)/d],m_collision.bloc) ||
 				in(m_gp.gettileM().map[(px-d2)/d][(py+d2)/d],m_collision.bloc) || collision_mob(m_gp.getListEnnemis(),x,y) || collision_entity(m_gp.getPlayer())!=0) {
-			if(collision_entity(m_gp.getPlayer())!=0 && (System.nanoTime() - weapon.gettime()) > weapon.getfrq_att()) {
-				weapon.settime(System.nanoTime());
+			if(collision_entity(m_gp.getPlayer())!=0 && (System.nanoTime() - time) > weapon.getfrq_att()) {
+				time=System.nanoTime();
 				m_gp.getPlayer().estblesse(collision_entity(m_gp.getPlayer()));
 			}
 			return true;
