@@ -26,7 +26,7 @@ public class Ammo extends Entity {
 	 */
 	public Ammo(GamePanel a_gp,  KeyHandler a_keyH, Player player, double damage, double speed, int size) {
 		m_gp = a_gp;
-		a_keyH = m_keyH;
+		m_keyH = a_keyH;
 		m_player = player;
 		m_damage = damage;
 		m_speed = speed;
@@ -42,13 +42,6 @@ public class Ammo extends Entity {
 		m_x = 100;
 		m_y = 100;
 		m_speed = 4;
-	}
-	
-	public void shoot() {
-		if (m_keyH.getval() == 39) {
-			m_x+= 10;
-		}
-		m_keyH.setval(0);
 	}
 	
 	public void update() {
