@@ -198,7 +198,7 @@ public class GamePanel extends JPanel implements Runnable {
 		}
 		m_ammo.draw(g2);
 		m_player.draw(g2);
-		m_gun.draw(g2);
+//		m_gun.draw(g2);
 		m_ammo.draw(g2);
 		for(Collectable item:acollecter) {
 			if(item.getStatus()== true) {
