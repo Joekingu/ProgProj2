@@ -8,7 +8,6 @@ public class Soucoupe extends Entity{
 	GamePanel m_gp;
 	KeyHandler m_keyH;
 	Tile m_collision;
-	Ammo m_ammo;
 	boolean m_alive;
 	int m_spmat = 0;
 	int m_health;
