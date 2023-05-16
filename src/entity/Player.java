@@ -49,7 +49,7 @@ public class Player extends Entity{
 		m_x = m_gp.SCREEN_WIDTH/2;
 		m_y = m_gp.SCREEN_HEIGHT/2;
 		m_speed = 2;
-		m_health=50;
+		m_health=0;
 		m_alive=true;
 	}
 	
@@ -134,6 +134,9 @@ public class Player extends Entity{
 					m_x-= 2*m_speed;
 				}
 			}
+			if (m_health<=0) {
+				m_alive=false;
+			}
 		}
 		
 	}
@@ -143,7 +146,7 @@ public class Player extends Entity{
 	}
 	
 	public void gameOver(){
-		
+		this.setDefaultValues();
 	}
 	
 	/**

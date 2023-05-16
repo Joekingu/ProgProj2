@@ -34,6 +34,9 @@ public class GamePanel extends JPanel implements Runnable {
 	// FPS : taux de rafraichissement
 	int m_FPS;
 
+	// état du jeu : 0 playing , 1 Game Over , 2 Menu
+	int m_gamestate;
+
 	// Cr�ation des diff�rentes instances (Player, KeyHandler, TileManager,
 	// GameThread ...)
 	KeyHandler m_keyH;
@@ -52,6 +55,7 @@ public class GamePanel extends JPanel implements Runnable {
 	 */
 	public GamePanel() {
 		m_FPS = 60;
+		m_gamestate = 0;
 		m_keyH = new KeyHandler();
 		m_keyH2 = new KeyHandler();
 		m_player = new Player(this, m_keyH, m_ammo);
@@ -95,34 +99,38 @@ public class GamePanel extends JPanel implements Runnable {
 
 		while (m_gameThread != null) { // Tant que le thread du jeu est actif
 			// Permet de mettre � jour les diff�rentes variables du jeu
-			if (m_player.isAlive()) {
-				this.update();
-			}
-			else {
-				this.gameOver();
-				
-			}
-
-			// Dessine sur l'�cran le personnage et la map avec les nouvelles informations.
-			// la m�thode "paintComponent" doit obligatoirement �tre appel�e avec
-			// "repaint()"
-			this.repaint();
-
-			// Calcule le temps de pause du thread
-			try {
-				double remainingTime = nextDrawTime - System.nanoTime();
-				remainingTime = remainingTime / 1000000;
-
-				if (remainingTime < 0) {
-					remainingTime = 0;
+			if (m_gamestate == 0) {
+				if (m_player.isAlive()) {
+					this.update();
+				} else {
+					this.gameOver();
+					m_gamestate=1;
 				}
 
-				Thread.sleep((long) remainingTime);
-				nextDrawTime += drawInterval;
+				// Dessine sur l'�cran le personnage et la map avec les nouvelles informations.
+				// la m�thode "paintComponent" doit obligatoirement �tre appel�e avec
+				// "repaint()"
+				this.repaint();
 
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				// Calcule le temps de pause du thread
+				try {
+					double remainingTime = nextDrawTime - System.nanoTime();
+					remainingTime = remainingTime / 1000000;
+
+					if (remainingTime < 0) {
+						remainingTime = 0;
+					}
+
+					Thread.sleep((long) remainingTime);
+					nextDrawTime += drawInterval;
+
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			if (m_gamestate==1) {
+				this.setBackground(Color.black);
 			}
 		}
 	}
@@ -136,14 +144,14 @@ public class GamePanel extends JPanel implements Runnable {
 		m_camera.update(this);
 		m_ammo.update();
 	}
-	
+
 	public void gameOver() {
 		m_player.gameOver();
 		listEnnemis.removeAll(listEnnemis);
-		for(int i=0; i<acollecter.size();i+=1) {
-			acollecter.get(i).setStatus(true);
-		}
-		
+		//for (int i = 0; i < acollecter.size(); i += 1) {
+			//acollecter.get(i).setStatus(true);
+		//}
+
 	}
 
 	/**
