@@ -114,6 +114,9 @@ public class mob extends Entity{
 	}
 	
 	public void update(Player player) {
+		if(gethealth()<=0) {
+			m_gp.getListEnnemis().remove(this);
+		}
 		int x = player.getx();
 		int y = player.gety();
 		if (x>m_x) {
@@ -148,6 +151,14 @@ public class mob extends Entity{
 		BufferedImage l_image = m_idleImage;
 		// affiche le personnage avec l'image "image", avec les coordonn�es x et y, et de taille tileSize (16x16) sans �chelle, et 48x48 avec �chelle)
 		a_g2.drawImage(l_image, m_x, m_y, m_gp.TILE_SIZE, m_gp.TILE_SIZE, null);
+	}
+
+	public void sethealth(int deg) {
+		m_health -= deg;
+	}
+
+	public int gethealth() {
+		return m_health;
 	}
 	
 }

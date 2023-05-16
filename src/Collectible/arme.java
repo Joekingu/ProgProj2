@@ -2,15 +2,22 @@ package Collectible;
 
 import java.util.ArrayList;
 
+import main.GamePanel;
 import main.KeyHandler;
 
 public abstract class arme{
 	int m_deg;
 	KeyHandler m_keyH;
+	GamePanel m_gp;
 	
-	public arme(int deg,KeyHandler a_keyH) {
+	protected double dist(int x1,int x2,int y1,int y2) {
+		return Math.sqrt(Math.pow((x1-x2),2) + Math.pow((y1-y2),2));
+	}
+	
+	public arme(int deg,KeyHandler a_keyH,GamePanel a_gp) {
 		m_deg = deg;
 		m_keyH = a_keyH;
+		m_gp = a_gp;
 	}
 	
 	public abstract void attaque(int dirx,int diry);
