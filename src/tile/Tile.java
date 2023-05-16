@@ -17,11 +17,4 @@ public class Tile {
 	public Tile(){
 		m_collision = false;
 	}
-	
-	public void collision() {
-		m_collision = true;
-		m_collision = false;
-	}
-	
-	
 }

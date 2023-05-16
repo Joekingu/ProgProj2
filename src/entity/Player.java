@@ -97,7 +97,7 @@ public class Player extends Entity {
 
 	private boolean test(int x, int y) {
 		int d = m_gp.TILE_SIZE;
-		int d2 = d / 2;
+		int d2 = (d+2) / 2;
 		int px = m_x + x + d2;
 		int py = m_y + y + d2;
 		if (in(m_gp.gettileM().map[(px + d2) / d][(py + d2) / d], m_collision.bloc)
@@ -105,7 +105,6 @@ public class Player extends Entity {
 				|| in(m_gp.gettileM().map[(px + d2) / d][(py - d2) / d], m_collision.bloc)
 				|| in(m_gp.gettileM().map[(px - d2) / d][(py + d2) / d], m_collision.bloc)
 				|| collision_entity(m_gp.getListEnnemis(), x, y)) {
-			m_collision.collision();
 			return true;
 		}
 		return false;
@@ -141,42 +140,52 @@ public class Player extends Entity {
 			this.estblesse(testMat());
 		}
 		if (pressed.contains(Integer.valueOf(90)) && pressed.contains(Integer.valueOf(81))) {
-			if (!test(0, -2) && !test(-2, 0)) {
+			if (!test(0, -((m_speed+m_spmat)*3))) {
+				m_y -= 2 * (m_speed+m_spmat);
+			}
+			if (!test(-((m_speed+m_spmat)*3), 0)) {
 				m_x -= 2 * (m_speed+m_spmat);
-				m_y -= 2 * (m_speed+m_spmat);
 			}
+			
 		} else if (pressed.contains(Integer.valueOf(90)) && pressed.contains(Integer.valueOf(68))) {
-			if (!test(4, 0) && !test(0,-2)) {
-				m_x += 2 * (m_speed+m_spmat);
+			if (!test(0, -((m_speed+m_spmat)*3))) {
 				m_y -= 2 * (m_speed+m_spmat);
 			}
-		} else if (pressed.contains(Integer.valueOf(68)) && pressed.contains(Integer.valueOf(83))) {
-			if (!test(0, 4) && !test(4,0)) {
-				m_y += 2 * (m_speed+m_spmat);
+			if (!test((m_speed+m_spmat)*3, 0)) {
 				m_x += 2 * (m_speed+m_spmat);
+			}
+			
+		} else if (pressed.contains(Integer.valueOf(68)) && pressed.contains(Integer.valueOf(83))) {
+			if (!test((m_speed+m_spmat)*3, 0)) {
+				m_x += 2 * (m_speed+m_spmat);
+			}
+			if (!test(0, (m_speed+m_spmat)*3)) {
+				m_y += 2 * (m_speed+m_spmat);
 			}
 
 		} else if (pressed.contains(Integer.valueOf(81)) && pressed.contains(Integer.valueOf(83))) {
-			if (!test(-2, 0) && !test(0, 4)) {
+			if (!test(-((m_speed+m_spmat)*3), 0)) {
 				m_x -= 2 * (m_speed+m_spmat);
+			}
+			if (!test(0, (m_speed+m_spmat)*3)) {
 				m_y += 2 * (m_speed+m_spmat);
 			}
 		} else {
 			for (int j = 0; j < m_keyH.taille(); j++) {
 				if (m_keyH.getval(j) == 90) {
-					if (!test(0, -2)) {
+					if (!test(0, -((m_speed+m_spmat)*3))) {
 						m_y -= 3 * (m_speed+m_spmat);
 					}
 				} else if (m_keyH.getval(j) == 83) {
-					if (!test(0, 4)) {
+					if (!test(0, (m_speed+m_spmat)*3)) {
 						m_y += 3 * (m_speed+m_spmat);
 					}
 				} else if (m_keyH.getval(j) == 68) {
-					if (!test(4, 0)) {
+					if (!test((m_speed+m_spmat)*3, 0)) {
 						m_x += 3 * (m_speed+m_spmat);
 					}
 				} else if (m_keyH.getval(j) == 81) {
-					if (!test(-2, 0)) {
+					if (!test(-((m_speed+m_spmat)*3), 0)) {
 						m_x -= 3 * (m_speed+m_spmat);
 					}
 				}
