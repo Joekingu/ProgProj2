@@ -142,23 +142,23 @@ public class Player extends Entity {
 			this.estblesse(testMat());
 		}
 		if (pressed.contains(Integer.valueOf(90)) && pressed.contains(Integer.valueOf(81))) {
-			if (!test(-2, 0)) {
+			if (!test(0, -2) && !test(-2, 0)) {
 				m_x -= 2 * (m_speed+m_spmat);
 				m_y -= 2 * (m_speed+m_spmat);
 			}
 		} else if (pressed.contains(Integer.valueOf(90)) && pressed.contains(Integer.valueOf(68))) {
-			if (!test(4, 0)) {
+			if (!test(4, 0) && !test(0,-2)) {
 				m_x += 2 * (m_speed+m_spmat);
 				m_y -= 2 * (m_speed+m_spmat);
 			}
 		} else if (pressed.contains(Integer.valueOf(68)) && pressed.contains(Integer.valueOf(83))) {
-			if (!test(0, 4)) {
+			if (!test(0, 4) && !test(4,0)) {
 				m_y += 2 * (m_speed+m_spmat);
 				m_x += 2 * (m_speed+m_spmat);
 			}
 
 		} else if (pressed.contains(Integer.valueOf(81)) && pressed.contains(Integer.valueOf(83))) {
-			if (!test(-2, 0)) {
+			if (!test(-2, 0) && !test(0, 4)) {
 				m_x -= 2 * (m_speed+m_spmat);
 				m_y += 2 * (m_speed+m_spmat);
 			}
