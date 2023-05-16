@@ -114,7 +114,6 @@ public class GamePanel extends JPanel implements Runnable{
 	 * Affichage des �l�ments
 	 */
 	public void paintComponent(Graphics g) {
-//		g.translate(m_camera.getx(), m_camera.gety());
 		super.paintComponent(g);
 		Graphics2D g2 = (Graphics2D) g;
 		g2.translate(-m_camera.getx(), -m_camera.gety());
