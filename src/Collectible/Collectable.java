@@ -17,10 +17,10 @@ public abstract class  Collectable {
 	int m_x;
 	int m_y;
 	
-	boolean getStatus() {
+	public boolean getStatus() {
 		return pris;
 	}
-	void setStatus(boolean etat) {
+	public void setStatus(boolean etat) {
 		pris=etat;
 	}
 	protected double dist(int x1,int x2,int y1,int y2) {

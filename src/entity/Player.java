@@ -104,7 +104,7 @@ public class Player extends Entity{
 				in(m_gp.gettileM().map[(px-d2)/d][(py-d2)/d],m_collision.bloc) ||
 				in(m_gp.gettileM().map[(px+d2)/d][(py-d2)/d],m_collision.bloc) ||
 				in(m_gp.gettileM().map[(px-d2)/d][(py+d2)/d],m_collision.bloc) 
-				|| collision_entity(m_gp.getListEntity(),x,y)
+				|| collision_entity(m_gp.getListEnnemis(),x,y)
 				) {
 			m_collision.collision();
 			return true;
@@ -142,6 +142,9 @@ public class Player extends Entity{
 		return m_health;
 	}
 	
+	public void gameOver(){
+		
+	}
 	
 	/**
 	 * Affichage du l'image du joueur dans la fen�tre du jeu

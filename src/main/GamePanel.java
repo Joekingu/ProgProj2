@@ -140,8 +140,8 @@ public class GamePanel extends JPanel implements Runnable {
 	public void gameOver() {
 		m_player.gameOver();
 		listEnnemis.removeAll(listEnnemis);
-		for(int i=0; acollecter.size();i+=1) {
-			
+		for(int i=0; i<acollecter.size();i+=1) {
+			acollecter.get(i).setStatus(true);
 		}
 		
 	}
