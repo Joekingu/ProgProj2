@@ -108,7 +108,7 @@ public class mob extends Entity{
 				in(m_gp.gettileM().map[(px-d2)/d][(py-d2)/d],m_collision.bloc) ||
 				in(m_gp.gettileM().map[(px+d2)/d][(py-d2)/d],m_collision.bloc) ||
 				in(m_gp.gettileM().map[(px-d2)/d][(py+d2)/d],m_collision.bloc) || 
-				collision_entity(m_gp.getPlayer()) || collision_mob(m_gp.getListEntity(),x,y)
+				collision_entity(m_gp.getPlayer()) || collision_mob(m_gp.getListEnnemis(),x,y)
 				) {
 			m_collision.collision();
 			return true;

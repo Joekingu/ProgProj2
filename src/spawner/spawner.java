@@ -14,7 +14,7 @@ public class spawner<T extends mob>{
 	
 	public void update() {
 		T ennemi = m_mob;
-		m_gp.addListEntity(ennemi);
+		m_gp.addListEnnemis(ennemi);
 	}
 	
 }

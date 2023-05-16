@@ -64,6 +64,7 @@ public class GamePanel extends JPanel implements Runnable {
 		m_tileM = new TileManager(this);
 		m_camera = new Camera(m_player);
 		listEnnemis = new ArrayList<>();
+		acollecter = new ArrayList<>();
 		listSpawner = new ArrayList<>();
 		spawner<zombie> t = new spawner<>(this,new zombie(this,50,400,400));
 		t.update();
@@ -92,11 +93,11 @@ public class GamePanel extends JPanel implements Runnable {
 	}
 	
 	public void addListEnnemis(mob ennemi) {
-		listEntity.add(ennemi);
+		listEnnemis.add(ennemi);
 	}
 	
 	public ArrayList<Entity> getListEnnemis() {
-		return listEntity;
+		return listEnnemis;
 	}
 
 	public void startGameThread() {
@@ -156,7 +157,7 @@ public class GamePanel extends JPanel implements Runnable {
 	 */
 	public void update() {
 		m_player.update();
-		for ( Entity i : listEntity) {
+		for ( Entity i : listEnnemis) {
 			i.update(m_player);
 		}
 		m_camera.update(this);
@@ -186,7 +187,7 @@ public class GamePanel extends JPanel implements Runnable {
 		if (m_gamestate==0) {
 		g2.translate(-m_camera.getx(), -m_camera.gety());
 		m_tileM.draw(g2, m_camera);
-		for ( Entity i : listEntity) {
+		for ( Entity i : listEnnemis) {
 			i.draw(g2);
 		}
 		m_ammo.draw(g2);
