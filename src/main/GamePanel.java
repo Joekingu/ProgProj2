@@ -176,8 +176,6 @@ public class GamePanel extends JPanel implements Runnable {
 				item.update(m_player);
 			}
 		}
-		System.out.println(System.nanoTime());
-		System.out.println(time);
 		if (System.nanoTime() - time > 5e9) {
 			time=System.nanoTime();
 			for (spawner<mob> i : listSpawner) {
