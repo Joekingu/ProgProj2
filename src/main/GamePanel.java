@@ -65,7 +65,7 @@ public class GamePanel extends JPanel implements Runnable {
 		listEnnemis = new ArrayList<>();
 		listEnnemis.add(m_pnj);
 		acollecter = new ArrayList<>();
-		
+
 		this.setPreferredSize(new Dimension(SCREEN_WIDTH, SCREEN_HEIGHT));
 		this.setBackground(Color.black);
 		this.setDoubleBuffered(true);
@@ -80,9 +80,9 @@ public class GamePanel extends JPanel implements Runnable {
 	 * @return
 	 */
 	public void makeCollectibles() {
-		acollecter.add(new Potiondevitesse(this,1,1000,800));
+		acollecter.add(new Potiondevitesse(this, 1, 1000, 800));
 	}
-	
+
 	public Entity getPlayer() {
 		return m_player;
 	}
@@ -108,7 +108,8 @@ public class GamePanel extends JPanel implements Runnable {
 					this.update();
 				} else {
 					this.gameOver();
-					m_gamestate=1;
+					m_gamestate = 1;
+
 				}
 
 				// Dessine sur l'�cran le personnage et la map avec les nouvelles informations.
@@ -133,15 +134,15 @@ public class GamePanel extends JPanel implements Runnable {
 					e.printStackTrace();
 				}
 			}
-//			if (m_gamestate==1) {
-//				drawGO();
+//			if (m_gamestate == 1) {
+//				for (int j = 0; j < m_keyH.taille(); j++) {
+//					if (m_keyH.getval(j) == 82) {
+//						m_gamestate=0;
+//					}
+//				}
 //			}
 		}
 	}
-
-//	private void drawGO(Graphics2D a_g2) {
-//		a_g2.drawRect(MAX_SCREE_ROW, MAX_SCREEN_COL, SCREEN_WIDTH, SCREEN_HEIGHT);
-//	}
 
 	/**
 	 * Mise � jour des donn�es des entit�s
@@ -151,8 +152,8 @@ public class GamePanel extends JPanel implements Runnable {
 		m_pnj.update(m_player);
 		m_camera.update(this);
 		m_ammo.update();
-		for(Collectable item:acollecter) {
-			if(item.getStatus()== true) {
+		for (Collectable item : acollecter) {
+			if (item.getStatus() == true) {
 				item.update(m_player);
 			}
 		}
@@ -161,9 +162,9 @@ public class GamePanel extends JPanel implements Runnable {
 	public void gameOver() {
 		m_player.gameOver();
 		listEnnemis.removeAll(listEnnemis);
-		//for (int i = 0; i < acollecter.size(); i += 1) {
-			//acollecter.get(i).setStatus(true);
-		//}
+		for (int i = 0; i < acollecter.size(); i += 1) {
+			acollecter.get(i).setStatus(true);
+		}
 
 	}
 
@@ -173,21 +174,23 @@ public class GamePanel extends JPanel implements Runnable {
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		Graphics2D g2 = (Graphics2D) g;
-		if (m_gamestate==0) {
-		g2.translate(-m_camera.getx(), -m_camera.gety());
-		m_tileM.draw(g2, m_camera);
-		m_pnj.draw(g2);
-		m_ammo.draw(g2);
-		m_player.draw(g2);
-		for(Collectable item:acollecter) {
-			if(item.getStatus()== true) {
-				item.draw(g2);
+		if (m_gamestate == 0) {
+			g2.translate(-m_camera.getx(), -m_camera.gety());
+			m_tileM.draw(g2, m_camera);
+			m_pnj.draw(g2);
+			m_ammo.draw(g2);
+			m_player.draw(g2);
+			for (Collectable item : acollecter) {
+				if (item.getStatus() == true) {
+					item.draw(g2);
+				}
 			}
 		}
-		}
-		if(m_gamestate==1) {
+		if (m_gamestate == 1) {
 			g2.setColor(Color.BLACK);
 			g2.fillRect(MAX_SCREE_ROW, MAX_SCREEN_COL, SCREEN_WIDTH, SCREEN_HEIGHT);
+			g2.setColor(Color.RED);
+			g2.drawString("C4EST MORT POTO", 200, 200);
 		}
 		g2.dispose();
 	}
