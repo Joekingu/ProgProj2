@@ -45,7 +45,7 @@ public class GamePanel extends JPanel implements Runnable {
 	Ammo m_ammo;
 	Camera m_camera;
 	ArrayList<Collectable> acollecter;
-	ArrayList<Entity> listEntity;
+	ArrayList<Entity> listEnnemis;
 
 	/**
 	 * Constructeur
@@ -82,8 +82,8 @@ public class GamePanel extends JPanel implements Runnable {
 		return m_player;
 	}
 
-	public ArrayList<Entity> getListEntity() {
-		return listEntity;
+	public ArrayList<Entity> getListEnnemis() {
+		return listEnnemis;
 	}
 
 	public void startGameThread() {
@@ -100,6 +100,10 @@ public class GamePanel extends JPanel implements Runnable {
 			// Permet de mettre � jour les diff�rentes variables du jeu
 			if (m_player.isAlive()) {
 				this.update();
+			}
+			else {
+				this.gameOver();
+				
 			}
 
 			// Dessine sur l'�cran le personnage et la map avec les nouvelles informations.
@@ -139,6 +143,15 @@ public class GamePanel extends JPanel implements Runnable {
 				item.update(m_player);
 			}
 		}
+	}
+	
+	public void gameOver() {
+		m_player.gameOver();
+		listEnnemis.removeAll(listEnnemis);
+		for(int i=0; i<acollecter.size();i+=1) {
+			acollecter.get(i).setStatus(true);
+		}
+		
 	}
 
 	/**
