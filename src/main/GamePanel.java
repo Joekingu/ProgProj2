@@ -2,6 +2,8 @@ package main;
 
 import java.awt.Dimension;
 import java.awt.Color;
+
+import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
 import entity.Ammo;
@@ -18,6 +20,8 @@ import Collectible.Potiondevitesse;
 
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.util.ArrayList;
 
 /**
@@ -43,6 +47,7 @@ public class GamePanel extends JPanel implements Runnable {
 
 	// Cr�ation des diff�rentes instances (Player, KeyHandler, TileManager,
 	// GameThread ...)
+	public BufferedImage m_GOImage;
 	KeyHandler m_keyH;
 	Thread m_gameThread;
 	Player m_player;
@@ -74,6 +79,7 @@ public class GamePanel extends JPanel implements Runnable {
 		t.update();
 		spawner<zombie> t1 = new spawner<>(this, new zombie(this, 50, 800, 800));
 		t1.update();
+		this.getGOImage();
 
 		this.setPreferredSize(new Dimension(SCREEN_WIDTH, SCREEN_HEIGHT));
 		this.setBackground(Color.black);
@@ -94,6 +100,15 @@ public class GamePanel extends JPanel implements Runnable {
 
 	public Player getPlayer() {
 		return m_player;
+	}
+	
+	public void getGOImage() {
+		//gestion des expections 
+		try {
+			m_GOImage = ImageIO.read(getClass().getResource("/tiles/game_over.jpeg"));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	public void addListEnnemis(mob ennemi) {
@@ -210,8 +225,11 @@ public class GamePanel extends JPanel implements Runnable {
 		if (m_gamestate == 1) {
 			g2.setColor(Color.BLACK);
 			g2.fillRect(MAX_SCREE_ROW, MAX_SCREEN_COL, SCREEN_WIDTH, SCREEN_HEIGHT);
+			BufferedImage l_image = m_GOImage;
+			// affiche le personnage avec l'image "image", avec les coordonn�es x et y, et de taille tileSize (16x16) sans �chelle, et 48x48 avec �chelle)
+			g2.drawImage(l_image, 0, -70, SCREEN_WIDTH, SCREEN_HEIGHT, null);
 			g2.setColor(Color.RED);
-			g2.drawString("C'EST MORT POTO", 200, 200);
+			g2.drawString("PRESS '' R '' TO RETRY ", SCREEN_WIDTH/2-70, 500);
 		}
 		g2.dispose();
 
