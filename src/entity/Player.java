@@ -104,10 +104,12 @@ public class Player extends Entity{
 				in(m_gp.gettileM().map[(px-d2)/d][(py-d2)/d],m_collision.bloc) ||
 				in(m_gp.gettileM().map[(px+d2)/d][(py-d2)/d],m_collision.bloc) ||
 				in(m_gp.gettileM().map[(px-d2)/d][(py+d2)/d],m_collision.bloc) 
-				|| collision_entity(m_gp.getListEntity(),x,y)
+				|| collision_entity(m_gp.getListEnnemis(),x,y)
 				) {
 			m_collision.collision();
 			return true;
+		}else if(m_gp.gettileM().map[(px+d2)/d][(py+d2)/d]==m_collision.lave) {
+			this.estblesse(1);
 		}
 		return false;
 	}
@@ -135,14 +137,19 @@ public class Player extends Entity{
 					m_x-= 2*m_speed;
 				}
 			}
+			if (m_health<=0) {
+				m_alive=false;
+			}
 		}
-		
 	}
 	
 	public int gethealth(){
 		return m_health;
 	}
 	
+	public void gameOver(){
+		this.setDefaultValues();
+	}
 	
 	/**
 	 * Affichage du l'image du joueur dans la fen�tre du jeu
@@ -166,4 +173,10 @@ public class Player extends Entity{
 	public int gety() {
 		return m_y;
 	}
+	public int estblesse(int degat) {
+		m_health-=degat;
+		return m_health;	
+	}
+	
+	
 }

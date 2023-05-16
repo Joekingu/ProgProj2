@@ -26,7 +26,7 @@ public abstract class Entity {
 		return m_y;
 	}
 	public void setSpeed(int vitesse) {
-		m_speed=vitesse;
+		m_speed+=vitesse;
 	}
 
 	public abstract void update(Player m_player);

@@ -1,15 +1,23 @@
 package Collectible;
 
+import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
 
 import entity.Player;
 import main.GamePanel;
 
 public class Potiondevitesse extends Collectable {
 	int ajoutdevitesse;
-	public Potiondevitesse(int addspeed){
+	public Potiondevitesse(GamePanel gp, int addspeed, int x, int y){
 		ajoutdevitesse=addspeed;
-		taille=m_gp.TILE_SIZE/3;
+		m_x=x;
+		m_y=y;
+		m_gp=gp;
+		pris=true;
+		this.getPotiondevitesseImage();
 	}
 	@Override
 	void effet(Player p) {
@@ -17,19 +25,25 @@ public class Potiondevitesse extends Collectable {
 	}
 
 	@Override
-	void update(Player p) {
-		int x = p.getx();
-		int y = p.gety();
-		if() {
-			
+	public void update(Player p) {
+		if(collision_entity(p)) {
+			this.effet(p);
+			this.setStatus(false);
 		}
 	}
-
-	@Override
-	void draw() {
+	
+	public void draw(Graphics2D a_g2) {
 		BufferedImage l_image = m_idleImage;
-		m_gp.drawImage(l_image, m_x, m_y, m_gp.TILE_SIZE, m_gp.TILE_SIZE, null)
-		
+		a_g2.drawImage(l_image, m_x, m_y, m_gp.TILE_SIZE, m_gp.TILE_SIZE, null);
+	}
+	
+	public void getPotiondevitesseImage() {
+		//gestion des expections 
+		try {
+			m_idleImage = ImageIO.read(getClass().getResource("/Collectibles/potion.png"));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 	
 }
