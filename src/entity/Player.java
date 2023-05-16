@@ -36,8 +36,8 @@ public class Player extends Entity{
 	 * Initialisation des donn�es membres avec des valeurs par d�faut
 	 */
 	protected void setDefaultValues() {
-		m_x = 100;
-		m_y = 100;
+		m_x = m_gp.SCREEN_WIDTH/2;
+		m_y = m_gp.SCREEN_HEIGHT/2;
 		m_speed = 4;
 	}
 	
@@ -57,16 +57,16 @@ public class Player extends Entity{
 	 * Mise � jour des donn�es du joueur
 	 */
 	public void update() {
-		if (m_keyH.getval() == 38) {
+		if (m_keyH.getval() == 90) {
 			m_y-= 10;
 		}
-		if (m_keyH.getval() == 40) {
+		if (m_keyH.getval() == 83) {
 			m_y+= 10;
 		}
-		if (m_keyH.getval() == 39) {
+		if (m_keyH.getval() == 68) {
 			m_x+= 10;
 		}
-		if (m_keyH.getval() == 37) {
+		if (m_keyH.getval() == 81) {
 			m_x-= 10;
 		}
 		m_keyH.setval(0);
