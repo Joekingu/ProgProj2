@@ -68,7 +68,31 @@ public class TileManager {
 			m_tile[6].m_image = ImageIO.read(getClass().getResource("/tiles/BRICK.png"));
 			
 			m_tile[7] = new Tile();
-			m_tile[7].m_image = ImageIO.read(getClass().getResource("/tiles/lit.png"));
+			m_tile[7].m_image = ImageIO.read(getClass().getResource("/tiles/vaisseau1.png"));
+			
+			m_tile[8] = new Tile();
+			m_tile[8].m_image = ImageIO.read(getClass().getResource("/tiles/vaisseau2.png"));
+			
+			m_tile[9] = new Tile();
+			m_tile[9].m_image = ImageIO.read(getClass().getResource("/tiles/vaisseau3.png"));
+			
+			m_tile[10] = new Tile();
+			m_tile[10].m_image = ImageIO.read(getClass().getResource("/tiles/vaisseau4.png"));
+			
+			m_tile[11] = new Tile();
+			m_tile[11].m_image = ImageIO.read(getClass().getResource("/tiles/vaisseau5.png"));
+			
+			m_tile[12] = new Tile();
+			m_tile[12].m_image = ImageIO.read(getClass().getResource("/tiles/vaisseau6.png"));
+			
+			m_tile[13] = new Tile();
+			m_tile[13].m_image = ImageIO.read(getClass().getResource("/tiles/vaisseau7.png"));
+			
+			m_tile[14] = new Tile();
+			m_tile[14].m_image = ImageIO.read(getClass().getResource("/tiles/vaisseau8.png"));
+			
+			m_tile[15] = new Tile();
+			m_tile[15].m_image = ImageIO.read(getClass().getResource("/tiles/vaisseau9.png"));
 			
 		} catch (IOException e) {
 			e.printStackTrace();
