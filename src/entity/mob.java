@@ -69,15 +69,15 @@ public class mob extends Entity{
 		return false;
 	}
 	
-	private boolean collision_entity(Player player) {
+	private int collision_entity(Player player) {
 		int d = m_gp.TILE_SIZE;
 		int ix = player.getx();
 		int iy = player.gety();
 		double dist_min = d*3/4;
 		if ( dist(ix,m_x,iy,m_y)<dist_min ){
-			return true;
+			return m_deg;
 		}
-		return false;
+		return 0;
 	}
 	
 	private boolean collision_mob(ArrayList<mob> list,int x,int y) {
@@ -104,9 +104,9 @@ public class mob extends Entity{
 				in(m_gp.gettileM().map[(px-d2)/d][(py-d2)/d],m_collision.bloc) ||
 				in(m_gp.gettileM().map[(px+d2)/d][(py-d2)/d],m_collision.bloc) ||
 				in(m_gp.gettileM().map[(px-d2)/d][(py+d2)/d],m_collision.bloc) || 
-				collision_entity(m_gp.getPlayer()) || collision_mob(m_gp.getListEnnemis(),x,y)
+				collision_entity(m_gp.getPlayer())!=0 || collision_mob(m_gp.getListEnnemis(),x,y)
 				) {
-//			m_gp.getPlayer().estblesse(collision_entity(m_gp.getPlayer()));
+			m_gp.getPlayer().estblesse(collision_entity(m_gp.getPlayer()));
 			m_collision.collision();
 			return true;
 		}
