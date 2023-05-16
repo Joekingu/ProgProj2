@@ -40,7 +40,7 @@ public class Soucoupe extends Entity{
 	}
 	protected void setDefaultValues() {
 		m_x = 1500;
-		m_y = 200;
+		m_y = 500;
 		m_speed = 0;
 		m_health = 50;
 		m_alive = true;

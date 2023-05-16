@@ -53,8 +53,8 @@ public class Player extends Entity {
 	 * Initialisation des donn�es membres avec des valeurs par d�faut
 	 */
 	protected void setDefaultValues() {
-		m_x = m_gp.SCREEN_WIDTH / 2;
-		m_y = m_gp.SCREEN_HEIGHT / 2;
+		m_x = 450;
+		m_y = 500;
 		m_speed = 2;
 		m_health = 50;
 		m_alive = true;
