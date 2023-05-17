@@ -26,7 +26,6 @@ public class Bullet extends Entity{
 	int m_by;
 	Tile m_collision;
 	boolean m_alive;
-
 	/**
 	 * Constructeur de Ammo
 	 * @param a_gp GamePanel, pannel principal du jeu
@@ -44,7 +43,7 @@ public class Bullet extends Entity{
 		m_by = m_arme.getY() + m_size;
 		this.m_collision = new Tile();
 		m_alive=true;
-		getImage();
+		this.getImage();
 	}
 	
 	/**
@@ -77,9 +76,9 @@ public class Bullet extends Entity{
 		int d = m_gp.TILE_SIZE;
 		if ( in(m_gp.gettileM().map[(m_bx+m_dirx*m_speed)/d][(m_by+m_diry*m_speed)/d],m_collision.bloc) || collision_mob(m_gp.getListEnnemis())
 				) {
-			return false;
+			return true;
 		}
-		return true;
+		return false;
 	}
 	
 	public boolean isAlive() {
@@ -89,9 +88,7 @@ public class Bullet extends Entity{
 	public void update() {
 		m_bx+=m_speed*m_dirx;
 		m_by+=m_speed*m_diry;
-		m_alive=test();
-		System.out.println(m_bx);
-		System.out.println(m_by);
+		m_alive=!test();
 	}
 	
 	/**
@@ -117,7 +114,9 @@ public class Bullet extends Entity{
 		// affiche le personnage avec l'image "image", avec les coordonn�es x et y, et de taille tileSize (16x16) sans �chelle, et 48x48 avec �chelle)
 		a_g2.drawImage(l_image, m_bx, m_by,m_gp.TILE_SIZE, m_gp.TILE_SIZE, null);
 	}
-	
+	public boolean getStatus() {
+		return m_alive;
+	}
 
 
 }
