@@ -23,7 +23,7 @@ public class spawner<T extends mob>{
 		if (m_mob instanceof zombie) {
 			if(System.nanoTime() - spawn_time > Math.max(minim,rep)) {
 				spawn_time = System.nanoTime();
-				zombie mob = new zombie(m_gp,50,m_mob.getx(),m_mob.gety());
+				zombie mob = new zombie(m_gp,m_mob.gethealth(),m_mob.getx(),m_mob.gety());
 				m_gp.addListEnnemis(m_gp.random_pos(mob));
 				if(minim<rep) {
 					rep-=2e8;

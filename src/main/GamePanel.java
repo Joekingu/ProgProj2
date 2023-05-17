@@ -67,6 +67,7 @@ public class GamePanel extends JPanel implements Runnable {
 	double global_time;
 	Tile collision = new Tile();
 	Soucoupe vaisseau;
+	int viezomb;
 
 	/**
 	 * Constructeur
@@ -86,7 +87,8 @@ public class GamePanel extends JPanel implements Runnable {
 		spawner_time = System.nanoTime();
 		global_time = System.nanoTime();
 		vaisseau = new Soucoupe(this);
-		mob mob = new zombie(this, 50, 0, 0);
+		viezomb=10;
+		mob mob = new zombie(this, viezomb, 0, 0);
 		spawner<mob> fist_spawner = new spawner<>(this,random_pos(mob),5e9);
 		listSpawner.add(fist_spawner);
 		this.getGOImage();
@@ -217,8 +219,9 @@ public class GamePanel extends JPanel implements Runnable {
 			}
 		if (System.nanoTime() - spawner_time > 15e9) {
 			spawner_time = System.nanoTime();
-			mob mob = new zombie(this, 50, 0, 0);
-			spawner<mob> spawner = new spawner<>(this,random_pos(mob),5e9);
+			viezomb+=10;
+			mob mob = new zombie(this, viezomb, 0, 0);
+			spawner<mob> spawner = new spawner<>(this,random_pos(mob),10e9);
 			listSpawner.add(spawner);
 		}
 	}
