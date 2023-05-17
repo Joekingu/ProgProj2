@@ -54,6 +54,7 @@ public class GamePanel extends JPanel implements Runnable {
 	// Cr�ation des diff�rentes instances (Player, KeyHandler, TileManager,
 	// GameThread ...)
 	public BufferedImage m_GOImage;
+	public BufferedImage m_GOImageW;
 	public KeyHandler m_keyH;
 	KeyHandler m_keyH_arme;
 	Thread m_gameThread;
@@ -103,6 +104,7 @@ public class GamePanel extends JPanel implements Runnable {
 		spawner<mob> fist_spawner = new spawner<>(this, random_pos(mob), 5e9);
 		listSpawner.add(fist_spawner);
 		this.getGOImage();
+		this.getGOImageW();
 
 		this.setPreferredSize(new Dimension(SCREEN_WIDTH, SCREEN_HEIGHT));
 		this.setBackground(Color.black);
@@ -134,6 +136,15 @@ public class GamePanel extends JPanel implements Runnable {
 		// gestion des expections
 		try {
 			m_GOImage = ImageIO.read(getClass().getResource("/tiles/game_over.jpeg"));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void getGOImageW() {
+		// gestion des expections
+		try {
+			m_GOImageW = ImageIO.read(getClass().getResource("/tiles/game_win.png"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -315,15 +326,27 @@ public class GamePanel extends JPanel implements Runnable {
 			vaisseau.draw(g2);
 		}
 		if (m_gamestate == 1) {
-			g2.setColor(Color.BLACK);
-			g2.fillRect(MAX_SCREE_ROW, MAX_SCREEN_COL, SCREEN_WIDTH, SCREEN_HEIGHT);
-			BufferedImage l_image = m_GOImage;
-			// affiche le personnage avec l'image "image", avec les coordonn�es x et y, et
-			// de taille tileSize (16x16) sans �chelle, et 48x48 avec �chelle)
-			g2.drawImage(l_image, this.getWidth() / 2 - l_image.getWidth() / 2, 0 - this.getHeight() / 8, SCREEN_WIDTH,
-					SCREEN_HEIGHT, null);
-			g2.setColor(Color.RED);
-			g2.drawString("PRESS '' R '' TO RETRY ", this.getWidth() / 2 - 65, 500);
+			if(!m_player.isAlive()) {
+				g2.setColor(Color.BLACK);
+				g2.fillRect(MAX_SCREE_ROW, MAX_SCREEN_COL, SCREEN_WIDTH, SCREEN_HEIGHT);
+				BufferedImage l_image = m_GOImage;
+				// affiche le personnage avec l'image "image", avec les coordonn�es x et y, et
+				// de taille tileSize (16x16) sans �chelle, et 48x48 avec �chelle)
+				g2.drawImage(l_image, this.getWidth() / 2 - l_image.getWidth() / 2, 0 - this.getHeight() / 8, SCREEN_WIDTH,
+						SCREEN_HEIGHT, null);
+				g2.setColor(Color.RED);
+				g2.drawString("PRESS '' R '' TO RETRY ", this.getWidth() / 2 - 65, 500);
+			} else {
+				g2.setColor(Color.BLACK);
+				g2.fillRect(MAX_SCREE_ROW, MAX_SCREEN_COL, SCREEN_WIDTH, SCREEN_HEIGHT);
+				BufferedImage l_image = m_GOImageW;
+				// affiche le personnage avec l'image "image", avec les coordonn�es x et y, et
+				// de taille tileSize (16x16) sans �chelle, et 48x48 avec �chelle)
+				g2.drawImage(l_image, this.getWidth() / 2 - l_image.getWidth() / 2, 0 - this.getHeight() / 8, SCREEN_WIDTH,
+						SCREEN_HEIGHT, null);
+				g2.setColor(Color.WHITE);
+				g2.drawString("PRESS '' R '' TO RETRY ", this.getWidth() / 2 - 65, 500);
+			}
 		}
 		g2.dispose();
 	}
