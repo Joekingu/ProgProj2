@@ -9,9 +9,10 @@ import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 
 public class Songs {
-	
+
 	String m_path;
-	
+	private Clip clip;
+
 	public Songs(String path) {
 		m_path = path;
 	}
@@ -19,11 +20,15 @@ public class Songs {
 	public void play() {
 		try {
 			AudioInputStream audioIn = AudioSystem.getAudioInputStream(getClass().getResource(m_path));
-			Clip clip = AudioSystem.getClip();
+			clip = AudioSystem.getClip();
 			clip.open(audioIn);
 			clip.start();
 		} catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
 			e.printStackTrace();
 		}
+	}
+
+	public void stopSound() {
+		clip.stop();
 	}
 }
