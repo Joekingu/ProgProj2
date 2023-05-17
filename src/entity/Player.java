@@ -43,6 +43,8 @@ public class Player extends Entity {
 	double timeanimation;
 	Image[] characterImages = new Image[3];
 	boolean m_coffre;
+	int dirx=0;
+	int diry=0;
 
 	/**
 	 * Constructeur de Player
@@ -224,8 +226,6 @@ public class Player extends Entity {
 
 			}
 		}
-		int dirx = 0;
-		int diry = 0;
 		boolean att= false;
 		if (direction.contains(Integer.valueOf(37)) && direction.contains(Integer.valueOf(38))) {
 			dirx = -1;
@@ -246,16 +246,20 @@ public class Player extends Entity {
 		} else {
 			for (int j = 0; j < m_keyH_arme.taille(); j++) {
 				if (m_keyH_arme.getval(j) == 37) {
+					diry = 0;
 					dirx = -1;
 					att=true;
 				} else if (m_keyH_arme.getval(j) == 40) {
 					diry = 1;
+					dirx = 0;
 					att=true;
 				} else if (m_keyH_arme.getval(j) == 39) {
 					dirx = 1;
+					diry = 0;
 					att=true;
 				} else if (m_keyH_arme.getval(j) == 38) {
 					diry = -1;
+					dirx = 0;
 					att=true;
 				} 
 			}
