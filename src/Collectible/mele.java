@@ -1,14 +1,17 @@
 package Collectible;
 
+import java.awt.image.BufferedImage;
+
 import entity.Entity;
 import entity.Player;
 import entity.mob;
 import main.GamePanel;
 import main.KeyHandler;
 
-public class mele extends arme{
+public abstract class mele extends arme{
 	int m_porter;
 	int m_kb;
+	public BufferedImage m_idleImage;
 	
 	public mele(Entity p,int deg,int porter, GamePanel a_gp,int kb,double frq_att) {
 		super(p, deg,a_gp,frq_att);
