@@ -76,6 +76,7 @@ public class GamePanel extends JPanel implements Runnable {
 	Songs s_game_over = new Songs("/songs/Game_over.aiff");
 	int viezomb;
 	int nbr_coffre;
+	boolean win=false;
 
 	/**
 	 * Constructeur
@@ -183,6 +184,7 @@ public class GamePanel extends JPanel implements Runnable {
 			if (m_gamestate == 0) {
 				if (m_player.isAlive()) {
 					if (vaisseau.gethealth() == 3) {
+						win=true;
 						this.gameWin();
 						m_gamestate = 1;
 					} else {
@@ -228,6 +230,7 @@ public class GamePanel extends JPanel implements Runnable {
 						spawn_time = System.nanoTime();
 						nbr_coffre=0;
 						vaisseau.sethealth(0);
+						win = false;
 					}
 				}
 				this.repaint();
@@ -319,7 +322,7 @@ public class GamePanel extends JPanel implements Runnable {
 			vaisseau.draw(g2);
 		}
 		if (m_gamestate == 1) {
-			if(!m_player.isAlive()) {
+			if(!win) {
 				g2.setColor(Color.BLACK);
 				g2.fillRect(MAX_SCREE_ROW, MAX_SCREEN_COL, SCREEN_WIDTH, SCREEN_HEIGHT);
 				BufferedImage l_image = m_GOImage;
