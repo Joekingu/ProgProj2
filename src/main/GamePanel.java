@@ -93,7 +93,6 @@ public class GamePanel extends JPanel implements Runnable {
 		global_time = System.nanoTime();
 		vaisseau = new Soucoupe(this);
 		m_player = new Player(this, m_keyH, m_keyH_arme,vaisseau);
-		m_player = new Player(this, m_keyH,m_keyH_arme,vaisseau);
 		m_camera = new Camera(m_player);
 		viezomb=10;
 		mob mob = new zombie(this, viezomb, 0, 0);
