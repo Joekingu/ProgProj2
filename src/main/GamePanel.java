@@ -54,6 +54,7 @@ public class GamePanel extends JPanel implements Runnable {
 	// Cr�ation des diff�rentes instances (Player, KeyHandler, TileManager,
 	// GameThread ...)
 	public BufferedImage m_GOImage;
+	public BufferedImage m_GOImageW;
 	public KeyHandler m_keyH;
 	KeyHandler m_keyH_arme;
 	Thread m_gameThread;
@@ -75,6 +76,7 @@ public class GamePanel extends JPanel implements Runnable {
 	Songs s_game_over = new Songs("/songs/Game_over.aiff");
 	int viezomb;
 	int nbr_coffre;
+	boolean win=false;
 
 	/**
 	 * Constructeur
@@ -103,6 +105,7 @@ public class GamePanel extends JPanel implements Runnable {
 		spawner<mob> fist_spawner = new spawner<>(this, random_pos(mob), 5e9);
 		listSpawner.add(fist_spawner);
 		this.getGOImage();
+		this.getGOImageW();
 
 		this.setPreferredSize(new Dimension(SCREEN_WIDTH, SCREEN_HEIGHT));
 		this.setBackground(Color.black);
@@ -121,9 +124,10 @@ public class GamePanel extends JPanel implements Runnable {
 	public void makeCollectibles() {
 		Collectable PotiondeVitesse = new Potiondevitesse(this, 1, 0, 0);
 		Collectable epee = new epee(this, 0, 0);
+		Collectable sg=new ShotgunC(this, 0, 0);
 		acollecter.add(random_pos(PotiondeVitesse));
 		acollecter.add(random_pos(epee));
-		acollecter.add(new ShotgunC(this, 1500, 1000));
+		acollecter.add(random_pos(sg));
 	}
 
 	public Player getPlayer() {
@@ -134,6 +138,15 @@ public class GamePanel extends JPanel implements Runnable {
 		// gestion des expections
 		try {
 			m_GOImage = ImageIO.read(getClass().getResource("/tiles/game_over.jpeg"));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void getGOImageW() {
+		// gestion des expections
+		try {
+			m_GOImageW = ImageIO.read(getClass().getResource("/tiles/game_win.png"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -172,13 +185,12 @@ public class GamePanel extends JPanel implements Runnable {
 			if (m_gamestate == 0) {
 				if (m_player.isAlive()) {
 					if (vaisseau.gethealth() == 3) {
+						win=true;
 						this.gameWin();
 						m_gamestate = 1;
 					} else {
 						this.update();
 					}
-					this.update();
-					System.out.println(tirs.size());
 				} else {
 					this.gameOver();
 					m_gamestate = 1;
@@ -219,6 +231,7 @@ public class GamePanel extends JPanel implements Runnable {
 						spawn_time = System.nanoTime();
 						nbr_coffre=0;
 						vaisseau.sethealth(0);
+						win = false;
 					}
 				}
 				this.repaint();
@@ -232,7 +245,6 @@ public class GamePanel extends JPanel implements Runnable {
 	public void update() {
 		m_player.update();
 		vaisseau.update(m_player);
-//		m_player.getarme().update();
 		for (mob i : getListEnnemis()) {
 			i.update(m_player);
 		}
@@ -295,32 +307,39 @@ public class GamePanel extends JPanel implements Runnable {
 			g2.translate(-m_camera.getx(), -m_camera.gety());
 			m_tileM.draw(g2, m_camera);
 			for (mob i : listEnnemis) {
-				if (i.getisalive()) {
 					i.draw(g2);
-				}
 			}
 			for (Bullet i1 : tirs) {
-				System.out.println("oui");
 					i1.draw(g2);
 			}
 			for (Collectable item : acollecter) {
-				if (item.getStatus() == true) {
 					item.draw(g2);
-				}
 			}
 			m_player.draw(g2);
 			vaisseau.draw(g2);
 		}
 		if (m_gamestate == 1) {
-			g2.setColor(Color.BLACK);
-			g2.fillRect(MAX_SCREE_ROW, MAX_SCREEN_COL, SCREEN_WIDTH, SCREEN_HEIGHT);
-			BufferedImage l_image = m_GOImage;
-			// affiche le personnage avec l'image "image", avec les coordonn�es x et y, et
-			// de taille tileSize (16x16) sans �chelle, et 48x48 avec �chelle)
-			g2.drawImage(l_image, this.getWidth() / 2 - l_image.getWidth() / 2, 0 - this.getHeight() / 8, SCREEN_WIDTH,
-					SCREEN_HEIGHT, null);
-			g2.setColor(Color.RED);
-			g2.drawString("PRESS '' R '' TO RETRY ", this.getWidth() / 2 - 65, 500);
+			if(!win) {
+				g2.setColor(Color.BLACK);
+				g2.fillRect(MAX_SCREE_ROW, MAX_SCREEN_COL, SCREEN_WIDTH, SCREEN_HEIGHT);
+				BufferedImage l_image = m_GOImage;
+				// affiche le personnage avec l'image "image", avec les coordonn�es x et y, et
+				// de taille tileSize (16x16) sans �chelle, et 48x48 avec �chelle)
+				g2.drawImage(l_image, this.getWidth() / 2 - l_image.getWidth() / 2, 0 - this.getHeight() / 8, SCREEN_WIDTH,
+						SCREEN_HEIGHT, null);
+				g2.setColor(Color.RED);
+				g2.drawString("PRESS '' R '' TO RETRY ", this.getWidth() / 2 - 65, 500);
+			} else {
+				g2.setColor(Color.BLACK);
+				g2.fillRect(MAX_SCREE_ROW, MAX_SCREEN_COL, SCREEN_WIDTH, SCREEN_HEIGHT);
+				BufferedImage l_image = m_GOImageW;
+				// affiche le personnage avec l'image "image", avec les coordonn�es x et y, et
+				// de taille tileSize (16x16) sans �chelle, et 48x48 avec �chelle)
+				g2.drawImage(l_image, this.getWidth() / 2 - l_image.getWidth() / 2, 0 - this.getHeight() / 8, SCREEN_WIDTH,
+						SCREEN_HEIGHT, null);
+				g2.setColor(Color.WHITE);
+				g2.drawString("PRESS '' R '' TO RETRY ", this.getWidth() / 2 - 65, 500);
+			}
 		}
 		g2.dispose();
 	}

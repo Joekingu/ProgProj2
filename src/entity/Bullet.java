@@ -98,7 +98,7 @@ public class Bullet extends Entity{
 	public void getImage() {
 		//gestion des expections 
 		try {
-			m_idleImage = ImageIO.read(getClass().getResource("/tiles/FEU.png"));
+			m_idleImage = ImageIO.read(getClass().getResource("/player/conon.png"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -112,7 +112,7 @@ public class Bullet extends Entity{
 		// r�cup�re l'image du joueur
 		BufferedImage l_image = m_idleImage;
 		// affiche le personnage avec l'image "image", avec les coordonn�es x et y, et de taille tileSize (16x16) sans �chelle, et 48x48 avec �chelle)
-		a_g2.drawImage(l_image, m_bx, m_by,m_gp.TILE_SIZE, m_gp.TILE_SIZE, null);
+		a_g2.drawImage(l_image, m_bx, m_by,m_gp.TILE_SIZE/2, m_gp.TILE_SIZE/2, null);
 	}
 	public boolean getStatus() {
 		return m_alive;
