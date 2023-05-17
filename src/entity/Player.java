@@ -41,10 +41,12 @@ public class Player extends Entity {
 	int m_health;
 	double time;
 	double timeanimation;
-	Image[] characterImages = new Image[3];
+	Image[] characterImages = new Image[8];
 	boolean m_coffre;
 	int dirx=0;
 	int diry=0;
+	ArrayList<arme> sacarme;
+	int equip=0;
 
 	/**
 	 * Constructeur de Player
@@ -72,6 +74,8 @@ public class Player extends Entity {
 		m_health = 50;
 		m_alive = true;
 		m_arme = new baton(this,m_gp);
+		sacarme=new ArrayList<>();
+		sacarme.add(m_arme);
 	}
 
 	/**
@@ -268,6 +272,15 @@ public class Player extends Entity {
 			time=System.nanoTime();
 			m_arme.attaquejoueur(dirx,diry);
 		}
+		if(pressed.contains(Integer.valueOf(65))){
+			equip++;
+		}
+		if(equip<sacarme.size()) {
+			m_arme=sacarme.get(equip);
+		}else{
+			equip-=sacarme.size();
+			m_arme=sacarme.get(equip);
+		}
 	}
 
 	public int gethealth() {
@@ -291,12 +304,13 @@ public class Player extends Entity {
 		// affiche le personnage avec l'image "image", avec les coordonn�es x et y, et
 		// de taille tileSize (16x16) sans �chelle, et 48x48 avec �chelle)
 		
-		if(System.nanoTime() - timeanimation > 5e8) {
+		if(System.nanoTime() - timeanimation > 1e8) {
 			timeanimation = System.nanoTime();
 			indexAnim = (indexAnim + 1) % characterImages.length;
 		}
 		a_g2.drawImage(characterImages[indexAnim], m_x, m_y, m_gp.TILE_SIZE, m_gp.TILE_SIZE, null);
 	    //a_g2.drawImage(characterImages[currentImageIndex], m_x, m_y, null);
+		m_arme.draw(a_g2, dirx, diry);
 		a_g2.setStroke(new BasicStroke(2f));
 		a_g2.drawRoundRect(m_x + 3, m_y - 25, 50, 10, 10, 10);
 		a_g2.setColor(Color.RED);
@@ -316,7 +330,8 @@ public class Player extends Entity {
 	}
 	
 	public void setarme(arme epee) {
-		m_arme = epee;
+		sacarme.add(epee);
+		equip++;
 	}
 
 	public void estblesse(int degat) {
