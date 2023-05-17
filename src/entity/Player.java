@@ -310,6 +310,7 @@ public class Player extends Entity {
 		}
 		a_g2.drawImage(characterImages[indexAnim], m_x, m_y, m_gp.TILE_SIZE, m_gp.TILE_SIZE, null);
 	    //a_g2.drawImage(characterImages[currentImageIndex], m_x, m_y, null);
+		m_arme.draw(a_g2, dirx, diry);
 		a_g2.setStroke(new BasicStroke(2f));
 		a_g2.drawRoundRect(m_x + 3, m_y - 25, 50, 10, 10, 10);
 		a_g2.setColor(Color.RED);

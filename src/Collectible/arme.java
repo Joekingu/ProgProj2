@@ -30,7 +30,7 @@ public abstract class arme{
 	
 	public abstract void attaquemob();
 	
-	public abstract void draw(Graphics2D a_g2,int x,int y);
+	public abstract void draw(Graphics2D a_g2,int dirx,int diry);
 	
 	public double getfrq_att() {
 		return frq_att;
