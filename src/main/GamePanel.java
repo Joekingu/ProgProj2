@@ -20,6 +20,7 @@ import tile.TileManager;
 import Collectible.Collectable;
 import Collectible.Potiondevitesse;
 import Collectible.ShotgunC;
+import Collectible.coffre;
 import Collectible.epee;
 
 import java.awt.Graphics;
@@ -66,13 +67,14 @@ public class GamePanel extends JPanel implements Runnable {
 	ArrayList<mob> listEnnemis;
 	double spawn_time;
 	double spawner_time;
+	double coffre_time;
 	double global_time;
 	Tile collision = new Tile();
 	Soucoupe vaisseau;
 	Songs s_fond = new Songs("/songs/fond.aiff");
 	Songs s_game_over = new Songs("/songs/Game_over.aiff");
 	int viezomb;
-
+	int nbr_coffre;
 
 	/**
 	 * Constructeur
@@ -80,8 +82,9 @@ public class GamePanel extends JPanel implements Runnable {
 	public GamePanel() {
 		m_FPS = 60;
 		m_gamestate = 0;
+		nbr_coffre=0;
 		m_keyH = new KeyHandler();
-		m_keyH_arme = new KeyHandler();	
+		m_keyH_arme = new KeyHandler();
 		m_tileM = new TileManager(this);
 		m_camera = new Camera(m_player);
 		tirs = new ArrayList<>();
@@ -91,12 +94,13 @@ public class GamePanel extends JPanel implements Runnable {
 		spawn_time = System.nanoTime();
 		spawner_time = System.nanoTime();
 		global_time = System.nanoTime();
+		coffre_time = System.nanoTime();
 		vaisseau = new Soucoupe(this);
-		m_player = new Player(this, m_keyH, m_keyH_arme,vaisseau);
+		m_player = new Player(this, m_keyH,m_keyH_arme);
 		m_camera = new Camera(m_player);
-		viezomb=10;
+		viezomb = 10;
 		mob mob = new zombie(this, viezomb, 0, 0);
-		spawner<mob> fist_spawner = new spawner<>(this,random_pos(mob),5e9);
+		spawner<mob> fist_spawner = new spawner<>(this, random_pos(mob), 5e9);
 		listSpawner.add(fist_spawner);
 		this.getGOImage();
 
@@ -167,11 +171,10 @@ public class GamePanel extends JPanel implements Runnable {
 			// Permet de mettre � jour les diff�rentes variables du jeu
 			if (m_gamestate == 0) {
 				if (m_player.isAlive()) {
-					if (m_player.getsoucoupe().gethealth() == 3) {
+					if (vaisseau.gethealth() == 3) {
 						this.gameWin();
 						m_gamestate = 1;
-					}
-					else {
+					} else {
 						this.update();
 					}
 					this.update();
@@ -204,13 +207,18 @@ public class GamePanel extends JPanel implements Runnable {
 			}
 			if (m_gamestate == 1) {
 				s_fond.stopSound();
-				if(gameOver==false) {
+				if (gameOver == false) {
 					s_game_over.play();
-					gameOver=true;
+					gameOver = true;
 				}
 				for (int j = 0; j < m_keyH.taille(); j++) {
-					if (m_keyH.getval(j) == 82) {//R
+					if (m_keyH.getval(j) == 82) {// R
 						m_gamestate = 0;
+						coffre_time = System.nanoTime();
+						spawner_time = System.nanoTime();
+						spawn_time = System.nanoTime();
+						nbr_coffre=0;
+						vaisseau.sethealth(0);
 					}
 				}
 				this.repaint();
@@ -234,28 +242,38 @@ public class GamePanel extends JPanel implements Runnable {
 		}
 		m_camera.update(this);
 		for (Collectable item : acollecter) {
-				item.update(m_player);
+			item.update(m_player);
 		}
-		
+
 		for (spawner<mob> i : listSpawner) {
-				i.update();
-			}
+			i.update();
+		}
 		if (System.nanoTime() - spawner_time > 15e9) {
 			spawner_time = System.nanoTime();
-			viezomb+=10;
+			viezomb += 10;
 			mob mob = new zombie(this, viezomb, 0, 0);
-			spawner<mob> spawner = new spawner<>(this,random_pos(mob),10e9);
+			spawner<mob> spawner = new spawner<>(this, random_pos(mob), 10e9);
 			listSpawner.add(spawner);
+		}
+		if (System.nanoTime() - coffre_time > 30e9 && nbr_coffre<3) {
+			coffre_time = System.nanoTime();
+			Collectable coffre = new coffre(this, 0, 0);
+			acollecter.add(random_pos(coffre));
+			nbr_coffre++;
 		}
 		this.deleteentity();
 	}
 
+	public Soucoupe getsoucoupe() {
+		return vaisseau;
+	}
+	
 	public void gameOver() {
 		m_player.gameOver();
 		listEnnemis.removeAll(listEnnemis);
 		listSpawner.removeAll(listSpawner);
 		acollecter.removeAll(acollecter);
-		viezomb=10;
+		viezomb = 10;
 		this.makeCollectibles();
 	}
 
@@ -264,7 +282,7 @@ public class GamePanel extends JPanel implements Runnable {
 		listEnnemis.removeAll(listEnnemis);
 		listSpawner.removeAll(listSpawner);
 		acollecter.removeAll(acollecter);
-		viezomb=10;
+		viezomb = 10;
 		this.makeCollectibles();
 	}
 
@@ -277,11 +295,10 @@ public class GamePanel extends JPanel implements Runnable {
 		if (m_gamestate == 0) {
 			g2.translate(-m_camera.getx(), -m_camera.gety());
 			m_tileM.draw(g2, m_camera);
-
-		for (mob i : listEnnemis) {
-			if(i!= null && i.getisalive()) {
-				i.draw(g2);
-			m_player.draw(g2);
+			for (mob i : listEnnemis) {
+				if (i != null && i.getisalive()) {
+					i.draw(g2);
+				}
 			}
 			for (Bullet i1 : tirs) {
 				if (i1.isAlive()) {
@@ -293,12 +310,7 @@ public class GamePanel extends JPanel implements Runnable {
 					item.draw(g2);
 				}
 			}
-			for (Collectable item : acollecter) {
-				if (item.getStatus() == true) {
-					item.draw(g2);
-				}
-
-			}
+			m_player.draw(g2);
 			vaisseau.draw(g2);
 		}
 		if (m_gamestate == 1) {
@@ -313,24 +325,23 @@ public class GamePanel extends JPanel implements Runnable {
 			g2.drawString("PRESS '' R '' TO RETRY ", this.getWidth() / 2 - 65, 500);
 		}
 		g2.dispose();
-		}
-
 	}
+
 
 	public TileManager gettileM() {
 		return m_tileM;
 	}
-	
-	private boolean in (int x , int[]tab) {
-		for (int i=0;i<tab.length;i++) {
-			if (x==tab[i]) {
+
+	private boolean in(int x, int[] tab) {
+		for (int i = 0; i < tab.length; i++) {
+			if (x == tab[i]) {
 				return true;
 			}
 		}
 		return false;
 	}
-	
-	public Collectable random_pos (Collectable obj) {
+
+	public Collectable random_pos(Collectable obj) {
 		boolean tmp = true;
 		int pos_x = 0;
 		int pos_y = 0;
@@ -338,19 +349,19 @@ public class GamePanel extends JPanel implements Runnable {
 		int max_y = gettileM().map.length;
 		int max_x = gettileM().map[0].length;
 		while (tmp) {
-			Random rand = new Random(); 
+			Random rand = new Random();
 			pos_x = rand.nextInt(max_x);
 			pos_y = rand.nextInt(max_y);
-			if(!in(gettileM().map[pos_x][(pos_y)],collision.bloc)) {
+			if (!in(gettileM().map[pos_x][(pos_y)], collision.bloc)) {
 				tmp = false;
 			}
 		}
-		obj.setx(pos_x*d);
-		obj.sety(pos_y*d);
+		obj.setx(pos_x * d);
+		obj.sety(pos_y * d);
 		return obj;
 	}
-	
-	public mob random_pos (mob p) {
+
+	public mob random_pos(mob p) {
 		boolean tmp = true;
 		int pos_x = 0;
 		int pos_y = 0;
@@ -358,25 +369,26 @@ public class GamePanel extends JPanel implements Runnable {
 		int max_y = gettileM().map.length;
 		int max_x = gettileM().map[0].length;
 		while (tmp) {
-			Random rand = new Random(); 
+			Random rand = new Random();
 			pos_x = rand.nextInt(max_x);
 			pos_y = rand.nextInt(max_y);
-			if(!in(gettileM().map[pos_x][(pos_y)],collision.bloc)) {
+			if (!in(gettileM().map[pos_x][(pos_y)], collision.bloc)) {
 				tmp = false;
 			}
 		}
-		p.m_x=pos_x*d;
-		p.m_y=pos_y*d;
+		p.m_x = pos_x * d;
+		p.m_y = pos_y * d;
 		return p;
 	}
+
 	public void deleteentity() {
-		for(int i = 0; i<listEnnemis.size();i++) {
-			if(!listEnnemis.get(i).getisalive()) {
+		for (int i = 0; i < listEnnemis.size(); i++) {
+			if (!listEnnemis.get(i).getisalive()) {
 				listEnnemis.remove(i);
 			}
 		}
-		for(int i = 0; i<acollecter.size();i++) {
-			if(!acollecter.get(i).getStatus()) {
+		for (int i = 0; i < acollecter.size(); i++) {
+			if (!acollecter.get(i).getStatus()) {
 				acollecter.remove(i);
 			}
 		}

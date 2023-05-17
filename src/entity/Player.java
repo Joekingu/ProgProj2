@@ -34,7 +34,6 @@ public class Player extends Entity {
 	KeyHandler m_keyH;
 	KeyHandler m_keyH_arme;
 	Tile m_collision;
-	Soucoupe m_soucoupe;
 	arme m_arme;
 	boolean m_alive;
 	int m_spmat = 0;
@@ -47,18 +46,13 @@ public class Player extends Entity {
 	 * @param a_gp   GamePanel, pannel principal du jeu
 	 * @param a_keyH KeyHandler, gestionnaire des touches
 	 */
-	public Player(GamePanel a_gp, KeyHandler a_keyH,KeyHandler a_keyH_arme,Soucoupe soucoupe) {
+	public Player(GamePanel a_gp, KeyHandler a_keyH,KeyHandler a_keyH_arme) {
 		this.m_gp = a_gp;
 		this.m_keyH = a_keyH;
 		this.m_keyH_arme = a_keyH_arme;
-		this.m_soucoupe = soucoupe;
 		this.setDefaultValues();
 		this.getPlayerImage();
 		this.m_collision = new Tile();
-	}
-	
-	public Soucoupe getsoucoupe() {
-		return m_soucoupe;
 	}
 
 	/**
@@ -107,7 +101,7 @@ public class Player extends Entity {
 			int ix = i.getx();
 			int iy = i.gety();
 			double dist_min = d * 3 / 4;
-			if (dist(ix, m_x + x, iy, m_y + y) < dist_min) {
+			if (dist(ix, m_x + x, iy, m_y + y) <= dist_min) {
 				return true;
 			}
 		}
@@ -135,7 +129,7 @@ public class Player extends Entity {
 		int px = m_x+d2;
 		int py = m_y+d2;
 		if(m_gp.gettileM().map[(px+d2)/d][(py+d2)/d]==m_collision.snow) {
-			m_spmat=3;
+			m_spmat=2;
 		}else if(m_gp.gettileM().map[(px+d2)/d][(py+d2)/d]==m_collision.sand) {
 			m_spmat=-1;
 		}else {

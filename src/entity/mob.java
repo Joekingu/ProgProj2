@@ -38,7 +38,6 @@ public class mob extends Entity{
 		this.m_gp = a_gp;
 		this.m_health=health;
 		this.setDefaultValues();
-		this.getPlayerImage();
 		this.m_collision = new Tile();
 		this.isalive = true;
 		m_x = x;
@@ -51,21 +50,6 @@ public class mob extends Entity{
 		m_speed = 1;
 		weapon= new Poingmob(this,2,20,m_gp,10,1e9);
 	}
-	/**
-	 * R�cup�ration de l'image du personnage
-	 */
-	public void getPlayerImage() {
-		//gestion des expections 
-		try {
-			m_idleImage = ImageIO.read(getClass().getResource("/Player/superhero.png"));
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-	
-	/**
-	 * Mise � jour des donn�es du joueur
-	 */
 	
 	private boolean in (int x , int[]tab) {
 		for (int i=0;i<tab.length;i++) {
@@ -80,7 +64,7 @@ public class mob extends Entity{
 		int d = m_gp.TILE_SIZE;
 		int ix = player.getx();
 		int iy = player.gety();
-		double dist_min = d*3/4;
+		double dist_min = d* 1/2;
 		if ( dist(ix,m_x,iy,m_y)<dist_min ){
 			return true;
 		}
@@ -149,17 +133,6 @@ public class mob extends Entity{
 		}
 
 	}
-	
-	/**
-	 * Affichage du l'image du joueur dans la fen�tre du jeu
-	 * @param a_g2 Graphics2D 
-	 */
-	public void draw(Graphics2D a_g2) {
-		// r�cup�re l'image du joueur
-		BufferedImage l_image = m_idleImage;
-		// affiche le personnage avec l'image "image", avec les coordonn�es x et y, et de taille tileSize (16x16) sans �chelle, et 48x48 avec �chelle)
-		a_g2.drawImage(l_image, m_x, m_y, m_gp.TILE_SIZE, m_gp.TILE_SIZE, null);
-	}
 
 	public void gethit(int deg) {
 		m_health -= deg;
@@ -171,5 +144,11 @@ public class mob extends Entity{
 	
 	public boolean getisalive() {
 		return this.isalive;
+	}
+	public void draw(Graphics2D a_g2) {
+		// r�cup�re l'image du joueur
+		BufferedImage l_image = m_idleImage;
+		// affiche le personnage avec l'image "image", avec les coordonn�es x et y, et de taille tileSize (16x16) sans �chelle, et 48x48 avec �chelle)
+		a_g2.drawImage(l_image, m_x, m_y, m_gp.TILE_SIZE, m_gp.TILE_SIZE, null);
 	}
 }

@@ -14,11 +14,12 @@ public class coffre extends Collectable {
 		m_x=x;
 		m_y=y;
 		m_gp=gp;
+		pris=true;
 		this.getcoffreImage();
 	}
 	@Override
 	void effet(Player p) {
-		p.getsoucoupe().addhealth();
+		m_gp.getsoucoupe().addhealth();
 	}
 
 	@Override
@@ -37,7 +38,7 @@ public class coffre extends Collectable {
 	public void getcoffreImage() {
 		//gestion des expections 
 		try {
-			m_idleImage = ImageIO.read(getClass().getResource("/Collectibles/potion.png"));
+			m_idleImage = ImageIO.read(getClass().getResource("/Collectibles/chest.png"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

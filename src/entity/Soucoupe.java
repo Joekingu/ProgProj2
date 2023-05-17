@@ -45,6 +45,10 @@ public class Soucoupe extends Entity{
 		health += 1;
 	}
 	
+	public void sethealth(int hlth) {
+		health = hlth;
+	}
+	
 	public int gethealth() {
 		return health;
 	}
