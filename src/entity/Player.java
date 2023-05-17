@@ -45,6 +45,8 @@ public class Player extends Entity {
 	boolean m_coffre;
 	int dirx=0;
 	int diry=0;
+	ArrayList<arme> sacarme;
+	int equip=0;
 
 	/**
 	 * Constructeur de Player
@@ -72,6 +74,8 @@ public class Player extends Entity {
 		m_health = 50;
 		m_alive = true;
 		m_arme = new baton(this,m_gp);
+		sacarme=new ArrayList<>();
+		sacarme.add(m_arme);
 	}
 
 	/**
@@ -268,6 +272,15 @@ public class Player extends Entity {
 			time=System.nanoTime();
 			m_arme.attaquejoueur(dirx,diry);
 		}
+		if(pressed.contains(Integer.valueOf(65))){
+			equip++;
+		}
+		if(equip<sacarme.size()) {
+			m_arme=sacarme.get(equip);
+		}else{
+			equip-=sacarme.size();
+			m_arme=sacarme.get(equip);
+		}
 	}
 
 	public int gethealth() {
@@ -315,7 +328,8 @@ public class Player extends Entity {
 	}
 	
 	public void setarme(arme epee) {
-		m_arme = epee;
+		sacarme.add(epee);
+		equip++;
 	}
 
 	public void estblesse(int degat) {
