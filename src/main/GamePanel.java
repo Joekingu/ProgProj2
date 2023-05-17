@@ -266,7 +266,7 @@ public class GamePanel extends JPanel implements Runnable {
 			spawner<mob> spawner = new spawner<>(this, random_pos(mob), 10e9);
 			listSpawner.add(spawner);
 		}
-		if (System.nanoTime() - coffre_time > 30e9 && nbr_coffre<3) {
+		if (System.nanoTime() - coffre_time > 10e9 && nbr_coffre<3) {
 			coffre_time = System.nanoTime();
 			Collectable coffre = new coffre(this, 0, 0);
 			acollecter.add(random_pos(coffre));
@@ -415,4 +415,5 @@ public class GamePanel extends JPanel implements Runnable {
 			}
 		}
 	}
+	
 }

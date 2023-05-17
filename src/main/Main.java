@@ -15,7 +15,7 @@ public class Main {
 		JFrame window = new JFrame();
 		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		window.setResizable(true);
-		window.setTitle("Notre jeu");
+		window.setTitle("Zombozo démo");
 		
 		//Ajout du panel du jeu et d�marrage du thread principal
 		GamePanel gamePanel = new GamePanel();

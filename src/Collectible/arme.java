@@ -1,6 +1,7 @@
 package Collectible;
 
 import java.awt.Graphics2D;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 import entity.Entity;
@@ -29,8 +30,6 @@ public abstract class arme{
 	public abstract void attaquejoueur(int dirx,int diry);
 	
 	public abstract void attaquemob();
-	
-	public abstract void draw(Graphics2D a_g2,int dirx,int diry);
 	
 	public double getfrq_att() {
 		return frq_att;

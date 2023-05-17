@@ -87,9 +87,9 @@ public class Player extends Entity {
 	public void getPlayerImage() {
 		// gestion des expections
 		try {
-			characterImages[0] = ImageIO.read(getClass().getResource("/Player/zombie.png"));
-			characterImages[1] = ImageIO.read(getClass().getResource("/Player/superhero.png"));
-			characterImages[2] = ImageIO.read(getClass().getResource("/Items/shotgun.png"));
+			for(int i=0; i<characterImages.length; i++) {
+				characterImages[i] = ImageIO.read(getClass().getResource("/Player/walk_"+i+".png"));
+			}
 			m_idleImage = ImageIO.read(getClass().getResource("/Player/hero.png"));
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -307,7 +307,6 @@ public class Player extends Entity {
 	public void draw(Graphics2D a_g2) {
 		// r�cup�re l'image du joueur
 		BufferedImage l_image = m_idleImage;
-		m_arme.draw(a_g2,dirx,diry);
 		// affiche le personnage avec l'image "image", avec les coordonn�es x et y, et
 		// de taille tileSize (16x16) sans �chelle, et 48x48 avec �chelle)
 		
@@ -315,16 +314,7 @@ public class Player extends Entity {
 			timeanimation = System.nanoTime();
 			indexAnim = (indexAnim + 1) % characterImages.length;
 		}
-		if(sens==1) {
-			a_g2.drawImage(characterImages[indexAnim], m_x-(m_gp.TILE_SIZE)-25, m_y-m_gp.TILE_SIZE-75, m_gp.TILE_SIZE*4, m_gp.TILE_SIZE*4, null);
-		}
-		if(sens==2) {
-			a_g2.drawImage(characterImages[indexAnim], -m_x-(m_gp.TILE_SIZE)-25, m_y-m_gp.TILE_SIZE-75, m_gp.TILE_SIZE*4, m_gp.TILE_SIZE*4, null);
-		}if(sens==0) {
-			a_g2.drawImage(characterImages[0], m_x-(m_gp.TILE_SIZE)-25, m_y-m_gp.TILE_SIZE-75, m_gp.TILE_SIZE*4, m_gp.TILE_SIZE*4, null);
-		}
-	    //a_g2.drawImage(characterImages[currentImageIndex], m_x, m_y, null);
-		m_arme.draw(a_g2, dirx, diry);
+		a_g2.drawImage(characterImages[indexAnim], m_x-m_gp.TILE_SIZE-25, m_y-m_gp.TILE_SIZE-75, m_gp.TILE_SIZE*4, 4*m_gp.TILE_SIZE, null);
 		a_g2.setStroke(new BasicStroke(2f));
 		a_g2.drawRoundRect(m_x + 3, m_y - 25, 50, 10, 10, 10);
 		a_g2.setColor(Color.RED);

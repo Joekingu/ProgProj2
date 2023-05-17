@@ -30,5 +30,4 @@ public abstract class distance extends arme{
 	public int getType() {
 		return 1;
 	}
-	
 }
