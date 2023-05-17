@@ -300,9 +300,8 @@ public class GamePanel extends JPanel implements Runnable {
 				}
 			}
 			for (Bullet i1 : tirs) {
-				if (i1.isAlive()) {
+				System.out.println("oui");
 					i1.draw(g2);
-				}
 			}
 			for (Collectable item : acollecter) {
 				if (item.getStatus() == true) {
@@ -392,7 +391,9 @@ public class GamePanel extends JPanel implements Runnable {
 			}
 		}
 		for(int i = 0; i<tirs.size();i++) {
-			tirs.remove(i);
+			if (!tirs.get(i).getStatus()) {
+				tirs.remove(i);
+			}
 		}
 	}
 }
