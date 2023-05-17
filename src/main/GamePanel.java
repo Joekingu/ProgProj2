@@ -415,4 +415,12 @@ public class GamePanel extends JPanel implements Runnable {
 			}
 		}
 	}
+	
+	public static BufferedImage rotate(BufferedImage bimg, double angle) {
+	    Graphics2D graphic = bimg.createGraphics();
+	    graphic.rotate(Math.toRadians(angle));
+	    graphic.drawImage(bimg, null, 0, 0);
+	    graphic.dispose();
+	    return bimg;
+	}
 }
