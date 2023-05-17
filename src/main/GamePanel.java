@@ -67,6 +67,9 @@ public class GamePanel extends JPanel implements Runnable {
 	double global_time;
 	Tile collision = new Tile();
 	Soucoupe vaisseau;
+	Songs s_fond = new Songs("/songs/fond.aiff");
+	Songs s_game_over = new Songs("/songs/Game_over.aiff");
+
 
 	/**
 	 * Constructeur
@@ -134,14 +137,14 @@ public class GamePanel extends JPanel implements Runnable {
 	public void startGameThread() {
 		m_gameThread = new Thread(this);
 		m_gameThread.start();
-		Songs s = new Songs("/songs/fond.aiff");
-		s.play();
+		s_fond.play();
 	}
 
 	public void run() {
 
 		double drawInterval = 1000000000 / m_FPS; // rafraichissement chaque 0.0166666 secondes
 		double nextDrawTime = System.nanoTime() + drawInterval;
+		boolean gameOver = false;
 
 		while (m_gameThread != null) { // Tant que le thread du jeu est actif
 			// Permet de mettre � jour les diff�rentes variables du jeu
@@ -151,7 +154,6 @@ public class GamePanel extends JPanel implements Runnable {
 				} else {
 					this.gameOver();
 					m_gamestate = 1;
-
 				}
 
 				// Dessine sur l'�cran le personnage et la map avec les nouvelles informations.
@@ -177,6 +179,11 @@ public class GamePanel extends JPanel implements Runnable {
 				}
 			}
 			if (m_gamestate == 1) {
+				s_fond.stopSound();
+				if(gameOver==false) {
+					s_game_over.play();
+					gameOver=true;
+				}
 				for (int j = 0; j < m_keyH.taille(); j++) {
 					if (m_keyH.getval(j) == 82) {//R
 						m_gamestate = 0;
