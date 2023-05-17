@@ -67,7 +67,6 @@ public class GamePanel extends JPanel implements Runnable {
 	double global_time;
 	Tile collision = new Tile();
 	Soucoupe vaisseau;
-	double rep;
 
 	/**
 	 * Constructeur
@@ -75,7 +74,6 @@ public class GamePanel extends JPanel implements Runnable {
 	public GamePanel() {
 		m_FPS = 60;
 		m_gamestate = 0;
-		rep=5e9;
 		m_keyH = new KeyHandler();
 		m_keyH_arme = new KeyHandler();
 		m_player = new Player(this, m_keyH,m_keyH_arme);
@@ -89,7 +87,7 @@ public class GamePanel extends JPanel implements Runnable {
 		global_time = System.nanoTime();
 		vaisseau = new Soucoupe(this);
 		mob mob = new zombie(this, 50, 0, 0);
-		spawner<mob> fist_spawner = new spawner<>(this,random_pos(mob));
+		spawner<mob> fist_spawner = new spawner<>(this,random_pos(mob),5e9);
 		listSpawner.add(fist_spawner);
 		this.getGOImage();
 
@@ -211,19 +209,14 @@ public class GamePanel extends JPanel implements Runnable {
 				item.update(m_player);
 			}
 		}
-		if (System.nanoTime() - spawn_time > Math.max(5e8,rep)) {
-			spawn_time = System.nanoTime();
-			for (spawner<mob> i : listSpawner) {
+		
+		for (spawner<mob> i : listSpawner) {
 				i.update();
 			}
-			if(!(rep<5e8)) {
-			rep-=2e8;
-			}
-		}
 		if (System.nanoTime() - spawner_time > 15e9) {
 			spawner_time = System.nanoTime();
 			mob mob = new zombie(this, 50, 0, 0);
-			spawner<mob> spawner = new spawner<>(this,random_pos(mob));
+			spawner<mob> spawner = new spawner<>(this,random_pos(mob),5e9);
 			listSpawner.add(spawner);
 		}
 	}
@@ -232,7 +225,6 @@ public class GamePanel extends JPanel implements Runnable {
 		m_player.gameOver();
 		listEnnemis.removeAll(listEnnemis);
 		listSpawner.removeAll(listSpawner);
-		rep=5e9;
 		for (int i = 0; i < acollecter.size(); i += 1) {
 			acollecter.get(i).setStatus(true);
 		}
