@@ -47,6 +47,8 @@ public class Player extends Entity {
 	int dirx=0;
 	int diry=0;
 	int sens=0;
+	ArrayList<arme> sacarme;
+	int equip=0;
 
 	/**
 	 * Constructeur de Player
@@ -74,6 +76,8 @@ public class Player extends Entity {
 		m_health = 50;
 		m_alive = true;
 		m_arme = new baton(this,m_gp);
+		sacarme=new ArrayList<>();
+		sacarme.add(m_arme);
 	}
 
 	/**
@@ -82,9 +86,9 @@ public class Player extends Entity {
 	public void getPlayerImage() {
 		// gestion des expections
 		try {
-			for(int i = 0; i<characterImages.length; i++) {
-				characterImages[i] = ImageIO.read(getClass().getResource("/Player/walk_"+i+".png"));
-			}
+			characterImages[0] = ImageIO.read(getClass().getResource("/Player/zombie.png"));
+			characterImages[1] = ImageIO.read(getClass().getResource("/Player/superhero.png"));
+			characterImages[2] = ImageIO.read(getClass().getResource("/Items/shotgun.png"));
 			m_idleImage = ImageIO.read(getClass().getResource("/Player/hero.png"));
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -274,6 +278,15 @@ public class Player extends Entity {
 			time=System.nanoTime();
 			m_arme.attaquejoueur(dirx,diry);
 		}
+		if(pressed.contains(Integer.valueOf(65))){
+			equip++;
+		}
+		if(equip<sacarme.size()) {
+			m_arme=sacarme.get(equip);
+		}else{
+			equip-=sacarme.size();
+			m_arme=sacarme.get(equip);
+		}
 	}
 
 	public int gethealth() {
@@ -293,6 +306,7 @@ public class Player extends Entity {
 	public void draw(Graphics2D a_g2) {
 		// r�cup�re l'image du joueur
 		BufferedImage l_image = m_idleImage;
+		m_arme.draw(a_g2,dirx,diry);
 		// affiche le personnage avec l'image "image", avec les coordonn�es x et y, et
 		// de taille tileSize (16x16) sans �chelle, et 48x48 avec �chelle)
 		
@@ -309,6 +323,7 @@ public class Player extends Entity {
 			a_g2.drawImage(characterImages[0], m_x-(m_gp.TILE_SIZE)-25, m_y-m_gp.TILE_SIZE-75, m_gp.TILE_SIZE*4, m_gp.TILE_SIZE*4, null);
 		}
 	    //a_g2.drawImage(characterImages[currentImageIndex], m_x, m_y, null);
+		m_arme.draw(a_g2, dirx, diry);
 		a_g2.setStroke(new BasicStroke(2f));
 		a_g2.drawRoundRect(m_x + 3, m_y - 25, 50, 10, 10, 10);
 		a_g2.setColor(Color.RED);
@@ -328,7 +343,8 @@ public class Player extends Entity {
 	}
 	
 	public void setarme(arme epee) {
-		m_arme = epee;
+		sacarme.add(epee);
+		equip++;
 	}
 
 	public void estblesse(int degat) {
