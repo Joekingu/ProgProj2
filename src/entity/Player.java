@@ -3,6 +3,7 @@ package entity;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.Image;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -39,6 +40,7 @@ public class Player extends Entity {
 	int m_spmat = 0;
 	int m_health;
 	double time;
+	Image[] characterImages = new Image[3];
 	boolean m_coffre;
 
 	/**
@@ -75,6 +77,9 @@ public class Player extends Entity {
 	public void getPlayerImage() {
 		// gestion des expections
 		try {
+			characterImages[0] = ImageIO.read(getClass().getResource("/Player/zombie.png"));
+			characterImages[1] = ImageIO.read(getClass().getResource("/Player/superhero.png"));
+			characterImages[2] = ImageIO.read(getClass().getResource("/Items/shotgun.png"));
 			m_idleImage = ImageIO.read(getClass().getResource("/Player/hero.png"));
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -267,7 +272,8 @@ public class Player extends Entity {
 	public void gameOver() {
 		this.setDefaultValues();
 	}
-
+	
+	private int indexAnim = 0;
 	/**
 	 * Affichage du l'image du joueur dans la fen�tre du jeu
 	 * 
@@ -278,7 +284,14 @@ public class Player extends Entity {
 		BufferedImage l_image = m_idleImage;
 		// affiche le personnage avec l'image "image", avec les coordonn�es x et y, et
 		// de taille tileSize (16x16) sans �chelle, et 48x48 avec �chelle)
-		a_g2.drawImage(l_image, m_x, m_y, m_gp.TILE_SIZE, m_gp.TILE_SIZE, null);
+		
+		if(System.nanoTime() - time > 5e8) {
+			time = System.nanoTime();
+			indexAnim = (indexAnim + 1) % characterImages.length;
+			System.out.println(indexAnim);
+		}
+		a_g2.drawImage(characterImages[indexAnim], m_x, m_y, m_gp.TILE_SIZE, m_gp.TILE_SIZE, null);
+	    //a_g2.drawImage(characterImages[currentImageIndex], m_x, m_y, null);
 		a_g2.setStroke(new BasicStroke(2f));
 		a_g2.drawRoundRect(m_x + 3, m_y - 25, 50, 10, 10, 10);
 		a_g2.setColor(Color.RED);
