@@ -76,9 +76,9 @@ public class Bullet extends Entity{
 		int d = m_gp.TILE_SIZE;
 		if ( in(m_gp.gettileM().map[(m_bx+m_dirx*m_speed)/d][(m_by+m_diry*m_speed)/d],m_collision.bloc) || collision_mob(m_gp.getListEnnemis())
 				) {
-			return false;
+			return true;
 		}
-		return true;
+		return false;
 	}
 	
 	public boolean isAlive() {
