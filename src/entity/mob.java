@@ -64,7 +64,7 @@ public class mob extends Entity{
 		int d = m_gp.TILE_SIZE;
 		int ix = player.getx();
 		int iy = player.gety();
-		double dist_min = d* 1/2;
+		double dist_min = d* 3/4;
 		if ( dist(ix,m_x,iy,m_y)<dist_min ){
 			return true;
 		}
