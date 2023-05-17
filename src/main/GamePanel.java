@@ -77,9 +77,7 @@ public class GamePanel extends JPanel implements Runnable {
 		m_gamestate = 0;
 		m_keyH = new KeyHandler();
 		m_keyH_arme = new KeyHandler();
-		m_player = new Player(this, m_keyH,m_keyH_arme);
 		m_tileM = new TileManager(this);
-		m_camera = new Camera(m_player);
 		listEnnemis = new ArrayList<>();
 		acollecter = new ArrayList<>();
 		listSpawner = new ArrayList<>();
@@ -87,6 +85,8 @@ public class GamePanel extends JPanel implements Runnable {
 		spawner_time = System.nanoTime();
 		global_time = System.nanoTime();
 		vaisseau = new Soucoupe(this);
+		m_player = new Player(this, m_keyH,m_keyH_arme,vaisseau);
+		m_camera = new Camera(m_player);
 		viezomb=10;
 		mob mob = new zombie(this, viezomb, 0, 0);
 		spawner<mob> fist_spawner = new spawner<>(this,random_pos(mob),5e9);
@@ -151,11 +151,16 @@ public class GamePanel extends JPanel implements Runnable {
 			// Permet de mettre � jour les diff�rentes variables du jeu
 			if (m_gamestate == 0) {
 				if (m_player.isAlive()) {
-					this.update();
+					if (m_player.getsoucoupe().gethealth() == 3) {
+						this.gameWin();
+						m_gamestate = 1;
+					}
+					else {
+						this.update();
+					}
 				} else {
 					this.gameOver();
 					m_gamestate = 1;
-
 				}
 
 				// Dessine sur l'�cran le personnage et la map avec les nouvelles informations.
@@ -233,7 +238,16 @@ public class GamePanel extends JPanel implements Runnable {
 		for (int i = 0; i < acollecter.size(); i += 1) {
 			acollecter.get(i).setStatus(true);
 		}
+	}
+	
 
+	public void gameWin() {
+		m_player.gameOver();
+		listEnnemis.removeAll(listEnnemis);
+		listSpawner.removeAll(listSpawner);
+		for (int i = 0; i < acollecter.size(); i += 1) {
+			acollecter.get(i).setStatus(true);
+		}
 	}
 
 	/**
