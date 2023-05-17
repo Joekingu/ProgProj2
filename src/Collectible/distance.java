@@ -29,6 +29,10 @@ public class distance extends arme{
 		Bullet balle = new Bullet(m_gp,porteur, 5, 4,1, dirx,diry );
 		tirs.add(balle);
 	}
+	@Override
+	public void attaquemob() {
+		//mettre l'attaque pour les mobs en mode ils regardent la direction et pour une distance au joueur min à un truc qu'on aura choisit, on tire dans cette direction
+	}
 	
 	public void update() {
 		for (Bullet balle : tirs){
@@ -61,11 +65,6 @@ public class distance extends arme{
 		for (Bullet balle : tirs){
 			balle.draw(a_g2);
 		}
-	}
-
-	@Override
-	public void attaquemob() {
-		
 	}
 	
 }
