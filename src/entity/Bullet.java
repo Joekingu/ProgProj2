@@ -12,7 +12,7 @@ import main.GamePanel;
 import main.KeyHandler;
 import tile.Tile;
 
-public class Bullet {
+public class Bullet extends Entity{
 	
 	//Attributs
 	int m_damage;
@@ -32,16 +32,16 @@ public class Bullet {
 	 * @param a_gp GamePanel, pannel principal du jeu
 	 * @param a_keyH KeyHandler, gestionnaire des touches 
 	 */
-	public Bullet(GamePanel a_gp, Entity porteur, int damage, int speed, int size, int dirx, int diry) {
+	public Bullet(GamePanel a_gp, distance w, int damage, int speed, int size, int dirx, int diry) {
 		m_gp = a_gp;
-		m_player = porteur;
+		m_arme=w;
 		m_damage = damage;
 		m_speed = speed;
 		m_size = size;
 		m_dirx = dirx;
 		m_diry = diry;
-		m_bx = m_player.m_x + m_dirx;
-		m_by = m_player.m_y + m_diry;
+		m_bx = m_arme.getX()+ m_size;
+		m_by = m_arme.getY() + m_size;
 		this.m_collision = new Tile();
 		m_alive=true;
 	}
@@ -55,8 +55,8 @@ public class Bullet {
 			int ix = i.getx();
 			int iy = i.gety();
 			double dist_min = d/2;
-			if (dist(ix, m_bx, iy, m_y) < dist_min+m_size) {
-				i.sethealth(m_damage);
+			if (dist(ix, m_bx, iy, m_by) < dist_min+m_size) {
+				i.gethit(m_damage);
 				return true;
 			}
 		}
