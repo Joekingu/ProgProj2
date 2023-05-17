@@ -81,8 +81,7 @@ public class GamePanel extends JPanel implements Runnable {
 		m_FPS = 60;
 		m_gamestate = 0;
 		m_keyH = new KeyHandler();
-		m_keyH_arme = new KeyHandler();
-		m_player = new Player(this, m_keyH, m_keyH_arme);
+		m_keyH_arme = new KeyHandler();	
 		m_tileM = new TileManager(this);
 		m_camera = new Camera(m_player);
 		tirs = new ArrayList<>();
@@ -93,6 +92,7 @@ public class GamePanel extends JPanel implements Runnable {
 		spawner_time = System.nanoTime();
 		global_time = System.nanoTime();
 		vaisseau = new Soucoupe(this);
+		m_player = new Player(this, m_keyH, m_keyH_arme,vaisseau);
 		m_player = new Player(this, m_keyH,m_keyH_arme,vaisseau);
 		m_camera = new Camera(m_player);
 		viezomb=10;
@@ -200,7 +200,6 @@ public class GamePanel extends JPanel implements Runnable {
 					nextDrawTime += drawInterval;
 
 				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}
@@ -285,9 +284,9 @@ public class GamePanel extends JPanel implements Runnable {
 				i.draw(g2);
 			m_player.draw(g2);
 			}
-			for (Bullet i : tirs) {
-				if (i.isAlive()) {
-					i.draw(g2);
+			for (Bullet i1 : tirs) {
+				if (i1.isAlive()) {
+					i1.draw(g2);
 				}
 			}
 			for (Collectable item : acollecter) {
@@ -315,6 +314,7 @@ public class GamePanel extends JPanel implements Runnable {
 			g2.drawString("PRESS '' R '' TO RETRY ", this.getWidth() / 2 - 65, 500);
 		}
 		g2.dispose();
+		}
 
 	}
 
