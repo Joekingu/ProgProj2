@@ -177,7 +177,6 @@ public class GamePanel extends JPanel implements Runnable {
 					} else {
 						this.update();
 					}
-					this.update();
 				} else {
 					this.gameOver();
 					m_gamestate = 1;
@@ -298,7 +297,6 @@ public class GamePanel extends JPanel implements Runnable {
 				}
 			}
 			for (Bullet i1 : tirs) {
-				System.out.println("oui");
 					i1.draw(g2);
 			}
 			for (Collectable item : acollecter) {
