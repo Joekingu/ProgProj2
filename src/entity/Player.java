@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.event.KeyEvent;
+import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -45,6 +46,7 @@ public class Player extends Entity {
 	boolean m_coffre;
 	int dirx=0;
 	int diry=0;
+	int sens=0;
 
 	/**
 	 * Constructeur de Player
@@ -214,14 +216,18 @@ public class Player extends Entity {
 					if (!test(0, (m_speed+m_spmat)*3)) {
 						m_y += 3 * (m_speed+m_spmat);
 					}
-				} else if (m_keyH.getval(j) == 68) {
+				} else if (m_keyH.getval(j) == 68) {//D
+					sens=1;
 					if (!test((m_speed+m_spmat)*3, 0)) {
 						m_x += 3 * (m_speed+m_spmat);
 					}
-				} else if (m_keyH.getval(j) == 81) {
+				} else if (m_keyH.getval(j) == 81) {//Q
+					sens=2;
 					if (!test(-((m_speed+m_spmat)*3), 0)) {
 						m_x -= 3 * (m_speed+m_spmat);
 					}
+				} else {
+					sens=0;
 				}
 
 			}
@@ -261,7 +267,7 @@ public class Player extends Entity {
 					diry = -1;
 					dirx = 0;
 					att=true;
-				} 
+				}
 			}
 		}
 		if(att && System.nanoTime() - time > m_arme.getfrq_att()) {
@@ -294,7 +300,14 @@ public class Player extends Entity {
 			timeanimation = System.nanoTime();
 			indexAnim = (indexAnim + 1) % characterImages.length;
 		}
-		a_g2.drawImage(characterImages[indexAnim], m_x-(m_gp.TILE_SIZE)-25, m_y-m_gp.TILE_SIZE-75, m_gp.TILE_SIZE*4, m_gp.TILE_SIZE*4, null);
+		if(sens==1) {
+			a_g2.drawImage(characterImages[indexAnim], m_x-(m_gp.TILE_SIZE)-25, m_y-m_gp.TILE_SIZE-75, m_gp.TILE_SIZE*4, m_gp.TILE_SIZE*4, null);
+		}
+		if(sens==2) {
+			a_g2.drawImage(characterImages[indexAnim], -m_x-(m_gp.TILE_SIZE)-25, m_y-m_gp.TILE_SIZE-75, m_gp.TILE_SIZE*4, m_gp.TILE_SIZE*4, null);
+		}if(sens==0) {
+			a_g2.drawImage(characterImages[0], m_x-(m_gp.TILE_SIZE)-25, m_y-m_gp.TILE_SIZE-75, m_gp.TILE_SIZE*4, m_gp.TILE_SIZE*4, null);
+		}
 	    //a_g2.drawImage(characterImages[currentImageIndex], m_x, m_y, null);
 		a_g2.setStroke(new BasicStroke(2f));
 		a_g2.drawRoundRect(m_x + 3, m_y - 25, 50, 10, 10, 10);
