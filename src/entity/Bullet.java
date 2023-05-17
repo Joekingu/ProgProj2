@@ -44,6 +44,7 @@ public class Bullet extends Entity{
 		m_by = m_arme.getY() + m_size;
 		this.m_collision = new Tile();
 		m_alive=true;
+		getImage();
 	}
 	
 	/**
@@ -76,9 +77,9 @@ public class Bullet extends Entity{
 		int d = m_gp.TILE_SIZE;
 		if ( in(m_gp.gettileM().map[(m_bx+m_dirx*m_speed)/d][(m_by+m_diry*m_speed)/d],m_collision.bloc) || collision_mob(m_gp.getListEnnemis())
 				) {
-			return true;
+			return false;
 		}
-		return false;
+		return true;
 	}
 	
 	public boolean isAlive() {
@@ -95,6 +96,7 @@ public class Bullet extends Entity{
 	
 	/**
 	 * R�cup�ration de l'image du personnage
+	 * @return 
 	 */
 	public void getImage() {
 		//gestion des expections 
