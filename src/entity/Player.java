@@ -136,8 +136,6 @@ public class Player extends Entity {
 			m_spmat=0;
 		}
 		if(m_gp.gettileM().map[(px+d2)/d][(py+d2)/d]==m_collision.lave) {
-			Songs s = new Songs("/songs/lava.wav");
-			s.play();
 			return 2;
 		}
 		return 0;
