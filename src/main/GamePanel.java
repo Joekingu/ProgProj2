@@ -231,14 +231,13 @@ public class GamePanel extends JPanel implements Runnable {
 	 */
 	public void update() {
 		m_player.update();
+		vaisseau.update(m_player);
 //		m_player.getarme().update();
 		for (mob i : getListEnnemis()) {
 			i.update(m_player);
 		}
 		for (Bullet i : getTirs()) {
-			if (i.isAlive()) {
 				i.update();
-			}
 		}
 		m_camera.update(this);
 		for (Collectable item : acollecter) {
@@ -352,7 +351,7 @@ public class GamePanel extends JPanel implements Runnable {
 			Random rand = new Random();
 			pos_x = rand.nextInt(max_x);
 			pos_y = rand.nextInt(max_y);
-			if (!in(gettileM().map[pos_x][(pos_y)], collision.bloc)) {
+			if (!in(gettileM().map[pos_x][(pos_y)], collision.bloc)&& gettileM().map[pos_x][(pos_y)] != collision.lave) {
 				tmp = false;
 			}
 		}
@@ -372,7 +371,7 @@ public class GamePanel extends JPanel implements Runnable {
 			Random rand = new Random();
 			pos_x = rand.nextInt(max_x);
 			pos_y = rand.nextInt(max_y);
-			if (!in(gettileM().map[pos_x][(pos_y)], collision.bloc)) {
+			if (!in(gettileM().map[pos_x][(pos_y)], collision.bloc) && gettileM().map[pos_x][(pos_y)] != collision.lave) {
 				tmp = false;
 			}
 		}
@@ -391,6 +390,9 @@ public class GamePanel extends JPanel implements Runnable {
 			if (!acollecter.get(i).getStatus()) {
 				acollecter.remove(i);
 			}
+		}
+		for(int i = 0; i<tirs.size();i++) {
+			tirs.remove(i);
 		}
 	}
 }

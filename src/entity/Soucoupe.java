@@ -41,6 +41,26 @@ public class Soucoupe extends Entity{
 		
 	}
 	
+	protected boolean collision_entity(Entity player) {
+		int d = m_gp.TILE_SIZE;
+		int ix = player.getx();
+		int iy = player.gety();
+		double dist_min = 2*d;
+		if ( dist(ix,m_x,iy,m_y)<dist_min ){
+			return true;
+		}
+		return false;
+	}
+	
+	public void update(Player p) {
+		if(collision_entity(p)) {
+			if (p.getcoffre()) {
+				p.setcoffrefalse();
+				this.addhealth();
+			}
+		}
+	}
+	
 	public void addhealth() {
 		health += 1;
 	}

@@ -39,6 +39,7 @@ public class Player extends Entity {
 	int m_spmat = 0;
 	int m_health;
 	double time;
+	boolean m_coffre;
 
 	/**
 	 * Constructeur de Player
@@ -53,6 +54,7 @@ public class Player extends Entity {
 		this.setDefaultValues();
 		this.getPlayerImage();
 		this.m_collision = new Tile();
+		this.m_coffre=false;
 	}
 
 	/**
@@ -121,6 +123,18 @@ public class Player extends Entity {
 			return true;
 		}
 		return false;
+	}
+	
+	public boolean getcoffre() {
+		return m_coffre;
+	}
+	
+	public void setcoffrefalse() {
+		m_coffre=false;
+	}
+	
+	public void setcoffretrue() {
+		m_coffre=true;
 	}
 	
 	private int testMat() {
