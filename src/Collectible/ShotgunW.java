@@ -15,17 +15,8 @@ public class ShotgunW extends distance{
 
 	public ShotgunW(Entity p , GamePanel a_gp) {
 		super(p,50, a_gp, 5e8);
-		this.getImage();
 	}
 	
-	private void getImage() {
-		try {
-			m_idleImage = ImageIO.read(getClass().getResource("/items/shotgun.png"));
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-
 	@Override
 	public void attaquejoueur(int dirx, int diry) {
 		Bullet balle = new Bullet(m_gp,this, 50, 7,1, dirx,diry );
@@ -34,29 +25,5 @@ public class ShotgunW extends distance{
 	@Override
 	public void attaquemob() {
 		//mettre l'attaque pour les mobs en mode ils regardent la direction et pour une distance au joueur min à un truc qu'on aura choisit, on tire dans cette direction
-	}
-	@Override
-	public void draw(Graphics2D a_g2,int dirx,int diry) {
-		BufferedImage l_image = m_idleImage;
-		double rad=0;
-		// affiche le personnage avec l'image "image", avec les coordonn�es x et y, et de taille tileSize (16x16) sans �chelle, et 48x48 avec �chelle)
-		if(dirx==0 && diry==0) {rad=Math.toRadians(0);}
-		if(dirx==1 && diry==0) {rad=Math.toRadians(0);}
-		if(dirx==1 && diry==-1) {rad=Math.toRadians(45);}
-		if(dirx==0 && diry==-1) {rad=Math.toRadians(90);}
-		if(dirx==-1 && diry==-1) {rad=Math.toRadians(135);}
-		if(dirx==-1 && diry==0) {rad=Math.toRadians(180);}
-		if(dirx==-1 && diry==1) {rad=Math.toRadians(225);}
-		if(dirx==0 && diry==1) {rad=Math.toRadians(270);}
-		if(dirx==1 && diry==1) {rad=Math.toRadians(315);}		
-		this.rotate(l_image,rad);
-//		a_g2.drawImage(l_image, porteur.m_x+m_gp.TILE_SIZE*dirx, porteur.m_y+m_gp.TILE_SIZE*diry ,m_gp.TILE_SIZE, m_gp.TILE_SIZE, null);
-	}
-	public BufferedImage rotate(BufferedImage img, double angle) {
-	    Graphics2D graphic = img.createGraphics();
-	    graphic.rotate(Math.toRadians(angle));
-	    graphic.drawImage(img, porteur.m_x+m_gp.TILE_SIZE, porteur.m_y+m_gp.TILE_SIZE ,m_gp.TILE_SIZE, m_gp.TILE_SIZE, null);
-	    graphic.dispose();
-	    return img;
 	}
 }
