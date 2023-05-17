@@ -40,6 +40,7 @@ public class Player extends Entity {
 	int m_spmat = 0;
 	int m_health;
 	double time;
+	double timeanimation;
 	Image[] characterImages = new Image[3];
 	boolean m_coffre;
 
@@ -285,10 +286,9 @@ public class Player extends Entity {
 		// affiche le personnage avec l'image "image", avec les coordonn�es x et y, et
 		// de taille tileSize (16x16) sans �chelle, et 48x48 avec �chelle)
 		
-		if(System.nanoTime() - time > 5e8) {
-			time = System.nanoTime();
+		if(System.nanoTime() - timeanimation > 5e8) {
+			timeanimation = System.nanoTime();
 			indexAnim = (indexAnim + 1) % characterImages.length;
-			System.out.println(indexAnim);
 		}
 		a_g2.drawImage(characterImages[indexAnim], m_x, m_y, m_gp.TILE_SIZE, m_gp.TILE_SIZE, null);
 	    //a_g2.drawImage(characterImages[currentImageIndex], m_x, m_y, null);
