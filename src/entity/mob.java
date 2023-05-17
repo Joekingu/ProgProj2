@@ -110,7 +110,8 @@ public class mob extends Entity{
 		if ( in(m_gp.gettileM().map[(px+d2)/d][(py+d2)/d],m_collision.bloc) || 
 				in(m_gp.gettileM().map[(px-d2)/d][(py-d2)/d],m_collision.bloc) ||
 				in(m_gp.gettileM().map[(px+d2)/d][(py-d2)/d],m_collision.bloc) ||
-				in(m_gp.gettileM().map[(px-d2)/d][(py+d2)/d],m_collision.bloc) || collision_mob(m_gp.getListEnnemis(),x,y) || collision_entity(m_gp.getPlayer())) {
+				in(m_gp.gettileM().map[(px-d2)/d][(py+d2)/d],m_collision.bloc) || 
+				collision_mob(m_gp.getListEnnemis(),x,y) || collision_entity(m_gp.getPlayer())) {
 			if((System.nanoTime() - time) > weapon.getfrq_att()) {
 				time=System.nanoTime();
 				weapon.attaquemob();
