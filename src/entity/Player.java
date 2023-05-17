@@ -26,6 +26,7 @@ import javax.sound.sampled.Clip;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 
+
 /**
  * D�fintition du comportement d'un joueur
  *
