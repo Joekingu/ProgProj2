@@ -172,5 +172,4 @@ public class mob extends Entity{
 	public boolean getisalive() {
 		return this.isalive;
 	}
-	
 }

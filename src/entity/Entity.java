@@ -42,4 +42,5 @@ public abstract class Entity {
 	public void setSpeed(int vitesse) {
 		m_speed+=vitesse;
 	}
+	
 }

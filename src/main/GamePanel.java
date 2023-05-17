@@ -69,6 +69,7 @@ public class GamePanel extends JPanel implements Runnable {
 	Soucoupe vaisseau;
 	Songs s_fond = new Songs("/songs/fond.aiff");
 	Songs s_game_over = new Songs("/songs/Game_over.aiff");
+	int viezomb;
 
 
 	/**
@@ -89,8 +90,9 @@ public class GamePanel extends JPanel implements Runnable {
 		spawner_time = System.nanoTime();
 		global_time = System.nanoTime();
 		vaisseau = new Soucoupe(this);
-		mob mob = new zombie(this, 50, 0, 0);
-		spawner<mob> fist_spawner = new spawner<>(this,random_pos(mob));
+		viezomb=10;
+		mob mob = new zombie(this, viezomb, 0, 0);
+		spawner<mob> fist_spawner = new spawner<>(this,random_pos(mob),5e9);
 		listSpawner.add(fist_spawner);
 		this.getGOImage();
 
@@ -109,8 +111,10 @@ public class GamePanel extends JPanel implements Runnable {
 	 * @return
 	 */
 	public void makeCollectibles() {
-		acollecter.add(new Potiondevitesse(this, 1, 1000, 800));
-		acollecter.add(new epee(this, 1500, 1000));
+		Collectable PotiondeVitesse = new Potiondevitesse(this, 1, 0, 0);
+		Collectable epee = new epee(this, 0, 0);
+		acollecter.add(random_pos(PotiondeVitesse));
+		acollecter.add(random_pos(epee));
 	}
 
 	public Player getPlayer() {
@@ -201,38 +205,31 @@ public class GamePanel extends JPanel implements Runnable {
 		m_player.update();
 //		m_player.getarme().update();
 		for (mob i : getListEnnemis()) {
-			if(i.getisalive()) {
-				i.update(m_player);
-			}
-			else {
-				i.setm_x(0);
-				i.setm_y(0);
-//				getListEnnemis().remove(i);
-			}
+			i.update(m_player);
 		}
 		m_camera.update(this);
 		for (Collectable item : acollecter) {
-			if (item.getStatus() == true) {
 				item.update(m_player);
-			}
 		}
-		if (System.nanoTime() - spawn_time > 5e9) {
-			spawn_time = System.nanoTime();
-			for (spawner<mob> i : listSpawner) {
+		
+		for (spawner<mob> i : listSpawner) {
 				i.update();
 			}
-		}
 		if (System.nanoTime() - spawner_time > 15e9) {
 			spawner_time = System.nanoTime();
-			mob mob = new zombie(this, 50, 0, 0);
-			spawner<mob> spawner = new spawner<>(this,random_pos(mob));
+			viezomb+=10;
+			mob mob = new zombie(this, viezomb, 0, 0);
+			spawner<mob> spawner = new spawner<>(this,random_pos(mob),10e9);
 			listSpawner.add(spawner);
 		}
+		this.deleteentity();
 	}
 
 	public void gameOver() {
 		m_player.gameOver();
 		listEnnemis.removeAll(listEnnemis);
+		listSpawner.removeAll(listSpawner);
+		viezomb=10;
 		for (int i = 0; i < acollecter.size(); i += 1) {
 			acollecter.get(i).setStatus(true);
 		}
@@ -250,7 +247,7 @@ public class GamePanel extends JPanel implements Runnable {
 			m_tileM.draw(g2, m_camera);
 
 		for (mob i : listEnnemis) {
-			if(i.getisalive()) {
+			if(i!= null && i.getisalive()) {
 				i.draw(g2);
 			}
 		}
@@ -301,6 +298,26 @@ public class GamePanel extends JPanel implements Runnable {
 		return false;
 	}
 	
+	public Collectable random_pos (Collectable obj) {
+		boolean tmp = true;
+		int pos_x = 0;
+		int pos_y = 0;
+		int d = TILE_SIZE;
+		int max_y = gettileM().map.length;
+		int max_x = gettileM().map[0].length;
+		while (tmp) {
+			Random rand = new Random(); 
+			pos_x = rand.nextInt(max_x);
+			pos_y = rand.nextInt(max_y);
+			if(!in(gettileM().map[pos_x][(pos_y)],collision.bloc)) {
+				tmp = false;
+			}
+		}
+		obj.setx(pos_x*d);
+		obj.sety(pos_y*d);
+		return obj;
+	}
+	
 	public mob random_pos (mob p) {
 		boolean tmp = true;
 		int pos_x = 0;
@@ -320,5 +337,16 @@ public class GamePanel extends JPanel implements Runnable {
 		p.m_y=pos_y*d;
 		return p;
 	}
-	
+	public void deleteentity() {
+		for(int i = 0; i<listEnnemis.size();i++) {
+			if(!listEnnemis.get(i).getisalive()) {
+				listEnnemis.remove(i);
+			}
+		}
+		for(int i = 0; i<acollecter.size();i++) {
+			if(!acollecter.get(i).getStatus()) {
+				acollecter.remove(i);
+			}
+		}
+	}
 }
