@@ -296,7 +296,7 @@ public class GamePanel extends JPanel implements Runnable {
 			g2.translate(-m_camera.getx(), -m_camera.gety());
 			m_tileM.draw(g2, m_camera);
 			for (mob i : listEnnemis) {
-				if (i != null && i.getisalive()) {
+				if (i.getisalive()) {
 					i.draw(g2);
 				}
 			}
