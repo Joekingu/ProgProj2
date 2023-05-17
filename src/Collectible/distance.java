@@ -61,7 +61,7 @@ public class distance extends arme{
 		// r�cup�re l'image du joueur
 		BufferedImage l_image = m_idleImage;
 		// affiche le personnage avec l'image "image", avec les coordonn�es x et y, et de taille tileSize (16x16) sans �chelle, et 48x48 avec �chelle)
-		a_g2.drawImage(l_image, m_player.m_x, m_player.m_y, 4, 1, null);
+		a_g2.drawImage(l_image, porteur.m_x, porteur.m_y, 4, 1, null);
 		for (Bullet balle : tirs){
 			balle.draw(a_g2);
 		}
