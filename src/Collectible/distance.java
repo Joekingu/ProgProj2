@@ -13,7 +13,7 @@ import entity.Player;
 import main.GamePanel;
 import main.KeyHandler;
 
-public class distance extends arme{
+public abstract class distance extends arme{
 	BufferedImage m_idleImage;
 	
 	public distance(Entity p,int deg,GamePanel a_gp,double frq_att) {
@@ -29,15 +29,6 @@ public class distance extends arme{
 	
 	public int getType() {
 		return 1;
-	}
-	@Override
-	public void attaquejoueur(int dirx, int diry) {
-		Bullet balle = new Bullet(m_gp,this, 50, 7,1, dirx,diry );
-		m_gp.addTirs(balle);
-	}
-	@Override
-	public void attaquemob() {
-		//mettre l'attaque pour les mobs en mode ils regardent la direction et pour une distance au joueur min à un truc qu'on aura choisit, on tire dans cette direction
 	}
 	
 }
