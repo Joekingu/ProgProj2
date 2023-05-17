@@ -34,10 +34,12 @@ public class Player extends Entity {
 	KeyHandler m_keyH;
 	KeyHandler m_keyH_arme;
 	Tile m_collision;
+	Soucoupe m_soucoupe;
 	arme m_arme;
 	boolean m_alive;
 	int m_spmat = 0;
 	int m_health;
+	double time;
 
 	/**
 	 * Constructeur de Player
@@ -45,14 +47,18 @@ public class Player extends Entity {
 	 * @param a_gp   GamePanel, pannel principal du jeu
 	 * @param a_keyH KeyHandler, gestionnaire des touches
 	 */
-	public Player(GamePanel a_gp, KeyHandler a_keyH,KeyHandler a_keyH_arme) {
+	public Player(GamePanel a_gp, KeyHandler a_keyH,KeyHandler a_keyH_arme,Soucoupe soucoupe) {
 		this.m_gp = a_gp;
 		this.m_keyH = a_keyH;
 		this.m_keyH_arme = a_keyH_arme;
+		this.m_soucoupe = soucoupe;
 		this.setDefaultValues();
 		this.getPlayerImage();
 		this.m_collision = new Tile();
-		m_arme = new baton(m_keyH_arme,m_gp);
+	}
+	
+	public Soucoupe getsoucoupe() {
+		return m_soucoupe;
 	}
 
 	/**
@@ -64,6 +70,7 @@ public class Player extends Entity {
 		m_speed = 2;
 		m_health = 50;
 		m_alive = true;
+		m_arme = new baton(this,m_gp);
 	}
 
 	/**
@@ -107,9 +114,9 @@ public class Player extends Entity {
 		return false;
 	}
 
-	private boolean test(int x, int y) {
+	public boolean test(int x, int y) {
 		int d = m_gp.TILE_SIZE;
-		int d2 = (d+2) / 2;
+		int d2 = (d+1) / 2;
 		int px = m_x + x + d2;
 		int py = m_y + y + d2;
 		if (in(m_gp.gettileM().map[(px + d2) / d][(py + d2) / d], m_collision.bloc)
@@ -135,26 +142,14 @@ public class Player extends Entity {
 			m_spmat=0;
 		}
 		if(m_gp.gettileM().map[(px+d2)/d][(py+d2)/d]==m_collision.lave) {
-			Songs s = new Songs("/songs/lava.wav");
-			s.play();
 			return 2;
 		}
 		return 0;
 	}
 	
-//	public void song() {
-//	    try {
-//	        AudioInputStream audioIn = AudioSystem.getAudioInputStream(getClass().getResource("/songs/1688.aiff"));
-//	        Clip clip = AudioSystem.getClip();
-//	        clip.open(audioIn);
-//	        clip.start();
-//	    } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
-//	        e.printStackTrace();
-//	    }
-//	}
-	
 	public void update() {
 		ArrayList<Integer> pressed = m_keyH.getinstance();
+		ArrayList<Integer> direction = m_keyH_arme.getinstance();
 		if (m_health<=0) {
 			m_alive=false;
 		}
@@ -215,6 +210,46 @@ public class Player extends Entity {
 
 			}
 		}
+		int dirx = 0;
+		int diry = 0;
+		boolean att= false;
+		if (direction.contains(Integer.valueOf(37)) && direction.contains(Integer.valueOf(38))) {
+			dirx = -1;
+			diry = -1;
+			att=true;
+		} else if (direction.contains(Integer.valueOf(37)) && direction.contains(Integer.valueOf(40))) {
+			dirx = -1;
+			diry = 1;
+			att=true;
+		} else if (direction.contains(Integer.valueOf(39)) && direction.contains(Integer.valueOf(38))) {
+			dirx = 1;
+			diry = -1;
+			att=true;
+		} else if (direction.contains(Integer.valueOf(39)) && direction.contains(Integer.valueOf(40))) {
+			dirx = 1;
+			diry = 1;
+			att=true;
+		} else {
+			for (int j = 0; j < m_keyH_arme.taille(); j++) {
+				if (m_keyH_arme.getval(j) == 37) {
+					dirx = -1;
+					att=true;
+				} else if (m_keyH_arme.getval(j) == 40) {
+					diry = 1;
+					att=true;
+				} else if (m_keyH_arme.getval(j) == 39) {
+					dirx = 1;
+					att=true;
+				} else if (m_keyH_arme.getval(j) == 38) {
+					diry = -1;
+					att=true;
+				} 
+			}
+		}
+		if(att && System.nanoTime() - time > m_arme.getfrq_att()) {
+			time=System.nanoTime();
+			m_arme.attaquejoueur(dirx,diry);
+		}
 	}
 
 	public int gethealth() {
@@ -260,6 +295,8 @@ public class Player extends Entity {
 
 	public void estblesse(int degat) {
 		m_health -= degat;
+		Songs s = new Songs("/songs/coup.aiff");
+		s.play();
 	}
 
 }

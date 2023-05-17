@@ -9,13 +9,16 @@ import javax.imageio.ImageIO;
 import entity.Player;
 import main.GamePanel;
 
-public class epee extends Collectable {
-	public epee(GamePanel gp, int x, int y){
+public class coffre extends Collectable {
+	public coffre(GamePanel gp, int x, int y){
 		m_x=x;
 		m_y=y;
 		m_gp=gp;
-		pris=true;
-		this.getepee();
+		this.getcoffreImage();
+	}
+	@Override
+	void effet(Player p) {
+		p.getsoucoupe().addhealth();
 	}
 
 	@Override
@@ -31,19 +34,13 @@ public class epee extends Collectable {
 		a_g2.drawImage(l_image, m_x, m_y, m_gp.TILE_SIZE, m_gp.TILE_SIZE, null);
 	}
 	
-	public void getepee() {
+	public void getcoffreImage() {
 		//gestion des expections 
 		try {
-			m_idleImage = ImageIO.read(getClass().getResource("/Player/sword_longcut.gif"));
+			m_idleImage = ImageIO.read(getClass().getResource("/Collectibles/potion.png"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-	}
-
-	@Override
-	void effet(Player p) {
-		p.setarme(new sword(p,m_gp));
-		
 	}
 	
 }

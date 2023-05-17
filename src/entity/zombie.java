@@ -14,7 +14,7 @@ public class zombie extends mob{
 		m_x = 500;
 		m_y = 500;
 		m_speed = 1;
-		weapon = new Poingmob(2,m_gp,1);
+		weapon = new Poingmob(this,2,10, m_gp,10, 1e9);
 	}
 	
 }

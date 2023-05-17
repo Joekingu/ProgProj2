@@ -15,6 +15,7 @@ import entity.zombie;
 import spawner.spawner;
 import entity.Camera;
 import entity.Entity;
+import tile.Tile;
 import tile.TileManager;
 import Collectible.Collectable;
 import Collectible.Potiondevitesse;
@@ -26,6 +27,7 @@ import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Random;
 
 /**
  * Panel principal du jeu contenant la map principale
@@ -62,8 +64,15 @@ public class GamePanel extends JPanel implements Runnable {
 	ArrayList<Bullet> tirs;
 	ArrayList<spawner<mob>> listSpawner;
 	ArrayList<mob> listEnnemis;
-	double time;
+	double spawn_time;
+	double spawner_time;
+	double global_time;
+	Tile collision = new Tile();
 	Soucoupe vaisseau;
+	Songs s_fond = new Songs("/songs/fond.aiff");
+	Songs s_game_over = new Songs("/songs/Game_over.aiff");
+	int viezomb;
+
 
 	/**
 	 * Constructeur
@@ -80,12 +89,16 @@ public class GamePanel extends JPanel implements Runnable {
 		listEnnemis = new ArrayList<>();
 		acollecter = new ArrayList<>();
 		listSpawner = new ArrayList<>();
-		time = System.nanoTime();
+		spawn_time = System.nanoTime();
+		spawner_time = System.nanoTime();
+		global_time = System.nanoTime();
 		vaisseau = new Soucoupe(this);
-		spawner<mob> t = new spawner<>(this, new zombie(this, 50, 400, 400));
-		listSpawner.add(t);
-		spawner<mob> t1 = new spawner<>(this, new zombie(this, 50, 800, 800));
-		listSpawner.add(t1);
+		m_player = new Player(this, m_keyH,m_keyH_arme,vaisseau);
+		m_camera = new Camera(m_player);
+		viezomb=10;
+		mob mob = new zombie(this, viezomb, 0, 0);
+		spawner<mob> fist_spawner = new spawner<>(this,random_pos(mob),5e9);
+		listSpawner.add(fist_spawner);
 		this.getGOImage();
 
 		this.setPreferredSize(new Dimension(SCREEN_WIDTH, SCREEN_HEIGHT));
@@ -103,8 +116,10 @@ public class GamePanel extends JPanel implements Runnable {
 	 * @return
 	 */
 	public void makeCollectibles() {
-		acollecter.add(new Potiondevitesse(this, 1, 1000, 800));
-//		acollecter.add(new epee(this, 1500, 1000));
+		Collectable PotiondeVitesse = new Potiondevitesse(this, 1, 0, 0);
+		Collectable epee = new epee(this, 0, 0);
+		acollecter.add(random_pos(PotiondeVitesse));
+		acollecter.add(random_pos(epee));
 		acollecter.add(new ShotgunC(this, 1500, 1000));
 	}
 
@@ -140,25 +155,31 @@ public class GamePanel extends JPanel implements Runnable {
 	public void startGameThread() {
 		m_gameThread = new Thread(this);
 		m_gameThread.start();
-		Songs s = new Songs("/songs/fond.aiff");
-		s.play();
+		s_fond.play();
 	}
 
 	public void run() {
 
 		double drawInterval = 1000000000 / m_FPS; // rafraichissement chaque 0.0166666 secondes
 		double nextDrawTime = System.nanoTime() + drawInterval;
+		boolean gameOver = false;
 
 		while (m_gameThread != null) { // Tant que le thread du jeu est actif
 			// Permet de mettre � jour les diff�rentes variables du jeu
 			if (m_gamestate == 0) {
 				if (m_player.isAlive()) {
+					if (m_player.getsoucoupe().gethealth() == 3) {
+						this.gameWin();
+						m_gamestate = 1;
+					}
+					else {
+						this.update();
+					}
 					this.update();
 					System.out.println(tirs.size());
 				} else {
 					this.gameOver();
 					m_gamestate = 1;
-
 				}
 
 				// Dessine sur l'�cran le personnage et la map avec les nouvelles informations.
@@ -184,8 +205,13 @@ public class GamePanel extends JPanel implements Runnable {
 				}
 			}
 			if (m_gamestate == 1) {
+				s_fond.stopSound();
+				if(gameOver==false) {
+					s_game_over.play();
+					gameOver=true;
+				}
 				for (int j = 0; j < m_keyH.taille(); j++) {
-					if (m_keyH.getval(j) == 82) {
+					if (m_keyH.getval(j) == 82) {//R
 						m_gamestate = 0;
 					}
 				}
@@ -199,15 +225,9 @@ public class GamePanel extends JPanel implements Runnable {
 	 */
 	public void update() {
 		m_player.update();
-		m_player.getarme().update();
+//		m_player.getarme().update();
 		for (mob i : getListEnnemis()) {
-			if (i.getisalive()) {
-				i.update(m_player);
-			} else {
-				i.setm_x(0);
-				i.setm_y(0);
-//				getListEnnemis().remove(i);
-			}
+			i.update(m_player);
 		}
 		for (Bullet i : getTirs()) {
 			if (i.isAlive()) {
@@ -216,25 +236,38 @@ public class GamePanel extends JPanel implements Runnable {
 		}
 		m_camera.update(this);
 		for (Collectable item : acollecter) {
-			if (item.getStatus() == true) {
 				item.update(m_player);
-			}
 		}
-		if (System.nanoTime() - time > 5e9) {
-			time = System.nanoTime();
-			for (spawner<mob> i : listSpawner) {
+		
+		for (spawner<mob> i : listSpawner) {
 				i.update();
 			}
+		if (System.nanoTime() - spawner_time > 15e9) {
+			spawner_time = System.nanoTime();
+			viezomb+=10;
+			mob mob = new zombie(this, viezomb, 0, 0);
+			spawner<mob> spawner = new spawner<>(this,random_pos(mob),10e9);
+			listSpawner.add(spawner);
 		}
+		this.deleteentity();
 	}
 
 	public void gameOver() {
 		m_player.gameOver();
 		listEnnemis.removeAll(listEnnemis);
-		for (int i = 0; i < acollecter.size(); i += 1) {
-			acollecter.get(i).setStatus(true);
-		}
+		listSpawner.removeAll(listSpawner);
+		acollecter.removeAll(acollecter);
+		viezomb=10;
+		this.makeCollectibles();
+	}
 
+	public void gameWin() {
+		m_player.gameOver();
+		listEnnemis.removeAll(listEnnemis);
+		listSpawner.removeAll(listSpawner);
+		acollecter.removeAll(acollecter);
+		viezomb=10;
+		this.makeCollectibles();
 	}
 
 	/**
@@ -246,12 +279,11 @@ public class GamePanel extends JPanel implements Runnable {
 		if (m_gamestate == 0) {
 			g2.translate(-m_camera.getx(), -m_camera.gety());
 			m_tileM.draw(g2, m_camera);
+
+		for (mob i : listEnnemis) {
+			if(i!= null && i.getisalive()) {
+				i.draw(g2);
 			m_player.draw(g2);
-			
-			for (mob i : listEnnemis) {
-				if (i.getisalive()) {
-					i.draw(g2);
-				}
 			}
 			for (Bullet i : tirs) {
 				if (i.isAlive()) {
@@ -288,5 +320,66 @@ public class GamePanel extends JPanel implements Runnable {
 
 	public TileManager gettileM() {
 		return m_tileM;
+	}
+	
+	private boolean in (int x , int[]tab) {
+		for (int i=0;i<tab.length;i++) {
+			if (x==tab[i]) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	public Collectable random_pos (Collectable obj) {
+		boolean tmp = true;
+		int pos_x = 0;
+		int pos_y = 0;
+		int d = TILE_SIZE;
+		int max_y = gettileM().map.length;
+		int max_x = gettileM().map[0].length;
+		while (tmp) {
+			Random rand = new Random(); 
+			pos_x = rand.nextInt(max_x);
+			pos_y = rand.nextInt(max_y);
+			if(!in(gettileM().map[pos_x][(pos_y)],collision.bloc)) {
+				tmp = false;
+			}
+		}
+		obj.setx(pos_x*d);
+		obj.sety(pos_y*d);
+		return obj;
+	}
+	
+	public mob random_pos (mob p) {
+		boolean tmp = true;
+		int pos_x = 0;
+		int pos_y = 0;
+		int d = TILE_SIZE;
+		int max_y = gettileM().map.length;
+		int max_x = gettileM().map[0].length;
+		while (tmp) {
+			Random rand = new Random(); 
+			pos_x = rand.nextInt(max_x);
+			pos_y = rand.nextInt(max_y);
+			if(!in(gettileM().map[pos_x][(pos_y)],collision.bloc)) {
+				tmp = false;
+			}
+		}
+		p.m_x=pos_x*d;
+		p.m_y=pos_y*d;
+		return p;
+	}
+	public void deleteentity() {
+		for(int i = 0; i<listEnnemis.size();i++) {
+			if(!listEnnemis.get(i).getisalive()) {
+				listEnnemis.remove(i);
+			}
+		}
+		for(int i = 0; i<acollecter.size();i++) {
+			if(!acollecter.get(i).getStatus()) {
+				acollecter.remove(i);
+			}
+		}
 	}
 }

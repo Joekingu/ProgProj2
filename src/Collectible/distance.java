@@ -8,22 +8,29 @@ import java.util.ArrayList;
 import javax.imageio.ImageIO;
 
 import entity.Bullet;
+import entity.Entity;
 import entity.Player;
 import main.GamePanel;
 import main.KeyHandler;
 
 public class distance extends arme{
-	Player m_player;
 	BufferedImage m_idleImage;
 	
-	public distance(int deg,KeyHandler a_keyH, GamePanel a_gp,double frq_att) {
-		super(deg,a_keyH,a_gp,frq_att);
-		m_player=m_gp.getPlayer();
+	public distance(Entity p,int deg,GamePanel a_gp,double frq_att) {
+		super(p, deg,a_gp,frq_att);
 	}
-
-	public void attaque(int dirx, int diry) {
-		Bullet balle = new Bullet(m_gp,m_player, 5, 4,1, dirx,diry );
-		m_gp.addTirs(balle);
+	
+	public int getType() {
+		return 1;
+	}
+	@Override
+	public void attaquejoueur(int dirx, int diry) {
+		Bullet balle = new Bullet(m_gp,porteur, 5, 4,1, dirx,diry );
+		tirs.add(balle);
+	}
+	@Override
+	public void attaquemob() {
+		//mettre l'attaque pour les mobs en mode ils regardent la direction et pour une distance au joueur min à un truc qu'on aura choisit, on tire dans cette direction
 	}
 	
 }

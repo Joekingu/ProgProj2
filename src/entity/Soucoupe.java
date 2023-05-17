@@ -16,6 +16,7 @@ public class Soucoupe extends Entity{
 	GamePanel m_gp;
 	KeyHandler m_keyH;
 	Tile m_collision;
+	int health;
 	boolean m_alive;
 	int m_spmat = 0;
 	int m_health;
@@ -36,8 +37,18 @@ public class Soucoupe extends Entity{
 		this.getSoucoupeImages();
 		this.m_collision = new Tile();
 		this.getSoucoupeImages();
+		health=0;
 		
 	}
+	
+	public void addhealth() {
+		health += 1;
+	}
+	
+	public int gethealth() {
+		return health;
+	}
+	
 	protected void setDefaultValues() {
 		m_x = 1500;
 		m_y = 500;
