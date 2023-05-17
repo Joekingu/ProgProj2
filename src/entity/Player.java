@@ -78,9 +78,9 @@ public class Player extends Entity {
 	public void getPlayerImage() {
 		// gestion des expections
 		try {
-			characterImages[0] = ImageIO.read(getClass().getResource("/Player/zombie.png"));
-			characterImages[1] = ImageIO.read(getClass().getResource("/Player/superhero.png"));
-			characterImages[2] = ImageIO.read(getClass().getResource("/Items/shotgun.png"));
+			for(int i = 0; i<8; i++) {
+				characterImages[i] = ImageIO.read(getClass().getResource("/Player/walk_"+i+".png"));
+			}
 			m_idleImage = ImageIO.read(getClass().getResource("/Player/hero.png"));
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -290,7 +290,7 @@ public class Player extends Entity {
 			timeanimation = System.nanoTime();
 			indexAnim = (indexAnim + 1) % characterImages.length;
 		}
-		a_g2.drawImage(characterImages[indexAnim], m_x, m_y, m_gp.TILE_SIZE, m_gp.TILE_SIZE, null);
+		a_g2.drawImage(characterImages[indexAnim], m_x, m_y, m_gp.TILE_SIZE*3, m_gp.TILE_SIZE*3, null);
 	    //a_g2.drawImage(characterImages[currentImageIndex], m_x, m_y, null);
 		a_g2.setStroke(new BasicStroke(2f));
 		a_g2.drawRoundRect(m_x + 3, m_y - 25, 50, 10, 10, 10);
