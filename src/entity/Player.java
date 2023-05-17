@@ -41,7 +41,7 @@ public class Player extends Entity {
 	int m_health;
 	double time;
 	double timeanimation;
-	Image[] characterImages = new Image[3];
+	Image[] characterImages = new Image[8];
 	boolean m_coffre;
 	int dirx=0;
 	int diry=0;
@@ -290,7 +290,7 @@ public class Player extends Entity {
 		// affiche le personnage avec l'image "image", avec les coordonn�es x et y, et
 		// de taille tileSize (16x16) sans �chelle, et 48x48 avec �chelle)
 		
-		if(System.nanoTime() - timeanimation > 5e8) {
+		if(System.nanoTime() - timeanimation > 1e8) {
 			timeanimation = System.nanoTime();
 			indexAnim = (indexAnim + 1) % characterImages.length;
 		}
