@@ -351,7 +351,7 @@ public class GamePanel extends JPanel implements Runnable {
 			Random rand = new Random();
 			pos_x = rand.nextInt(max_x);
 			pos_y = rand.nextInt(max_y);
-			if (!in(gettileM().map[pos_x][(pos_y)], collision.bloc)) {
+			if (!in(gettileM().map[pos_x][(pos_y)], collision.bloc)&& gettileM().map[pos_x][(pos_y)] != collision.lave) {
 				tmp = false;
 			}
 		}
@@ -371,7 +371,7 @@ public class GamePanel extends JPanel implements Runnable {
 			Random rand = new Random();
 			pos_x = rand.nextInt(max_x);
 			pos_y = rand.nextInt(max_y);
-			if (!in(gettileM().map[pos_x][(pos_y)], collision.bloc)) {
+			if (!in(gettileM().map[pos_x][(pos_y)], collision.bloc) && gettileM().map[pos_x][(pos_y)] != collision.lave) {
 				tmp = false;
 			}
 		}
