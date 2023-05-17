@@ -19,14 +19,16 @@ public class coffre extends Collectable {
 	}
 	@Override
 	void effet(Player p) {
-		m_gp.getsoucoupe().addhealth();
+		p.setcoffretrue();
 	}
 
 	@Override
 	public void update(Player p) {
 		if(collision_entity(p)) {
-			this.effet(p);
-			this.setStatus(false);
+			if (!p.getcoffre()) {
+				this.effet(p);
+				this.setStatus(false);
+			}
 		}
 	}
 	
