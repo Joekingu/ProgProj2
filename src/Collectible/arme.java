@@ -37,4 +37,6 @@ public abstract class arme{
 	public int getattaque() {
 		return m_deg;
 	}
+
+	public abstract void draw(Graphics2D a_g2, int dirx, int diry);
 }

@@ -50,6 +50,7 @@ public class Player extends Entity {
 	int sens=0;
 	ArrayList<arme> sacarme;
 	int equip=0;
+	double timeswap;
 
 	/**
 	 * Constructeur de Player
@@ -79,6 +80,7 @@ public class Player extends Entity {
 		m_arme = new baton(this,m_gp);
 		sacarme=new ArrayList<>();
 		sacarme.add(m_arme);
+		time=timeswap=timeanimation=System.nanoTime();
 	}
 
 	/**
@@ -279,7 +281,8 @@ public class Player extends Entity {
 			time=System.nanoTime();
 			m_arme.attaquejoueur(dirx,diry);
 		}
-		if(pressed.contains(Integer.valueOf(65))){
+		if(pressed.contains(Integer.valueOf(65)) && System.nanoTime()-timeswap>7e8){
+			timeswap=System.nanoTime();
 			equip++;
 		}
 		if(equip<sacarme.size()) {
