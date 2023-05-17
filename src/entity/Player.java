@@ -78,7 +78,7 @@ public class Player extends Entity {
 	public void getPlayerImage() {
 		// gestion des expections
 		try {
-			for(int i = 0; i<8; i++) {
+			for(int i = 0; i<characterImages.length; i++) {
 				characterImages[i] = ImageIO.read(getClass().getResource("/Player/walk_"+i+".png"));
 			}
 			m_idleImage = ImageIO.read(getClass().getResource("/Player/hero.png"));
