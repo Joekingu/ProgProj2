@@ -43,6 +43,8 @@ public class Player extends Entity {
 	double timeanimation;
 	Image[] characterImages = new Image[3];
 	boolean m_coffre;
+	int dirx=0;
+	int diry=0;
 
 	/**
 	 * Constructeur de Player
@@ -78,9 +80,9 @@ public class Player extends Entity {
 	public void getPlayerImage() {
 		// gestion des expections
 		try {
-			characterImages[0] = ImageIO.read(getClass().getResource("/Player/zombie.png"));
-			characterImages[1] = ImageIO.read(getClass().getResource("/Player/superhero.png"));
-			characterImages[2] = ImageIO.read(getClass().getResource("/Items/shotgun.png"));
+			for(int i = 0; i<characterImages.length; i++) {
+				characterImages[i] = ImageIO.read(getClass().getResource("/Player/walk_"+i+".png"));
+			}
 			m_idleImage = ImageIO.read(getClass().getResource("/Player/hero.png"));
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -224,8 +226,6 @@ public class Player extends Entity {
 
 			}
 		}
-		int dirx = 0;
-		int diry = 0;
 		boolean att= false;
 		if (direction.contains(Integer.valueOf(37)) && direction.contains(Integer.valueOf(38))) {
 			dirx = -1;
@@ -246,16 +246,20 @@ public class Player extends Entity {
 		} else {
 			for (int j = 0; j < m_keyH_arme.taille(); j++) {
 				if (m_keyH_arme.getval(j) == 37) {
+					diry = 0;
 					dirx = -1;
 					att=true;
 				} else if (m_keyH_arme.getval(j) == 40) {
 					diry = 1;
+					dirx = 0;
 					att=true;
 				} else if (m_keyH_arme.getval(j) == 39) {
 					dirx = 1;
+					diry = 0;
 					att=true;
 				} else if (m_keyH_arme.getval(j) == 38) {
 					diry = -1;
+					dirx = 0;
 					att=true;
 				} 
 			}
@@ -290,7 +294,7 @@ public class Player extends Entity {
 			timeanimation = System.nanoTime();
 			indexAnim = (indexAnim + 1) % characterImages.length;
 		}
-		a_g2.drawImage(characterImages[indexAnim], m_x, m_y, m_gp.TILE_SIZE, m_gp.TILE_SIZE, null);
+		a_g2.drawImage(characterImages[indexAnim], m_x-(m_gp.TILE_SIZE)-25, m_y-m_gp.TILE_SIZE-75, m_gp.TILE_SIZE*4, m_gp.TILE_SIZE*4, null);
 	    //a_g2.drawImage(characterImages[currentImageIndex], m_x, m_y, null);
 		a_g2.setStroke(new BasicStroke(2f));
 		a_g2.drawRoundRect(m_x + 3, m_y - 25, 50, 10, 10, 10);
