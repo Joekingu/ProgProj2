@@ -28,12 +28,10 @@ public class mele extends arme{
 		for(mob i : m_gp.getListEnnemis()) {
 			if(dist(x,i.getx(),y,i.gety())<dist_min) {
 				i.gethit(m_deg);
-				if (dirx != 0 ) {  //&& i.test(dirx, 0)) {
-					System.out.println("a");
+				if (dirx != 0 && i.test(dirx, 0)) {
 					i.setx(dirx*m_kb);
 				}
-				if (diry != 0  ){//&& i.test(0, diry)) {
-					System.out.println("b");
+				if (diry != 0 && i.test(0, diry)) {
 					i.sety(diry*m_kb);
 				}
 			}

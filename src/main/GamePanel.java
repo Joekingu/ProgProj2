@@ -15,6 +15,7 @@ import entity.zombie;
 import spawner.spawner;
 import entity.Camera;
 import entity.Entity;
+import tile.Tile;
 import tile.TileManager;
 import Collectible.Collectable;
 import Collectible.Potiondevitesse;
@@ -25,6 +26,7 @@ import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Random;
 
 /**
  * Panel principal du jeu contenant la map principale
@@ -60,7 +62,10 @@ public class GamePanel extends JPanel implements Runnable {
 	ArrayList<Collectable> acollecter;
 	ArrayList<spawner<mob>> listSpawner;
 	ArrayList<mob> listEnnemis;
-	double time;
+	double spawn_time;
+	double spawner_time;
+	double global_time;
+	Tile collision = new Tile();
 	Soucoupe vaisseau;
 
 	/**
@@ -77,12 +82,13 @@ public class GamePanel extends JPanel implements Runnable {
 		listEnnemis = new ArrayList<>();
 		acollecter = new ArrayList<>();
 		listSpawner = new ArrayList<>();
-		time = System.nanoTime();
+		spawn_time = System.nanoTime();
+		spawner_time = System.nanoTime();
+		global_time = System.nanoTime();
 		vaisseau = new Soucoupe(this);
-		spawner<mob> t = new spawner<>(this, new zombie(this, 50, 400, 400));
-		listSpawner.add(t);
-		spawner<mob> t1 = new spawner<>(this, new zombie(this, 50, 800, 800));
-		listSpawner.add(t1);
+		mob mob = new zombie(this, 50, 0, 0);
+		spawner<mob> fist_spawner = new spawner<>(this,random_pos(mob));
+		listSpawner.add(fist_spawner);
 		this.getGOImage();
 
 		this.setPreferredSize(new Dimension(SCREEN_WIDTH, SCREEN_HEIGHT));
@@ -203,11 +209,17 @@ public class GamePanel extends JPanel implements Runnable {
 				item.update(m_player);
 			}
 		}
-		if (System.nanoTime() - time > 5e9) {
-			time = System.nanoTime();
+		if (System.nanoTime() - spawn_time > 5e9) {
+			spawn_time = System.nanoTime();
 			for (spawner<mob> i : listSpawner) {
 				i.update();
 			}
+		}
+		if (System.nanoTime() - spawner_time > 15e9) {
+			spawner_time = System.nanoTime();
+			mob mob = new zombie(this, 50, 0, 0);
+			spawner<mob> spawner = new spawner<>(this,random_pos(mob));
+			listSpawner.add(spawner);
 		}
 	}
 
@@ -272,4 +284,34 @@ public class GamePanel extends JPanel implements Runnable {
 	public TileManager gettileM() {
 		return m_tileM;
 	}
+	
+	private boolean in (int x , int[]tab) {
+		for (int i=0;i<tab.length;i++) {
+			if (x==tab[i]) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	public mob random_pos (mob p) {
+		boolean tmp = true;
+		int pos_x = 0;
+		int pos_y = 0;
+		int d = TILE_SIZE;
+		int max_y = gettileM().map.length;
+		int max_x = gettileM().map[0].length;
+		while (tmp) {
+			Random rand = new Random(); 
+			pos_x = rand.nextInt(max_x);
+			pos_y = rand.nextInt(max_y);
+			if(!in(gettileM().map[pos_x][(pos_y)],collision.bloc)) {
+				tmp = false;
+			}
+		}
+		p.m_x=pos_x*d;
+		p.m_y=pos_y*d;
+		return p;
+	}
+	
 }
