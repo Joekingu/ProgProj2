@@ -101,7 +101,7 @@ public class Player extends Entity {
 			int ix = i.getx();
 			int iy = i.gety();
 			double dist_min = d * 3 / 4;
-			if (dist(ix, m_x + x, iy, m_y + y) < dist_min) {
+			if (dist(ix, m_x + x, iy, m_y + y) <= dist_min) {
 				return true;
 			}
 		}
@@ -129,7 +129,7 @@ public class Player extends Entity {
 		int px = m_x+d2;
 		int py = m_y+d2;
 		if(m_gp.gettileM().map[(px+d2)/d][(py+d2)/d]==m_collision.snow) {
-			m_spmat=3;
+			m_spmat=2;
 		}else if(m_gp.gettileM().map[(px+d2)/d][(py+d2)/d]==m_collision.sand) {
 			m_spmat=-1;
 		}else {
