@@ -237,9 +237,7 @@ public class GamePanel extends JPanel implements Runnable {
 			i.update(m_player);
 		}
 		for (Bullet i : getTirs()) {
-			if (i.isAlive()) {
 				i.update();
-			}
 		}
 		m_camera.update(this);
 		for (Collectable item : acollecter) {
@@ -392,6 +390,9 @@ public class GamePanel extends JPanel implements Runnable {
 			if (!acollecter.get(i).getStatus()) {
 				acollecter.remove(i);
 			}
+		}
+		for(int i = 0; i<tirs.size();i++) {
+			tirs.remove(i);
 		}
 	}
 }
