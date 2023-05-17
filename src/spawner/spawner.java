@@ -20,7 +20,7 @@ public class spawner<T extends mob>{
 	}
 	
 	public void update() {
-		if (m_mob instanceof zombie) {
+		if (m_mob instanceof zombie) { 
 			if(System.nanoTime() - spawn_time > Math.max(minim,rep)) {
 				spawn_time = System.nanoTime();
 				zombie mob = new zombie(m_gp,m_mob.gethealth(),m_mob.getx(),m_mob.gety());

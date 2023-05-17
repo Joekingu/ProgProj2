@@ -41,6 +41,7 @@ public class Player extends Entity {
 	int m_health;
 	double time;
 	Image[] characterImages = new Image[3];
+	boolean m_coffre;
 
 	/**
 	 * Constructeur de Player
@@ -55,6 +56,7 @@ public class Player extends Entity {
 		this.setDefaultValues();
 		this.getPlayerImage();
 		this.m_collision = new Tile();
+		this.m_coffre=false;
 	}
 
 	/**
@@ -78,6 +80,7 @@ public class Player extends Entity {
 			characterImages[0] = ImageIO.read(getClass().getResource("/Player/zombie.png"));
 			characterImages[1] = ImageIO.read(getClass().getResource("/Player/superhero.png"));
 			characterImages[2] = ImageIO.read(getClass().getResource("/Items/shotgun.png"));
+			m_idleImage = ImageIO.read(getClass().getResource("/Player/hero.png"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -125,6 +128,18 @@ public class Player extends Entity {
 			return true;
 		}
 		return false;
+	}
+	
+	public boolean getcoffre() {
+		return m_coffre;
+	}
+	
+	public void setcoffrefalse() {
+		m_coffre=false;
+	}
+	
+	public void setcoffretrue() {
+		m_coffre=true;
 	}
 	
 	private int testMat() {

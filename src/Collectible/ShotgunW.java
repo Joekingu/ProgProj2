@@ -1,12 +1,13 @@
 package Collectible;
 
+import entity.Entity;
 import main.GamePanel;
 import main.KeyHandler;
 
 public class ShotgunW extends distance{
 
-	public ShotgunW(KeyHandler a_keyH, GamePanel a_gp) {
-		super(50, a_keyH, a_gp, 2e9);
+	public ShotgunW(Entity p , GamePanel a_gp) {
+		super(p,50, a_gp, 5e8);
 	}
 
 }
