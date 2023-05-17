@@ -10,6 +10,7 @@ import entity.Player;
 import main.GamePanel;
 
 public class epee extends Collectable {
+	
 	public epee(GamePanel gp, int x, int y){
 		m_x=x;
 		m_y=y;
