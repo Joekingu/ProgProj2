@@ -51,7 +51,7 @@ public class ShotgunC extends Collectable{
 
 	@Override
 	void effet(Player p) {
-		p.setarme(new ShotgunW(m_gp.m_keyH,m_gp));
+		p.setarme(new ShotgunW(p,m_gp));
 	}
 
 }

@@ -20,13 +20,20 @@ public class distance extends arme{
 		super(p, deg,a_gp,frq_att);
 	}
 	
+	public int getX() {
+		return porteur.m_x;
+	}
+	public int getY() {
+		return porteur.m_y;
+	}
+	
 	public int getType() {
 		return 1;
 	}
 	@Override
 	public void attaquejoueur(int dirx, int diry) {
-		Bullet balle = new Bullet(m_gp,porteur, 5, 4,1, dirx,diry );
-		tirs.add(balle);
+		Bullet balle = new Bullet(m_gp,this, 5, 4,1, dirx,diry );
+		m_gp.addTirs(balle);
 	}
 	@Override
 	public void attaquemob() {
