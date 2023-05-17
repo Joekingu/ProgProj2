@@ -39,4 +39,12 @@ public abstract class  Collectable {
 	abstract void effet(Player p);
 	public abstract void update(Player p);
 	public abstract void draw(Graphics2D a_g2);
+	
+	public void setx(int x) {
+		m_x=x;
+	}
+	
+	public void sety(int y) {
+		m_y=y;
+	}
 }

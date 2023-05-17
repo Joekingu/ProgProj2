@@ -106,8 +106,10 @@ public class GamePanel extends JPanel implements Runnable {
 	 * @return
 	 */
 	public void makeCollectibles() {
-		acollecter.add(new Potiondevitesse(this, 1, 1000, 800));
-		acollecter.add(new epee(this, 1500, 1000));
+		Collectable PotiondeVitesse = new Potiondevitesse(this, 1, 0, 0);
+		Collectable epee = new epee(this, 0, 0);
+		acollecter.add(random_pos(PotiondeVitesse));
+		acollecter.add(random_pos(epee));
 	}
 
 	public Player getPlayer() {
@@ -226,6 +228,7 @@ public class GamePanel extends JPanel implements Runnable {
 	public void gameOver() {
 		m_player.gameOver();
 		listEnnemis.removeAll(listEnnemis);
+		listSpawner.removeAll(listSpawner);
 		for (int i = 0; i < acollecter.size(); i += 1) {
 			acollecter.get(i).setStatus(true);
 		}
@@ -292,6 +295,26 @@ public class GamePanel extends JPanel implements Runnable {
 			}
 		}
 		return false;
+	}
+	
+	public Collectable random_pos (Collectable obj) {
+		boolean tmp = true;
+		int pos_x = 0;
+		int pos_y = 0;
+		int d = TILE_SIZE;
+		int max_y = gettileM().map.length;
+		int max_x = gettileM().map[0].length;
+		while (tmp) {
+			Random rand = new Random(); 
+			pos_x = rand.nextInt(max_x);
+			pos_y = rand.nextInt(max_y);
+			if(!in(gettileM().map[pos_x][(pos_y)],collision.bloc)) {
+				tmp = false;
+			}
+		}
+		obj.setx(pos_x*d);
+		obj.sety(pos_y*d);
+		return obj;
 	}
 	
 	public mob random_pos (mob p) {
