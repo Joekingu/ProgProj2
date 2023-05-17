@@ -7,18 +7,19 @@ import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
 
+import Collectible.distance;
 import main.GamePanel;
 import main.KeyHandler;
 import tile.Tile;
 
-public class Bullet extends Entity {
+public class Bullet {
 	
 	//Attributs
 	int m_damage;
 	int m_speed;
 	int m_size;
 	GamePanel m_gp;
-	Player m_player;
+	distance m_arme;
 	int m_dirx;
 	int m_diry;
 	int m_bx;
@@ -31,9 +32,9 @@ public class Bullet extends Entity {
 	 * @param a_gp GamePanel, pannel principal du jeu
 	 * @param a_keyH KeyHandler, gestionnaire des touches 
 	 */
-	public Bullet(GamePanel a_gp, Player player, int damage, int speed, int size, int dirx, int diry) {
+	public Bullet(GamePanel a_gp, Entity porteur, int damage, int speed, int size, int dirx, int diry) {
 		m_gp = a_gp;
-		m_player = player;
+		m_player = porteur;
 		m_damage = damage;
 		m_speed = speed;
 		m_size = size;

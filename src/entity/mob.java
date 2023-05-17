@@ -24,7 +24,7 @@ public class mob extends Entity{
 	Tile m_collision;
 	int m_health;  // vie du pnj
 	boolean isalive;
-	Poingmob weapon;
+	arme weapon;
 	double freq_att;
 	double time;
 	
@@ -49,7 +49,7 @@ public class mob extends Entity{
 		m_x = 500;
 		m_y = 500;
 		m_speed = 1;
-		weapon= new Poingmob(2,m_gp,1e9);
+		weapon= new Poingmob(this,2,20,m_gp,10,1e9);
 	}
 	/**
 	 * R�cup�ration de l'image du personnage
@@ -76,15 +76,15 @@ public class mob extends Entity{
 		return false;
 	}
 	
-	private int collision_entity(Player player) {
+	private boolean collision_entity(Player player) {
 		int d = m_gp.TILE_SIZE;
 		int ix = player.getx();
 		int iy = player.gety();
 		double dist_min = d*3/4;
 		if ( dist(ix,m_x,iy,m_y)<dist_min ){
-			return weapon.getAttaque();
+			return true;
 		}
-		return 0;
+		return false;
 	}
 	
 	private boolean collision_mob(ArrayList<mob> list,int x,int y) {
@@ -102,7 +102,7 @@ public class mob extends Entity{
 		return false;
 	}
 	
-	private boolean test(int x,int y) {
+	public boolean test(int x,int y) {
 		int d = m_gp.TILE_SIZE;
 		int d2 = d/2;
 		int px = m_x+x+d2;
@@ -110,10 +110,10 @@ public class mob extends Entity{
 		if ( in(m_gp.gettileM().map[(px+d2)/d][(py+d2)/d],m_collision.bloc) || 
 				in(m_gp.gettileM().map[(px-d2)/d][(py-d2)/d],m_collision.bloc) ||
 				in(m_gp.gettileM().map[(px+d2)/d][(py-d2)/d],m_collision.bloc) ||
-				in(m_gp.gettileM().map[(px-d2)/d][(py+d2)/d],m_collision.bloc) || collision_mob(m_gp.getListEnnemis(),x,y) || collision_entity(m_gp.getPlayer())!=0) {
-			if(collision_entity(m_gp.getPlayer())!=0 && (System.nanoTime() - time) > weapon.getfrq_att()) {
+				in(m_gp.gettileM().map[(px-d2)/d][(py+d2)/d],m_collision.bloc) || collision_mob(m_gp.getListEnnemis(),x,y) || collision_entity(m_gp.getPlayer())) {
+			if((System.nanoTime() - time) > weapon.getfrq_att()) {
 				time=System.nanoTime();
-				m_gp.getPlayer().estblesse(collision_entity(m_gp.getPlayer()));
+				weapon.attaquemob();
 			}
 			return true;
 		}
@@ -160,7 +160,7 @@ public class mob extends Entity{
 		a_g2.drawImage(l_image, m_x, m_y, m_gp.TILE_SIZE, m_gp.TILE_SIZE, null);
 	}
 
-	public void sethealth(int deg) {
+	public void gethit(int deg) {
 		m_health -= deg;
 	}
 

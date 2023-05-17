@@ -38,6 +38,7 @@ public class Player extends Entity {
 	boolean m_alive;
 	int m_spmat = 0;
 	int m_health;
+	double time;
 
 	/**
 	 * Constructeur de Player
@@ -52,7 +53,6 @@ public class Player extends Entity {
 		this.setDefaultValues();
 		this.getPlayerImage();
 		this.m_collision = new Tile();
-		m_arme = new baton(m_keyH_arme,m_gp);
 	}
 
 	/**
@@ -64,6 +64,7 @@ public class Player extends Entity {
 		m_speed = 2;
 		m_health = 50;
 		m_alive = true;
+		m_arme = new baton(this,m_gp);
 	}
 
 	/**
@@ -107,7 +108,7 @@ public class Player extends Entity {
 		return false;
 	}
 
-	private boolean test(int x, int y) {
+	public boolean test(int x, int y) {
 		int d = m_gp.TILE_SIZE;
 		int d2 = (d+1) / 2;
 		int px = m_x + x + d2;
@@ -144,6 +145,7 @@ public class Player extends Entity {
 	
 	public void update() {
 		ArrayList<Integer> pressed = m_keyH.getinstance();
+		ArrayList<Integer> direction = m_keyH_arme.getinstance();
 		if (m_health<=0) {
 			m_alive=false;
 		}
@@ -203,6 +205,46 @@ public class Player extends Entity {
 				}
 
 			}
+		}
+		int dirx = 0;
+		int diry = 0;
+		boolean att= false;
+		if (direction.contains(Integer.valueOf(37)) && direction.contains(Integer.valueOf(38))) {
+			dirx = -1;
+			diry = -1;
+			att=true;
+		} else if (direction.contains(Integer.valueOf(37)) && direction.contains(Integer.valueOf(40))) {
+			dirx = -1;
+			diry = 1;
+			att=true;
+		} else if (direction.contains(Integer.valueOf(39)) && direction.contains(Integer.valueOf(38))) {
+			dirx = 1;
+			diry = -1;
+			att=true;
+		} else if (direction.contains(Integer.valueOf(39)) && direction.contains(Integer.valueOf(40))) {
+			dirx = 1;
+			diry = 1;
+			att=true;
+		} else {
+			for (int j = 0; j < m_keyH_arme.taille(); j++) {
+				if (m_keyH_arme.getval(j) == 37) {
+					dirx = -1;
+					att=true;
+				} else if (m_keyH_arme.getval(j) == 40) {
+					diry = 1;
+					att=true;
+				} else if (m_keyH_arme.getval(j) == 39) {
+					dirx = 1;
+					att=true;
+				} else if (m_keyH_arme.getval(j) == 38) {
+					diry = -1;
+					att=true;
+				} 
+			}
+		}
+		if(att && System.nanoTime() - time > m_arme.getfrq_att()) {
+			time=System.nanoTime();
+			m_arme.attaquejoueur(dirx,diry);
 		}
 	}
 

@@ -186,7 +186,7 @@ public class GamePanel extends JPanel implements Runnable {
 	 */
 	public void update() {
 		m_player.update();
-		m_player.getarme().update();
+//		m_player.getarme().update();
 		for (mob i : getListEnnemis()) {
 			if(i.getisalive()) {
 				i.update(m_player);

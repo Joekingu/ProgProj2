@@ -8,22 +8,25 @@ import java.util.ArrayList;
 import javax.imageio.ImageIO;
 
 import entity.Bullet;
+import entity.Entity;
 import entity.Player;
 import main.GamePanel;
 import main.KeyHandler;
 
 public class distance extends arme{
-	Player m_player;
 	BufferedImage m_idleImage;
 	ArrayList<Bullet> tirs= new ArrayList<Bullet>();
 	
-	public distance(int deg,KeyHandler a_keyH, GamePanel a_gp,double frq_att) {
-		super(deg,a_keyH,a_gp,frq_att);
-		m_player=m_gp.getPlayer();
+	public distance(Entity p,int deg,GamePanel a_gp,double frq_att) {
+		super(p, deg,a_gp,frq_att);
 	}
-
-	public void attaque(int dirx, int diry) {
-		Bullet balle = new Bullet(m_gp,m_player, 5, 4,1, dirx,diry );
+	
+	public int getType() {
+		return 1;
+	}
+	@Override
+	public void attaquejoueur(int dirx, int diry) {
+		Bullet balle = new Bullet(m_gp,porteur, 5, 4,1, dirx,diry );
 		tirs.add(balle);
 	}
 	
@@ -58,6 +61,11 @@ public class distance extends arme{
 		for (Bullet balle : tirs){
 			balle.draw(a_g2);
 		}
+	}
+
+	@Override
+	public void attaquemob() {
+		
 	}
 	
 }
