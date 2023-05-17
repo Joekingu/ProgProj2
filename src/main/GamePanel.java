@@ -124,9 +124,10 @@ public class GamePanel extends JPanel implements Runnable {
 	public void makeCollectibles() {
 		Collectable PotiondeVitesse = new Potiondevitesse(this, 1, 0, 0);
 		Collectable epee = new epee(this, 0, 0);
+		Collectable sg=new ShotgunC(this, 0, 0);
 		acollecter.add(random_pos(PotiondeVitesse));
 		acollecter.add(random_pos(epee));
-		acollecter.add(new ShotgunC(this, 1500, 1000));
+		acollecter.add(random_pos(sg));
 	}
 
 	public Player getPlayer() {
@@ -306,17 +307,13 @@ public class GamePanel extends JPanel implements Runnable {
 			g2.translate(-m_camera.getx(), -m_camera.gety());
 			m_tileM.draw(g2, m_camera);
 			for (mob i : listEnnemis) {
-				if (i.getisalive()) {
 					i.draw(g2);
-				}
 			}
 			for (Bullet i1 : tirs) {
 					i1.draw(g2);
 			}
 			for (Collectable item : acollecter) {
-				if (item.getStatus() == true) {
 					item.draw(g2);
-				}
 			}
 			m_player.draw(g2);
 			vaisseau.draw(g2);
