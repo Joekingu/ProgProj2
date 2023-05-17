@@ -198,20 +198,11 @@ public class GamePanel extends JPanel implements Runnable {
 		m_player.update();
 //		m_player.getarme().update();
 		for (mob i : getListEnnemis()) {
-			if(i.getisalive()) {
-				i.update(m_player);
-			}
-			else {
-				i.setm_x(0);
-				i.setm_y(0);
-//				getListEnnemis().remove(i);
-			}
+			i.update(m_player);
 		}
 		m_camera.update(this);
 		for (Collectable item : acollecter) {
-			if (item.getStatus() == true) {
 				item.update(m_player);
-			}
 		}
 		
 		for (spawner<mob> i : listSpawner) {
@@ -224,12 +215,14 @@ public class GamePanel extends JPanel implements Runnable {
 			spawner<mob> spawner = new spawner<>(this,random_pos(mob),10e9);
 			listSpawner.add(spawner);
 		}
+		this.deleteentity();
 	}
 
 	public void gameOver() {
 		m_player.gameOver();
 		listEnnemis.removeAll(listEnnemis);
 		listSpawner.removeAll(listSpawner);
+		viezomb=10;
 		for (int i = 0; i < acollecter.size(); i += 1) {
 			acollecter.get(i).setStatus(true);
 		}
@@ -247,7 +240,7 @@ public class GamePanel extends JPanel implements Runnable {
 			m_tileM.draw(g2, m_camera);
 
 		for (mob i : listEnnemis) {
-			if(i.getisalive()) {
+			if(i!= null && i.getisalive()) {
 				i.draw(g2);
 			}
 		}
@@ -337,5 +330,16 @@ public class GamePanel extends JPanel implements Runnable {
 		p.m_y=pos_y*d;
 		return p;
 	}
-	
+	public void deleteentity() {
+		for(int i = 0; i<listEnnemis.size();i++) {
+			if(!listEnnemis.get(i).getisalive()) {
+				listEnnemis.remove(i);
+			}
+		}
+		for(int i = 0; i<acollecter.size();i++) {
+			if(!acollecter.get(i).getStatus()) {
+				acollecter.remove(i);
+			}
+		}
+	}
 }
