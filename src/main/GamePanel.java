@@ -178,7 +178,6 @@ public class GamePanel extends JPanel implements Runnable {
 						this.update();
 					}
 					this.update();
-					System.out.println(tirs.size());
 				} else {
 					this.gameOver();
 					m_gamestate = 1;
@@ -232,7 +231,6 @@ public class GamePanel extends JPanel implements Runnable {
 	public void update() {
 		m_player.update();
 		vaisseau.update(m_player);
-//		m_player.getarme().update();
 		for (mob i : getListEnnemis()) {
 			i.update(m_player);
 		}
