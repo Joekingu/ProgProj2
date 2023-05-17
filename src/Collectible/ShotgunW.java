@@ -7,7 +7,7 @@ import main.KeyHandler;
 public class ShotgunW extends distance{
 
 	public ShotgunW(Entity p , GamePanel a_gp) {
-		super(p,50, a_gp, 2e9);
+		super(p,50, a_gp, 5e8);
 	}
 
 }

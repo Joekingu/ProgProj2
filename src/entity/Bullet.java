@@ -26,7 +26,6 @@ public class Bullet extends Entity{
 	int m_by;
 	Tile m_collision;
 	boolean m_alive;
-
 	/**
 	 * Constructeur de Ammo
 	 * @param a_gp GamePanel, pannel principal du jeu
@@ -44,6 +43,7 @@ public class Bullet extends Entity{
 		m_by = m_arme.getY() + m_size;
 		this.m_collision = new Tile();
 		m_alive=true;
+		this.getImage();
 	}
 	
 	/**
@@ -88,18 +88,17 @@ public class Bullet extends Entity{
 	public void update() {
 		m_bx+=m_speed*m_dirx;
 		m_by+=m_speed*m_diry;
-		m_alive=test();
-		System.out.println(m_bx);
-		System.out.println(m_by);
+		m_alive=!test();
 	}
 	
 	/**
 	 * R�cup�ration de l'image du personnage
+	 * @return 
 	 */
 	public void getImage() {
 		//gestion des expections 
 		try {
-			m_idleImage = ImageIO.read(getClass().getResource("/tiles/FEU.png"));
+			m_idleImage = ImageIO.read(getClass().getResource("/player/conon.png"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -113,9 +112,11 @@ public class Bullet extends Entity{
 		// r�cup�re l'image du joueur
 		BufferedImage l_image = m_idleImage;
 		// affiche le personnage avec l'image "image", avec les coordonn�es x et y, et de taille tileSize (16x16) sans �chelle, et 48x48 avec �chelle)
-		a_g2.drawImage(l_image, m_bx, m_by,m_gp.TILE_SIZE, m_gp.TILE_SIZE, null);
+		a_g2.drawImage(l_image, m_bx, m_by,m_gp.TILE_SIZE/2, m_gp.TILE_SIZE/2, null);
 	}
-	
+	public boolean getStatus() {
+		return m_alive;
+	}
 
 
 }

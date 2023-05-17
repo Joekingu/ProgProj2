@@ -32,7 +32,7 @@ public class distance extends arme{
 	}
 	@Override
 	public void attaquejoueur(int dirx, int diry) {
-		Bullet balle = new Bullet(m_gp,this, 5, 4,1, dirx,diry );
+		Bullet balle = new Bullet(m_gp,this, 20, 4,1, dirx,diry );
 		m_gp.addTirs(balle);
 	}
 	@Override

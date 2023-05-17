@@ -188,8 +188,6 @@ public class GamePanel extends JPanel implements Runnable {
 					} else {
 						this.update();
 					}
-					this.update();
-					System.out.println(tirs.size());
 				} else {
 					this.gameOver();
 					m_gamestate = 1;
@@ -243,14 +241,11 @@ public class GamePanel extends JPanel implements Runnable {
 	public void update() {
 		m_player.update();
 		vaisseau.update(m_player);
-//		m_player.getarme().update();
 		for (mob i : getListEnnemis()) {
 			i.update(m_player);
 		}
 		for (Bullet i : getTirs()) {
-			if (i.isAlive()) {
 				i.update();
-			}
 		}
 		m_camera.update(this);
 		for (Collectable item : acollecter) {
@@ -313,9 +308,7 @@ public class GamePanel extends JPanel implements Runnable {
 				}
 			}
 			for (Bullet i1 : tirs) {
-				if (i1.isAlive()) {
 					i1.draw(g2);
-				}
 			}
 			for (Collectable item : acollecter) {
 				if (item.getStatus() == true) {
@@ -414,6 +407,11 @@ public class GamePanel extends JPanel implements Runnable {
 		for (int i = 0; i < acollecter.size(); i++) {
 			if (!acollecter.get(i).getStatus()) {
 				acollecter.remove(i);
+			}
+		}
+		for(int i = 0; i<tirs.size();i++) {
+			if (!tirs.get(i).getStatus()) {
+				tirs.remove(i);
 			}
 		}
 	}
