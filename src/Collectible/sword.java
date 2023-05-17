@@ -9,7 +9,7 @@ import javax.imageio.ImageIO;
 import entity.Entity;
 import main.GamePanel;
 
-public abstract class sword extends mele{
+public class sword extends mele{
 
 	public sword(Entity p,GamePanel a_gp) {
 		super(p,25,50,a_gp,40,2e9);

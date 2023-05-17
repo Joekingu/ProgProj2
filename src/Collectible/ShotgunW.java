@@ -12,11 +12,10 @@ import main.GamePanel;
 import main.KeyHandler;
 
 public class ShotgunW extends distance{
-	BufferedImage m_gun;
 
 	public ShotgunW(Entity p , GamePanel a_gp) {
 		super(p,50, a_gp, 5e8);
-		getImage();
+		this.getImage();
 	}
 	
 	private void getImage() {
@@ -38,7 +37,7 @@ public class ShotgunW extends distance{
 	}
 	@Override
 	public void draw(Graphics2D a_g2,int dirx,int diry) {
-		BufferedImage l_image = m_gun;
+		BufferedImage l_image = m_idleImage;
 		double rad=0;
 		// affiche le personnage avec l'image "image", avec les coordonn�es x et y, et de taille tileSize (16x16) sans �chelle, et 48x48 avec �chelle)
 		if(dirx==0 && diry==0) {rad=Math.toRadians(0);}
@@ -50,7 +49,14 @@ public class ShotgunW extends distance{
 		if(dirx==-1 && diry==1) {rad=Math.toRadians(225);}
 		if(dirx==0 && diry==1) {rad=Math.toRadians(270);}
 		if(dirx==1 && diry==1) {rad=Math.toRadians(315);}		
-		a_g2.rotate(rad);
-		a_g2.drawImage(l_image, porteur.m_x+m_gp.TILE_SIZE*dirx, porteur.m_y+m_gp.TILE_SIZE*diry ,m_gp.TILE_SIZE, m_gp.TILE_SIZE, null);
+		this.rotate(l_image,rad);
+//		a_g2.drawImage(l_image, porteur.m_x+m_gp.TILE_SIZE*dirx, porteur.m_y+m_gp.TILE_SIZE*diry ,m_gp.TILE_SIZE, m_gp.TILE_SIZE, null);
+	}
+	public BufferedImage rotate(BufferedImage img, double angle) {
+	    Graphics2D graphic = img.createGraphics();
+	    graphic.rotate(Math.toRadians(angle));
+	    graphic.drawImage(img, porteur.m_x+m_gp.TILE_SIZE, porteur.m_y+m_gp.TILE_SIZE ,m_gp.TILE_SIZE, m_gp.TILE_SIZE, null);
+	    graphic.dispose();
+	    return img;
 	}
 }
