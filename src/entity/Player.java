@@ -87,9 +87,9 @@ public class Player extends Entity {
 	public void getPlayerImage() {
 		// gestion des expections
 		try {
-			characterImages[0] = ImageIO.read(getClass().getResource("/Player/zombie.png"));
-			characterImages[1] = ImageIO.read(getClass().getResource("/Player/superhero.png"));
-			characterImages[2] = ImageIO.read(getClass().getResource("/Items/shotgun.png"));
+			for(int i=0; i<characterImages.length; i++) {
+				characterImages[i] = ImageIO.read(getClass().getResource("/Player/walk_"+i+".png"));
+			}
 			m_idleImage = ImageIO.read(getClass().getResource("/Player/hero.png"));
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -307,7 +307,6 @@ public class Player extends Entity {
 	public void draw(Graphics2D a_g2) {
 		// r�cup�re l'image du joueur
 		BufferedImage l_image = m_idleImage;
-		m_arme.draw(a_g2,dirx,diry);
 		// affiche le personnage avec l'image "image", avec les coordonn�es x et y, et
 		// de taille tileSize (16x16) sans �chelle, et 48x48 avec �chelle)
 		
