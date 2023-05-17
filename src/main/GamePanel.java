@@ -229,10 +229,9 @@ public class GamePanel extends JPanel implements Runnable {
 		m_player.gameOver();
 		listEnnemis.removeAll(listEnnemis);
 		listSpawner.removeAll(listSpawner);
+		acollecter.removeAll(acollecter);
 		viezomb=10;
-		for (int i = 0; i < acollecter.size(); i += 1) {
-			acollecter.get(i).setStatus(true);
-		}
+		this.makeCollectibles();
 
 	}
 
