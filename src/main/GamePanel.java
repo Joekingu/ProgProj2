@@ -20,6 +20,7 @@ import tile.TileManager;
 import Collectible.Collectable;
 import Collectible.Potiondevitesse;
 import Collectible.ShotgunC;
+import Collectible.coffre;
 import Collectible.epee;
 
 import java.awt.Graphics;
@@ -66,12 +67,14 @@ public class GamePanel extends JPanel implements Runnable {
 	ArrayList<mob> listEnnemis;
 	double spawn_time;
 	double spawner_time;
+	double coffre_time;
 	double global_time;
 	Tile collision = new Tile();
 	Soucoupe vaisseau;
 	Songs s_fond = new Songs("/songs/fond.aiff");
 	Songs s_game_over = new Songs("/songs/Game_over.aiff");
 	int viezomb;
+	int nbr_coffre;
 
 
 	/**
@@ -80,9 +83,9 @@ public class GamePanel extends JPanel implements Runnable {
 	public GamePanel() {
 		m_FPS = 60;
 		m_gamestate = 0;
+		nbr_coffre=0;
 		m_keyH = new KeyHandler();
-		m_keyH_arme = new KeyHandler();
-		m_player = new Player(this, m_keyH, m_keyH_arme);
+		m_keyH_arme = new KeyHandler();	
 		m_tileM = new TileManager(this);
 		m_camera = new Camera(m_player);
 		tirs = new ArrayList<>();
@@ -92,8 +95,9 @@ public class GamePanel extends JPanel implements Runnable {
 		spawn_time = System.nanoTime();
 		spawner_time = System.nanoTime();
 		global_time = System.nanoTime();
+		coffre_time = System.nanoTime();
 		vaisseau = new Soucoupe(this);
-		m_player = new Player(this, m_keyH,m_keyH_arme,vaisseau);
+		m_player = new Player(this, m_keyH,m_keyH_arme);
 		m_camera = new Camera(m_player);
 		viezomb=10;
 		mob mob = new zombie(this, viezomb, 0, 0);
@@ -168,7 +172,7 @@ public class GamePanel extends JPanel implements Runnable {
 			// Permet de mettre � jour les diff�rentes variables du jeu
 			if (m_gamestate == 0) {
 				if (m_player.isAlive()) {
-					if (m_player.getsoucoupe().gethealth() == 3) {
+					if (vaisseau.gethealth() == 3) {
 						this.gameWin();
 						m_gamestate = 1;
 					}
@@ -200,7 +204,6 @@ public class GamePanel extends JPanel implements Runnable {
 					nextDrawTime += drawInterval;
 
 				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}
@@ -213,6 +216,11 @@ public class GamePanel extends JPanel implements Runnable {
 				for (int j = 0; j < m_keyH.taille(); j++) {
 					if (m_keyH.getval(j) == 82) {//R
 						m_gamestate = 0;
+						coffre_time = System.nanoTime();
+						spawner_time = System.nanoTime();
+						spawn_time = System.nanoTime();
+						nbr_coffre=0;
+						vaisseau.sethealth(0);
 					}
 				}
 				this.repaint();
@@ -249,9 +257,19 @@ public class GamePanel extends JPanel implements Runnable {
 			spawner<mob> spawner = new spawner<>(this,random_pos(mob),10e9);
 			listSpawner.add(spawner);
 		}
+		if (System.nanoTime() - coffre_time > 30e9 && nbr_coffre<3) {
+			coffre_time = System.nanoTime();
+			Collectable coffre = new coffre(this, 0, 0);
+			acollecter.add(random_pos(coffre));
+			nbr_coffre++;
+		}
 		this.deleteentity();
 	}
 
+	public Soucoupe getsoucoupe() {
+		return vaisseau;
+	}
+	
 	public void gameOver() {
 		m_player.gameOver();
 		listEnnemis.removeAll(listEnnemis);
@@ -285,9 +303,9 @@ public class GamePanel extends JPanel implements Runnable {
 				i.draw(g2);
 			m_player.draw(g2);
 			}
-			for (Bullet i : tirs) {
-				if (i.isAlive()) {
-					i.draw(g2);
+			for (Bullet i1 : tirs) {
+				if (i1.isAlive()) {
+					i1.draw(g2);
 				}
 			}
 			for (Collectable item : acollecter) {
@@ -315,6 +333,7 @@ public class GamePanel extends JPanel implements Runnable {
 			g2.drawString("PRESS '' R '' TO RETRY ", this.getWidth() / 2 - 65, 500);
 		}
 		g2.dispose();
+		}
 
 	}
 

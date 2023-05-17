@@ -34,7 +34,6 @@ public class Player extends Entity {
 	KeyHandler m_keyH;
 	KeyHandler m_keyH_arme;
 	Tile m_collision;
-	Soucoupe m_soucoupe;
 	arme m_arme;
 	boolean m_alive;
 	int m_spmat = 0;
@@ -47,18 +46,13 @@ public class Player extends Entity {
 	 * @param a_gp   GamePanel, pannel principal du jeu
 	 * @param a_keyH KeyHandler, gestionnaire des touches
 	 */
-	public Player(GamePanel a_gp, KeyHandler a_keyH,KeyHandler a_keyH_arme,Soucoupe soucoupe) {
+	public Player(GamePanel a_gp, KeyHandler a_keyH,KeyHandler a_keyH_arme) {
 		this.m_gp = a_gp;
 		this.m_keyH = a_keyH;
 		this.m_keyH_arme = a_keyH_arme;
-		this.m_soucoupe = soucoupe;
 		this.setDefaultValues();
 		this.getPlayerImage();
 		this.m_collision = new Tile();
-	}
-	
-	public Soucoupe getsoucoupe() {
-		return m_soucoupe;
 	}
 
 	/**
