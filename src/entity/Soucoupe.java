@@ -54,7 +54,6 @@ public class Soucoupe extends Entity{
 	
 	public void update(Player p) {
 		if(collision_entity(p)) {
-			System.out.println(p.getcoffre());
 			if (p.getcoffre()) {
 				p.setcoffrefalse();
 				this.addhealth();
