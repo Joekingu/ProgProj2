@@ -18,6 +18,7 @@ import entity.Entity;
 import tile.TileManager;
 import Collectible.Collectable;
 import Collectible.Potiondevitesse;
+import Collectible.ShotgunC;
 import Collectible.epee;
 
 import java.awt.Graphics;
@@ -58,6 +59,7 @@ public class GamePanel extends JPanel implements Runnable {
 	Bullet m_bullet;
 	Camera m_camera;
 	ArrayList<Collectable> acollecter;
+	ArrayList<Bullet> tirs;
 	ArrayList<spawner<mob>> listSpawner;
 	ArrayList<mob> listEnnemis;
 	double time;
@@ -71,9 +73,10 @@ public class GamePanel extends JPanel implements Runnable {
 		m_gamestate = 0;
 		m_keyH = new KeyHandler();
 		m_keyH_arme = new KeyHandler();
-		m_player = new Player(this, m_keyH,m_keyH_arme);
+		m_player = new Player(this, m_keyH, m_keyH_arme);
 		m_tileM = new TileManager(this);
 		m_camera = new Camera(m_player);
+		tirs = new ArrayList<>();
 		listEnnemis = new ArrayList<>();
 		acollecter = new ArrayList<>();
 		listSpawner = new ArrayList<>();
@@ -101,7 +104,8 @@ public class GamePanel extends JPanel implements Runnable {
 	 */
 	public void makeCollectibles() {
 		acollecter.add(new Potiondevitesse(this, 1, 1000, 800));
-		acollecter.add(new epee(this, 1500, 1000));
+//		acollecter.add(new epee(this, 1500, 1000));
+		acollecter.add(new ShotgunC(this, 1500, 1000));
 	}
 
 	public Player getPlayer() {
@@ -125,6 +129,14 @@ public class GamePanel extends JPanel implements Runnable {
 		return listEnnemis;
 	}
 
+	public void addTirs(Bullet b) {
+		tirs.add(b);
+	}
+
+	public ArrayList<Bullet> getTirs() {
+		return tirs;
+	}
+
 	public void startGameThread() {
 		m_gameThread = new Thread(this);
 		m_gameThread.start();
@@ -142,6 +154,7 @@ public class GamePanel extends JPanel implements Runnable {
 			if (m_gamestate == 0) {
 				if (m_player.isAlive()) {
 					this.update();
+					System.out.println(tirs.size());
 				} else {
 					this.gameOver();
 					m_gamestate = 1;
@@ -188,13 +201,17 @@ public class GamePanel extends JPanel implements Runnable {
 		m_player.update();
 		m_player.getarme().update();
 		for (mob i : getListEnnemis()) {
-			if(i.getisalive()) {
+			if (i.getisalive()) {
 				i.update(m_player);
-			}
-			else {
+			} else {
 				i.setm_x(0);
 				i.setm_y(0);
 //				getListEnnemis().remove(i);
+			}
+		}
+		for (Bullet i : getTirs()) {
+			if (i.isAlive()) {
+				i.update();
 			}
 		}
 		m_camera.update(this);
@@ -229,30 +246,30 @@ public class GamePanel extends JPanel implements Runnable {
 		if (m_gamestate == 0) {
 			g2.translate(-m_camera.getx(), -m_camera.gety());
 			m_tileM.draw(g2, m_camera);
-
-		for (mob i : listEnnemis) {
-			if(i.getisalive()) {
-				i.draw(g2);
-			}
-		}
-//		m_bullet.draw(g2);
-		m_player.draw(g2);
-//		m_bullet.draw(g2);
-		for (Collectable item : acollecter) {
-			if (item.getStatus() == true) {
-				item.draw(g2);
-			}
-//			m_bullet.draw(g2);
 			m_player.draw(g2);
-//			m_bullet.draw(g2);
-		}
-		for (Collectable item : acollecter) {
-			if (item.getStatus() == true) {
-				item.draw(g2);
+			
+			for (mob i : listEnnemis) {
+				if (i.getisalive()) {
+					i.draw(g2);
+				}
 			}
+			for (Bullet i : tirs) {
+				if (i.isAlive()) {
+					i.draw(g2);
+				}
+			}
+			for (Collectable item : acollecter) {
+				if (item.getStatus() == true) {
+					item.draw(g2);
+				}
+			}
+			for (Collectable item : acollecter) {
+				if (item.getStatus() == true) {
+					item.draw(g2);
+				}
 
-		}
-		vaisseau.draw(g2);
+			}
+			vaisseau.draw(g2);
 		}
 		if (m_gamestate == 1) {
 			g2.setColor(Color.BLACK);

@@ -15,7 +15,6 @@ import main.KeyHandler;
 public class distance extends arme{
 	Player m_player;
 	BufferedImage m_idleImage;
-	ArrayList<Bullet> tirs= new ArrayList<Bullet>();
 	
 	public distance(int deg,KeyHandler a_keyH, GamePanel a_gp,double frq_att) {
 		super(deg,a_keyH,a_gp,frq_att);
@@ -24,7 +23,7 @@ public class distance extends arme{
 
 	public void attaque(int dirx, int diry) {
 		Bullet balle = new Bullet(m_gp,m_player, 5, 4,1, dirx,diry );
-		tirs.add(balle);
+		m_gp.addTirs(balle);
 	}
 	
 }

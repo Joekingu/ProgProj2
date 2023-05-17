@@ -55,6 +55,7 @@ public class Bullet extends Entity {
 			int iy = i.gety();
 			double dist_min = d/2;
 			if (dist(ix, m_bx, iy, m_y) < dist_min+m_size) {
+				i.sethealth(m_damage);
 				return true;
 			}
 		}
@@ -71,8 +72,8 @@ public class Bullet extends Entity {
 	}
 	
 	private boolean test() {
-		int d = m_size;
-		if ( in(m_gp.gettileM().map[(m_bx+m_dirx)/d][(m_by+m_diry)/d],m_collision.bloc) || collision_mob(m_gp.getListEnnemis())
+		int d = m_gp.TILE_SIZE;
+		if ( in(m_gp.gettileM().map[(m_bx+m_dirx*m_speed)/d][(m_by+m_diry*m_speed)/d],m_collision.bloc) || collision_mob(m_gp.getListEnnemis())
 				) {
 			return true;
 		}
@@ -87,6 +88,8 @@ public class Bullet extends Entity {
 		m_bx+=m_speed*m_dirx;
 		m_by+=m_speed*m_diry;
 		m_alive=test();
+		System.out.println(m_bx);
+		System.out.println(m_by);
 	}
 	
 	/**
@@ -109,7 +112,7 @@ public class Bullet extends Entity {
 		// r�cup�re l'image du joueur
 		BufferedImage l_image = m_idleImage;
 		// affiche le personnage avec l'image "image", avec les coordonn�es x et y, et de taille tileSize (16x16) sans �chelle, et 48x48 avec �chelle)
-		a_g2.drawImage(l_image, m_bx, m_by, m_size, m_size, null);
+		a_g2.drawImage(l_image, m_bx, m_by,m_gp.TILE_SIZE, m_gp.TILE_SIZE, null);
 	}
 	
 
