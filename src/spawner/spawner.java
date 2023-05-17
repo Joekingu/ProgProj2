@@ -15,7 +15,8 @@ public class spawner<T extends mob>{
 	
 	public void update() {
 		if (m_mob instanceof zombie) {
-			m_gp.addListEnnemis(new zombie(m_gp,50,m_mob.getx(),m_mob.gety()));
+			zombie mob = new zombie(m_gp,50,m_mob.getx(),m_mob.gety());
+			m_gp.addListEnnemis(m_gp.random_pos(mob));
 		}
 		
 	}
